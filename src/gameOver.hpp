@@ -16,11 +16,11 @@ public:
     }
 };
 
-void collisionWithObstacles(Player player, Obstacle obstacle, sf::RenderWindow& window)
+bool collisionWithObstacles(Player player, Obstacle obstacle, sf::RenderWindow& window)
 {
     if (player.shape.getGlobalBounds().intersects(obstacle.shape.getGlobalBounds()))
     {
-        GameOver gameOver(window);
-        gameOver.drawGameOver(window);
+        return true;
     }
+    false;
 }

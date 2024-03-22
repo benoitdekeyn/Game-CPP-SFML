@@ -41,17 +41,22 @@ int main(){
         window.draw(background1);
         window.draw(background2);
         
+        if (collisionWithObstacles(player, obstacle, window)) {
+            GameOver gameOver(window);
+            gameOver.drawGameOver(window);
+            window.display();
+            sf::sleep(sf::seconds(2));
+            window.close();
+        }
+        else {
+            player.update();
+            player.draw();
 
+            obstacle.update();
+            obstacle.draw();
 
-        collisionWithObstacles(player, obstacle, window);
-
-        player.update();
-        player.draw();
-
-        obstacle.update();
-        obstacle.draw();
-
-        window.display();
+            window.display();
+        }
         
     }return 0;
 }
