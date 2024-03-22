@@ -78,7 +78,7 @@ class Obstacle
     sf::RectangleShape shape;
     sf::Vector2f position;
     sf::Vector2f velocity;
-    int speed = 3;
+    int speed = 5;
 
     Obstacle()
     {
@@ -100,55 +100,10 @@ class Obstacle
     }
 };
 
-void collisionWithObstacles(Player player, Obstacle obstacle)
-{
-    if(player.shape.getGlobalBounds().intersects(obstacle.shape.getGlobalBounds()))
-    {
-        exit(0);
-    }
-}
-
-// bool topBottomCollision(Player player)
+// void collisionWithObstacles(Player player, Obstacle obstacle)
 // {
-    
-//     if(player.position.y < 0)
+//     if(player.shape.getGlobalBounds().intersects(obstacle.shape.getGlobalBounds()))
 //     {
-//         player.position.y = 0;
-//     }
-
-//     if(player.position.y > window.getSize().y - player.shape.getSize().y)
-//     {
-//         player.position.y = window.getSize().y - player.shape.getSize().y;
-//     }
-// }
-
-// int main()
-// {
-//     Player player;
-//     Obstacle obstacle;
-    
-//     while (window.isOpen())
-//     {
-//         sf::Event event;
-//         while (window.pollEvent(event))
-//         {
-//             if (event.type == sf::Event::Closed)
-//                 window.close();
-//         }
-
-//         // topBottomCollision(player);
-//         collisionWithObstacles(player, obstacle);
-
-//         window.clear(); // Clear the window before drawing anything
-
-//         player.update();
-//         player.draw();
-
-//         obstacle.update();
-//         obstacle.draw();
-
-//         window.display();
-        
-//         usleep(100);
+//         draw
 //     }
 // }

@@ -1,4 +1,4 @@
-#include "Collisions.hpp"
+#include "gameOver.hpp"
 
 // sf::VideoMode mode(1600, 900, 32);
 // sf::RenderWindow window(mode, "My window");
@@ -43,7 +43,7 @@ int main(){
         
 
 
-        collisionWithObstacles(player, obstacle);
+        collisionWithObstacles(player, obstacle, window);
 
         player.update();
         player.draw();
