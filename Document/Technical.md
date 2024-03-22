@@ -23,6 +23,11 @@
       - [Fairies forest](#fairies-forest)
       - [Deadly Ice](#deadly-ice)
       - [Decaying forest](#decaying-forest)
+  - [Code Structure](#code-structure)
+    - [Classes](#classes)
+      - [Characters](#characters)
+        - [The Dark runner](#the-dark-runner)
+        - [Obstacle](#obstacle)
     - [Team](#team)
 
 </details>
@@ -31,7 +36,7 @@
 
 ## Overview
 
-Dark Escape is a side-scrolling video game inspired by Jetpack Joyride created by a team of 5 students in class as an exercise.
+Dark Escape is a side-scrolling video game inspired by Jetpack Joyride created by a team of 5 students in class as an exercise to learn how to use the library SFML.
 
 ## Gameplay
 
@@ -77,16 +82,64 @@ The main character is the Dark Runner, it possesses few sprites as we only see i
 ### Backgrounds
 
 #### Tropical cliffs
-![Tropical](./Assets/Backgrounds/1/background.png)
+![Tropical](../Assets/Backgrounds/1/background.png)
 
 #### Fairies forest
-![Tropical](./Assets/Backgrounds/2/background.png)
+![Tropical](../Assets/Backgrounds/2/background.png)
 
 #### Deadly Ice
-![Tropical](./Assets/Backgrounds/3/background.png)
+![Tropical](../Assets/Backgrounds/3/background.png)
 
 #### Decaying forest
-![Tropical](./Assets/Backgrounds/4/background.png)
+![Tropical](../Assets/Backgrounds/4/background.png)
+
+## Code Structure
+
+In every case, we assume the library SFML is loaded higher in the code.
+
+### Classes
+
+The code contains a few classes which are:
+
+
+#### Characters
+
+Firstly we have the character class, which manages every character displayed on screen. It contains the sprite and texture of the character (the appearance) and the position of the character. It also contains the functions to draw the sprite, to load the texture and finally to delete the character from the screen.
+
+```cpp
+class Character{
+  public:
+    sf::Texture texture;
+    sf::Sprite sprite;
+    float Xpos;
+    float Ypos;
+
+    void DrawSprite();
+    void LoadTexture();
+    void Erase();
+};
+ ```
+##### The Dark runner
+
+  Then we have the Dark Runner, the main character, it is a subclass of "Character", so it contains all previous variables and functions. The Runner also contains the user's score and a function to erase the scene and all characters on the screen and to display the score.
+
+```cpp
+class Runner : Character{
+  int Score;
+
+  void EndGame();
+};
+ ```
+
+##### Obstacle
+
+The last characters are the obstacles, it may be an enemy or a physical obstacle such as a block. As the "Runner", it is a derived class from the "Character" class. It contains a boolean to kill the "Runner" on collision or not.
+
+```cpp
+class Obstacle : Character{
+  bool KillOnCollision;
+};
+ ```
 
 ### Team
 
