@@ -5,9 +5,11 @@ sf::RenderWindow window(mode, "My window");
 
 
 
+
 int main(){    
 
     //INIT
+    window.setFramerateLimit(60);
     int speed = 5; //number of pixels per frame
     int width = mode.width;
     int height = mode.height;
@@ -20,6 +22,7 @@ int main(){
     background1.setScale((float) windowSize.x / textureSize.x, (float) windowSize.y / textureSize.y);
     background2.setScale((float) windowSize.x / textureSize.x, (float) windowSize.y / textureSize.y);
     background2.setPosition(windowSize.x, 0);
+    int x_width_window = windowSize.x;
     
     //MAIN LOOP
     while (window.isOpen()){sf::Event event;while (window.pollEvent(event)){if (event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))window.close();}
@@ -27,11 +30,11 @@ int main(){
         //BACKGROUND INIT
         background1.move(-speed, 0);
         background2.move(-speed, 0);
-        if (background1.getPosition().x <= -width) {
-            background1.setPosition(width, 0);
+        if (background1.getPosition().x <= -x_width_window) {
+            background1.setPosition(x_width_window, 0);
         }
-        if (background2.getPosition().x <= -width) {
-            background2.setPosition(width, 0);
+        if (background2.getPosition().x <= -x_width_window) {
+            background2.setPosition(x_width_window, 0);
         }
         window.clear();
         window.draw(background1);
