@@ -4,7 +4,7 @@
 int main()
 {
 
-    Runner player("../Assets/Character/NightBorne.png", sf::Vector2f(00, 00));
+    Runner player("../Assets/Character/NightBorne.png", sf::Vector2f(0, 600));
     // {"../Assets/Character/NightBorne.png", Vector2f(00, 00)};
     // Character obstacle{"../Assets/Character/NightBorne.png", Vector2f(00, 00)};
 

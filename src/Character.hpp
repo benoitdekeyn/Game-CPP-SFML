@@ -42,7 +42,7 @@ public:
 class Runner : public Character
 {
 public:
-    Runner(const std::string& path, const sf::Vector2f& position)
+    Runner(const std::string &path, const sf::Vector2f &position)
         : Character(path, position) {}
     void update()
     {
