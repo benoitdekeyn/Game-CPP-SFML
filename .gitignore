@@ -58,6 +58,7 @@ Release/
 
 # Other files
 smfl-app
+prog
 main.o
 *.log
 *.tmp

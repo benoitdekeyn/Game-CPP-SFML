@@ -8,7 +8,7 @@ using namespace sf;
 // using namespace std;
 
 // Define gridSize globally
-sf::RenderWindow window(sf::VideoMode(1600, 900), "SFML works!");
+sf::RenderWindow window(sf::VideoMode(1600, 900, 32), "SFML works!");
 
 class Player
 {
@@ -18,7 +18,7 @@ public:
     sf::RectangleShape shape;
     sf::Vector2f position;
     sf::Vector2f velocity;
-    float speed = 0.1f;
+    int speed = 3;
 
     Player()
     {
@@ -78,7 +78,7 @@ class Obstacle
     sf::RectangleShape shape;
     sf::Vector2f position;
     sf::Vector2f velocity;
-    float speed = 0.1f;
+    int speed = 3;
 
     Obstacle()
     {
@@ -122,33 +122,33 @@ void collisionWithObstacles(Player player, Obstacle obstacle)
 //     }
 // }
 
-int main()
-{
-    Player player;
-    Obstacle obstacle;
+// int main()
+// {
+//     Player player;
+//     Obstacle obstacle;
     
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
+//     while (window.isOpen())
+//     {
+//         sf::Event event;
+//         while (window.pollEvent(event))
+//         {
+//             if (event.type == sf::Event::Closed)
+//                 window.close();
+//         }
 
-        // topBottomCollision(player);
-        collisionWithObstacles(player, obstacle);
+//         // topBottomCollision(player);
+//         collisionWithObstacles(player, obstacle);
 
-        window.clear(); // Clear the window before drawing anything
+//         window.clear(); // Clear the window before drawing anything
 
-        player.update();
-        player.draw();
+//         player.update();
+//         player.draw();
 
-        obstacle.update();
-        obstacle.draw();
+//         obstacle.update();
+//         obstacle.draw();
 
-        window.display();
+//         window.display();
         
-        usleep(100);
-    }
-}
+//         usleep(100);
+//     }
+// }
