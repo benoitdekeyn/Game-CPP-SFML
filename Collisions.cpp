@@ -149,6 +149,6 @@ int main()
 
         window.display();
         
-        usleep(1000);
+        usleep(100);
     }
 }
