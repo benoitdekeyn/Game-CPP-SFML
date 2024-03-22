@@ -8,7 +8,7 @@ using namespace sf;
 // using namespace std;
 
 // Define gridSize globally
-sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
+sf::RenderWindow window(sf::VideoMode(1600, 900), "SFML works!");
 
 class Player
 {
@@ -24,24 +24,44 @@ public:
     {
         shape.setSize(sf::Vector2f(50, 50));
         shape.setFillColor(sf::Color::Green);
-        position = sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2);
+        position = sf::Vector2f(window.getSize().x * 0.1f, window.getSize().y - shape.getSize().y);
         shape.setPosition(position);
     }
 
     void update()
     {
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && position.y > 0)
         {
             velocity.y = -speed;
         }
-        else
+        else if (position.y < window.getSize().y - shape.getSize().y)
         {
             velocity.y = speed;
+        }
+        else
+        {
+            velocity.y = 0;
         }
 
         position += velocity;
         shape.setPosition(position);
     }
+
+    // void update()
+    // {
+    //     if (position.y >= (0 + shape.getSize().y) / 2 && position.y <= window.getSize().y - (0 + shape.getSize().y) / 2)
+    //     {
+    //         move();
+    //     }
+    //     else if (position.y < (0 + shape.getSize().y) / 2)
+    //     {
+    //         position.y = (0 + shape.getSize().y) / 2;
+    //     }
+    //     else if (position.y > window.getSize().y - (0 + shape.getSize().y) / 2)
+    //     {
+    //         position.y = window.getSize().y - (0 + shape.getSize().y) / 2;
+    //     }
+    // }
 
     void draw()
     {
@@ -80,7 +100,7 @@ class Obstacle
     }
 };
 
-void checkCollision(Player player, Obstacle obstacle)
+void collisionWithObstacles(Player player, Obstacle obstacle)
 {
     if(player.shape.getGlobalBounds().intersects(obstacle.shape.getGlobalBounds()))
     {
@@ -88,11 +108,25 @@ void checkCollision(Player player, Obstacle obstacle)
     }
 }
 
+// bool topBottomCollision(Player player)
+// {
+    
+//     if(player.position.y < 0)
+//     {
+//         player.position.y = 0;
+//     }
+
+//     if(player.position.y > window.getSize().y - player.shape.getSize().y)
+//     {
+//         player.position.y = window.getSize().y - player.shape.getSize().y;
+//     }
+// }
+
 int main()
 {
     Player player;
     Obstacle obstacle;
-
+    
     while (window.isOpen())
     {
         sf::Event event;
@@ -102,7 +136,8 @@ int main()
                 window.close();
         }
 
-        checkCollision(player, obstacle);
+        // topBottomCollision(player);
+        collisionWithObstacles(player, obstacle);
 
         window.clear(); // Clear the window before drawing anything
 
