@@ -3,13 +3,11 @@
 sf::VideoMode mode(1600, 900, 32);
 sf::RenderWindow window(mode, "My window");
 
-
-
-
 int main(){    
 
     //INIT
     window.setFramerateLimit(60);
+    window.setPosition(sf::Vector2i(0, 0));
     int speed = 5; //number of pixels per frame
     int width = mode.width;
     int height = mode.height;
