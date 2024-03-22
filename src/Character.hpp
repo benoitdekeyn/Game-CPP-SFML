@@ -22,7 +22,7 @@ public:
     Vector2f velocity;
     float speed;
 
-    character(String ImagePath, Vector2f Position)
+    Character(String ImagePath, Vector2f Position)
     {
         texture.loadFromFile(ImagePath);
         position = Position;
@@ -38,9 +38,12 @@ public:
         window.draw(sprite);
     }
 };
-class Runner : public character
+
+class Runner : public Character
 {
 public:
+    Runner(const std::string& path, const sf::Vector2f& position)
+        : Character(path, position) {}
     void update()
     {
         if (Keyboard::isKeyPressed(Keyboard::Up) && position.y > 0)

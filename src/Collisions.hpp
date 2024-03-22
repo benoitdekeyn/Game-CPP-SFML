@@ -8,7 +8,7 @@ using namespace sf;
 // using namespace std;
 
 
-void collisionWithObstacles(character player, character obstacle)
+void collisionWithObstacles(Character player, Character obstacle)
 {
     if(player.hitbox.getGlobalBounds().intersects(obstacle.hitbox.getGlobalBounds()))
     {

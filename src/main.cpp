@@ -4,7 +4,8 @@
 int main()
 {
 
-    Runner player{"../Assets/Character/NightBorne.png", Vector2f(00, 00)};
+    Runner player("../Assets/Character/NightBorne.png", sf::Vector2f(00, 00));
+    // {"../Assets/Character/NightBorne.png", Vector2f(00, 00)};
     // Character obstacle{"../Assets/Character/NightBorne.png", Vector2f(00, 00)};
 
     // INIT
@@ -51,8 +52,8 @@ int main()
 
         // collisionWithObstacles(player, obstacle);
 
-        // player.update();
-        // player.draw();
+        player.update();
+        player.draw();
 
         // obstacle.update();
         // obstacle.draw();
