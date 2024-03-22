@@ -1,16 +1,19 @@
-#include <SFML/Graphics.hpp>
+#include "Collisions.hpp"
 
-sf::VideoMode mode(1600, 900, 32);
-sf::RenderWindow window(mode, "My window");
+// sf::VideoMode mode(1600, 900, 32);
+// sf::RenderWindow window(mode, "My window");
 
-int main(){    
+int main(){  
+
+    Player player;
+    Obstacle obstacle;  
 
     //INIT
+    window.setPosition(sf::Vector2i(0, 0)); 
     window.setFramerateLimit(60);
-    window.setPosition(sf::Vector2i(0, 0));
     int speed = 5; //number of pixels per frame
-    int width = mode.width;
-    int height = mode.height;
+    // int width = window.width;
+    // int height = window.height;
     sf::Texture backgroundTexture;
     backgroundTexture.loadFromFile("data/backgrounds/background.png");
     sf::Sprite background1(backgroundTexture);
@@ -40,12 +43,16 @@ int main(){
         
 
 
-        //HERE THE MAIN LOOP CODE
+        collisionWithObstacles(player, obstacle);
 
+        player.update();
+        player.draw();
 
+        obstacle.update();
+        obstacle.draw();
 
-        //Don't touch below :
         window.display();
+        
     }return 0;
 }
 
