@@ -3,9 +3,16 @@
 #include <SFML/System.hpp>
 
 using namespace sf;
-RenderWindow window(VideoMode(1600, 900), "SFML works!");
 
-class character
+// Define gridSize globally
+sf::RenderWindow window(sf::VideoMode(1600, 900, 32), "SFML works!");
+
+/**
+ * The character class to manage every entity on screen
+ * @param ImagePath (string): load an image's path to use a texture
+ * @param Position (sf::Vector2f): the X and Y position of the character
+ */
+class Character
 {
 public:
     RectangleShape hitbox;
@@ -15,22 +22,25 @@ public:
     Vector2f velocity;
     float speed;
 
-    character(Texture a, Sprite b, Vector2f c, Vector2f d)
+    character(String ImagePath, Vector2f Position)
     {
-        texture = a;
-        sprite = b;
-        position = c;
-        velocity = d;
+        texture.loadFromFile(ImagePath);
+        position = Position;
+
         texture.setSmooth(true);
         texture.setRepeated(false);
-        hitbox.setSize(Vector2f(40,40));
+        sprite.setTexture(texture);
+        hitbox.setSize(Vector2f(40, 40));
     }
     void draw()
     {
         sprite.setPosition(position);
         window.draw(sprite);
     }
-
+};
+class Runner : public character
+{
+public:
     void update()
     {
         if (Keyboard::isKeyPressed(Keyboard::Up) && position.y > 0)
