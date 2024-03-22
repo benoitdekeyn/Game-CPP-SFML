@@ -50,15 +50,3 @@ public:
         sprite.setPosition(position);
     }
 };
-
-class Player : character
-{
-
-    void collisionWithObstacles(Player player, character obstacle)
-    {
-        if (player.hitbox.getGlobalBounds().intersects(obstacle.hitbox.getGlobalBounds()))
-        {
-            exit(0);
-        }
-    }
-};
