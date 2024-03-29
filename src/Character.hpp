@@ -102,7 +102,7 @@ public:
 
     void draw()
     {
-        window.draw(hitbox);
+        //window.draw(hitbox);
         window.draw(sprite);
     }
 };
