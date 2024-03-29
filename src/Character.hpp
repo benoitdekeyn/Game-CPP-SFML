@@ -17,12 +17,25 @@ sf::RenderWindow window(sf::VideoMode(1600, 900, 32), "SFML works!");
 class Runner
 {
 public:
+
+    // VARAIABLES FOR THE GRAVITY AND PROPULSION
+    int speedUpMax = 10;
+    float propulsion_strenght = 2.1f;
+    float propulsion_smoother = 1.0f;
+    float gravity_strenght = 0.8f;
+    float gravity_smoother = 0.01f;
+
     CircleShape hitbox;
     Texture texture;
     Sprite sprite;
-    Vector2f position;
-    Vector2f velocity;
-    float speed = 3;
+    sf::Vector2f position;
+    sf::Vector2f velocity;
+    sf::Vector2f propulsion;
+    sf::Vector2f gravity;
+    int speed = 3;
+    float propulsionFactor = propulsion_smoother; // Add a factor to decrease propulsion over time
+    float deceleration = gravity_smoother; // Deceleration factor
+
     Runner(String ImagePath, Vector2f Position)
     {
         texture.loadFromFile(ImagePath);
@@ -35,23 +48,45 @@ public:
         sprite.setScale(1.2, 1.2);
         sprite.setPosition(position);
 
+        gravity = sf::Vector2f(0, gravity_strenght);
+        propulsion = sf::Vector2f(0, -propulsion_strenght);
+
         hitbox.setRadius(40);
         hitbox.setPosition(position);
         hitbox.move(20, 0);
     }
     void update()
     {
-        if (Keyboard::isKeyPressed(Keyboard::Up) && sprite.getPosition().y > 0)
+       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && position.y > 0)
         {
-            velocity.y = -speed;
+            if (velocity.y > -speedUpMax){
+                velocity.y += propulsion.y * propulsionFactor;
+            }else{
+                velocity.y = -speedUpMax;
+            }
+            deceleration = gravity_smoother; // Reset the deceleration factor when pressing the up key
+            gravity.y = gravity_strenght; // Reset the gravity when pressing the up key
+            
         }
-        else if ((hitbox.getPosition().y + hitbox.getRadius()) < window.getSize().y - hitbox.getRadius())
+        else if (position.y < window.getSize().y - hitbox.getRadius())
         {
-            velocity.y = speed;
+            velocity.y += gravity.y - deceleration;
+            deceleration += gravity_smoother; // Increase the deceleration factor over time
+            propulsionFactor = 1.0f; // Reset the propulsion factor when not pressing the up key
+            propulsion.y = -propulsion_strenght; // Reset the propulsion when not pressing the up key
         }
         else
         {
             velocity.y = 0;
+        }
+        position += velocity;
+         if (position.y > window.getSize().y - hitbox.getRadius())
+        {
+            position.y = window.getSize().y - hitbox.getRadius();
+        }
+        if (position.y < 0)
+        {
+            position.y = 0;
         }
         sprite.move(velocity.x, velocity.y);
         hitbox.move(velocity.x, velocity.y);
