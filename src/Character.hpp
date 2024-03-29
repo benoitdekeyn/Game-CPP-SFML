@@ -37,8 +37,8 @@ public:
     float deceleration = gravity_smoother; // Deceleration factor
     float currentY;
 
-    float bottom_offset = 0;
-    float top_offset = 0;
+    float bottom_offset = BOTTOM_OFFSET;
+    float top_offset = TOP_OFFSET;
 
 
     Runner(String ImagePath, Vector2f Position)
