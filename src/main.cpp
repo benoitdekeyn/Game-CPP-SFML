@@ -99,7 +99,7 @@ int main()
                 GameOver gameOver(window);
                 gameOver.drawGameOver(window);
                 window.display();
-                // sf::sleep(sf::seconds(2));
+                score.draw(window);
                 while (true)
                 {
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
@@ -110,10 +110,9 @@ int main()
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                     {
                         window.close();
+                        exit(0);
                     }
                 }
-                // window.close();
-                main();
             }
         }
 
