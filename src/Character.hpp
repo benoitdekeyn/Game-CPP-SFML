@@ -19,10 +19,10 @@ class Runner
 public:
 
     // VARAIABLES FOR THE GRAVITY AND PROPULSION
-    int speedUpMax = 10;
+    int speedUpMax = 7;
     float propulsion_strenght = 2.1f;
     float propulsion_smoother = 1.0f;
-    float gravity_strenght = 0.8f;
+    float gravity_strenght = 0.6f;
     float gravity_smoother = 0.01f;
 
     CircleShape hitbox;
