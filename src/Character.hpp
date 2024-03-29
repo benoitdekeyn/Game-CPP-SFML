@@ -7,7 +7,7 @@
 using namespace sf;
 
 // Define gridSize globally
-sf::RenderWindow window(sf::VideoMode(1600, 900, 32), "SFML works!");
+sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, COLOR_DEPTH), "SFML works!");
 
 /**
  * The character class to manage every entity on screen
@@ -19,11 +19,11 @@ class Runner
 public:
 
     // VARAIABLES FOR THE GRAVITY AND PROPULSION
-    int speedUpMax = 7;
-    float propulsion_strenght = 2.1f;
-    float propulsion_smoother = 1.0f;
-    float gravity_strenght = 0.6f;
-    float gravity_smoother = 0.01f;
+    int speedUpMax = SPEED_UP_MAX;
+    float propulsion_strenght = PROPULSION_STRENGHT;
+    float propulsion_smoother = PROPULSION_SMOOTHER;
+    float gravity_strenght = GRAVITY_STRENGHT;
+    float gravity_smoother = GRAVITY_SMOOTHER;
 
     CircleShape hitbox;
     Texture texture;
@@ -32,7 +32,6 @@ public:
     sf::Vector2f velocity;
     sf::Vector2f propulsion;
     sf::Vector2f gravity;
-    int speed = 3;
     float propulsionFactor = propulsion_smoother; // Add a factor to decrease propulsion over time
     float deceleration = gravity_smoother; // Deceleration factor
 
@@ -51,9 +50,9 @@ public:
         gravity = sf::Vector2f(0, gravity_strenght);
         propulsion = sf::Vector2f(0, -propulsion_strenght);
 
-        hitbox.setRadius(40);
+        hitbox.setRadius(HITBOX_RADIUS);
         hitbox.setPosition(position);
-        hitbox.move(20, 0);
+        hitbox.move(HITBOX_RADIUS/2, 0);
     }
     void update()
     {
@@ -68,7 +67,7 @@ public:
             gravity.y = gravity_strenght; // Reset the gravity when pressing the up key
             
         }
-        else if (position.y < window.getSize().y - hitbox.getRadius())
+        else if (position.y < window.getSize().y - HITBOX_RADIUS)
         {
             velocity.y += gravity.y - deceleration;
             deceleration += gravity_smoother; // Increase the deceleration factor over time
@@ -80,9 +79,9 @@ public:
             velocity.y = 0;
         }
         position += velocity;
-         if (position.y > window.getSize().y - hitbox.getRadius())
+         if (position.y > window.getSize().y - HITBOX_RADIUS)
         {
-            position.y = window.getSize().y - hitbox.getRadius();
+            position.y = window.getSize().y - HITBOX_RADIUS;
         }
         if (position.y < 0)
         {
@@ -105,12 +104,12 @@ public:
     sf::RectangleShape shape;
     sf::Vector2f position;
     sf::Vector2f velocity;
-    int speed = 5;
+    int speed = SPEED;
 
     Obstacle()
     {
-        shape.setSize(sf::Vector2f(50, 50));
-        shape.setFillColor(sf::Color::Red);
+        shape.setSize(sf::Vector2f(OBSTACLE_WIDTH, OBSTACLE_WIDTH));
+        shape.setFillColor(OBSTACLE_COLOR);
         position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
         shape.setPosition(position);
     }

@@ -1,11 +1,25 @@
+#define WINDOW_WIDTH 1600
+#define WINDOW_HEIGHT 900
+#define COLOR_DEPTH 32
+#define SPEED 5
+#define HITBOX_RADIUS 40
+#define SPEED_UP_MAX 7
+#define PROPULSION_STRENGHT 2.1f
+#define PROPULSION_SMOOTHER 1.0f
+#define GRAVITY_STRENGHT 0.6f
+#define GRAVITY_SMOOTHER 0.01f
+#define OBSTACLE_WIDTH 50
+#define OBSTACLE_COLOR sf::Color::Red
+
 #include "gameOver.hpp"
 #include <vector>
 #include "Character.hpp"
 
+
 int main()
 {
 
-    Runner player("../Assets/Character/NightBorne.png", sf::Vector2f(0, 830));
+    Runner player("../Assets/Character/NightBorne.png", sf::Vector2f(30, window.getSize().y-HITBOX_RADIUS));
     // {"../Assets/Character/NightBorne.png", Vector2f(00, 00)};
     // Character obstacle{"../Assets/Character/NightBorne.png", Vector2f(00, 00)};
 
@@ -14,7 +28,7 @@ int main()
     // INIT
     window.setPosition(sf::Vector2i(0, 0));
     window.setFramerateLimit(60);
-    int speed = 5; // number of pixels per frame
+    int speed = SPEED; // number of pixels per frame
     sf::Texture backgroundTexture;
     backgroundTexture.loadFromFile("../Assets/Backgrounds/background.png");
     sf::Sprite background1(backgroundTexture);
