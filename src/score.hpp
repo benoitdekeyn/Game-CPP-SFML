@@ -17,7 +17,7 @@ public:
         score = 0;
         if (!font.loadFromFile("Arial font/arial_light.ttf"))
         {
-           cout << "Score: " << score << endl;
+
         }
 
         text.setFont(font);
@@ -37,7 +37,7 @@ public:
 
     void updateText()
     {
-        text.setString("SCORE: ") /*+ std::to_string(score))*/;
+        text.setString("SCORE: " + std::to_string(score));
     }
 
     void draw(sf::RenderWindow &window)
