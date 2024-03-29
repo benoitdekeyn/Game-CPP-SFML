@@ -1,13 +1,9 @@
 #ifndef _CHAR_
 #define _CHAR_
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/System.hpp>
 
-using namespace sf;
 
-// Define gridSize globally
-sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, COLOR_DEPTH), "SFML works!");
+
+
 
 /**
  * The character class to manage every entity on screen
@@ -41,7 +37,7 @@ public:
     float top_offset = TOP_OFFSET;
 
 
-    Runner(String ImagePath, Vector2f Position)
+    Runner(String ImagePath, Vector2f Position, sf::RenderWindow& window)
     {
         texture.loadFromFile(ImagePath);
         position = Position;
@@ -62,7 +58,7 @@ public:
 
     }
     
-    void update()
+    void update(sf::RenderWindow& window)
     {
 
        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
@@ -100,12 +96,18 @@ public:
         hitbox.move(velocity.x, velocity.y);
     }
 
-    void draw()
+    void draw(sf::RenderWindow& window)
     {
         //window.draw(hitbox);
         window.draw(sprite);
     }
 };
+
+
+
+
+//OBSTACLES
+
 
 class Obstacle
 {
@@ -117,7 +119,7 @@ public:
     sf::Vector2f velocity;
     int speed = SPEED;
 
-    Obstacle()
+    Obstacle(sf::RenderWindow& window)
     {
         shape.setSize(sf::Vector2f(OBSTACLE_WIDTH, OBSTACLE_WIDTH));
         shape.setFillColor(OBSTACLE_COLOR);
@@ -125,13 +127,13 @@ public:
         shape.setPosition(position);
     }
 
-    void update()
+    void update(sf::RenderWindow& window)
     {
         position.x -= speed;
         shape.setPosition(position);
     }
 
-    void draw()
+    void draw(sf::RenderWindow& window)
     {
         window.draw(shape);
     }

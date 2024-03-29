@@ -1,8 +1,10 @@
 #define WINDOW_WIDTH 1600
 #define WINDOW_HEIGHT 900
 #define COLOR_DEPTH 32
+#define FPS 60
 
 #define SPEED 5
+
 
 #define INITIAL_Y_POS 450
 #define RUNNER_X_POS 200
@@ -21,42 +23,44 @@
 
 #define OBSTACLE_WIDTH 50
 #define OBSTACLE_COLOR sf::Color::Red
+#define OBSTACLE_INTERVAL 0.5f
 
-
-
-#include "gameOver.hpp"
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/System.hpp>
 #include <vector>
+
+using namespace sf;
+using namespace std;
+
+#include "background.hpp"
+#include "gameOver.hpp"
 #include "Character.hpp"
 #include "score.hpp"
 
 
+
 int main()
 {
+    //INTIALIZE WINDOW
+    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, COLOR_DEPTH), "SFML works!");   
+    window.setPosition(sf::Vector2i(0, 0));
+    window.setFramerateLimit(FPS);
+    int window_width = window.getSize().x;
+    int window_height = window.getSize().y;
 
-    Runner player("../Assets/Character/NightBorne.png", sf::Vector2f(RUNNER_X_POS, window.getSize().y-INITIAL_Y_POS));
-    // {"../Assets/Character/NightBorne.png", Vector2f(00, 00)};
-    // Character obstacle{"../Assets/Character/NightBorne.png", Vector2f(00, 00)};
+    //INITIALIZE BACKGROUND
+    Background background("../Assets/Backgrounds/background.png",window);
 
+    //INITIALIZE PLAYER
+    Runner player("../Assets/Character/NightBorne.png", sf::Vector2f(RUNNER_X_POS, window.getSize().y-INITIAL_Y_POS), window);
+    
+    //INITIALIZE OBSTACLES
     std::vector<Obstacle> obstacles;
     Score score(window);
 
-    // INIT
-    window.setPosition(sf::Vector2i(0, 0));
-    window.setFramerateLimit(60);
-    int speed = SPEED; // number of pixels per frame
-    sf::Texture backgroundTexture;
-    backgroundTexture.loadFromFile("../Assets/Backgrounds/background.png");
-    sf::Sprite background1(backgroundTexture);
-    sf::Sprite background2(backgroundTexture);
-    sf::Vector2u textureSize = backgroundTexture.getSize();
-    sf::Vector2u windowSize = window.getSize();
-    background1.setScale((float)windowSize.x / textureSize.x, (float)windowSize.y / textureSize.y);
-    background2.setScale((float)windowSize.x / textureSize.x, (float)windowSize.y / textureSize.y);
-    background2.setPosition(windowSize.x, 0);
-    int x_width_window = windowSize.x;
-
     sf::Clock clock;               // Start a timer
-    float obstacleInterval = 0.5f; // Time in seconds between obstacles
+
 
     // MAIN LOOP
     while (window.isOpen())
@@ -68,30 +72,19 @@ int main()
                 window.close();
         }
 
-        // BACKGROUND INIT
-        background1.move(-speed, 0);
-        background2.move(-speed, 0);
-        if (background1.getPosition().x <= -x_width_window)
-        {
-            background1.setPosition(x_width_window, 0);
-        }
-        if (background2.getPosition().x <= -x_width_window)
-        {
-            background2.setPosition(x_width_window, 0);
-        }
+        background.updateBackground(window);
         window.clear();
-        window.draw(background1);
-        window.draw(background2);
+        background.drawBackground(window);
 
-        if (clock.getElapsedTime().asSeconds() > obstacleInterval)
+        if (clock.getElapsedTime().asSeconds() > OBSTACLE_INTERVAL)
         {
-            obstacles.push_back(Obstacle());
+            obstacles.push_back(Obstacle(window));
             clock.restart();
         }
 
         for (auto it = obstacles.begin(); it != obstacles.end();)
         {
-            it->update();
+            it->update(window);
             if (it->position.x + it->shape.getSize().x < 0)
             {
                 it = obstacles.erase(it);
@@ -127,12 +120,12 @@ int main()
             }
         }
 
-        player.update();
-        player.draw();
+        player.update(window);
+        player.draw(window);
 
         for (auto &obstacle : obstacles)
         {
-            obstacle.draw();
+            obstacle.draw(window);
         }
 
         score.draw(window);

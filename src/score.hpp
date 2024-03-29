@@ -1,9 +1,5 @@
 #ifndef __SCO__
 #define __SCO__
-#include "Character.hpp"
-
-using namespace sf;
-using namespace std;
 
 class Score
 {
