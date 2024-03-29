@@ -97,8 +97,21 @@ int main()
                 GameOver gameOver(window);
                 gameOver.drawGameOver(window);
                 window.display();
-                sf::sleep(sf::seconds(2));
-                window.close();
+                // sf::sleep(sf::seconds(2));
+                while (true)
+                {
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+                    {
+                        // window.close();
+                        main();
+                    }
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+                    {
+                        window.close();
+                    }
+                }
+                // window.close();
+                main();
             }
         }
 

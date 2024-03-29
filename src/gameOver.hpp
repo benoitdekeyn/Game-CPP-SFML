@@ -10,7 +10,7 @@ class GameOver
 public:
     GameOver(sf::RenderWindow &window)
     {
-        texture.loadFromFile("../Assets/Backgrounds/GameOver.png");
+        texture.loadFromFile("../Assets/Backgrounds/End.png");
         gameOver.setTexture(texture);
         gameOver.setScale(window.getSize().x / gameOver.getLocalBounds().width, window.getSize().y / gameOver.getLocalBounds().height);
     }
