@@ -111,6 +111,26 @@ int main()
                         // window.close();
                         main();
                     }
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
+                    {
+                        // window.close();
+                        Menu menu(window);
+                        menu.drawMenu(window);
+                        window.display();
+                        while (true)
+                        {
+                            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+                            {
+                                main();
+                            }
+                            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+                            {
+                                window.close();
+                                exit(0);
+                            }
+                        }
+
+                    }
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                     {
                         window.close();
