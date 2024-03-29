@@ -10,14 +10,13 @@ class Score
     sf::Font font;
     sf::Text text;
     int score;
-public:
 
+public:
     Score(sf::RenderWindow &window)
     {
         score = 0;
         if (!font.loadFromFile("Arial font/arial_light.ttf"))
         {
-
         }
 
         text.setFont(font);
@@ -26,8 +25,6 @@ public:
         text.setPosition(50, 50); // top-left corner
         updateText();
     }
-
-
 
     void increment()
     {
