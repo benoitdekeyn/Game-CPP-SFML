@@ -1,17 +1,26 @@
 #define WINDOW_WIDTH 1600
 #define WINDOW_HEIGHT 900
 #define COLOR_DEPTH 32
+
 #define SPEED 5
-#define HITBOX_RADIUS 40
+
+#define INITIAL_Y_POS 450
+#define RUNNER_X_POS 200
+
+#define HITBOX_WIDTH 55
+#define HITBOX_HEIGHT 60
+#define HITBOX_OFFSET sf::Vector2f(40, 6)
+
 #define SPEED_UP_MAX 7
 #define PROPULSION_STRENGHT 2.1f
 #define PROPULSION_SMOOTHER 1.0f
 #define GRAVITY_STRENGHT 0.6f
 #define GRAVITY_SMOOTHER 0.01f
+
 #define OBSTACLE_WIDTH 50
 #define OBSTACLE_COLOR sf::Color::Red
-#define INITIAL_Y_POS 450
-#define RUNNER_X_POS 200
+
+
 
 #include "gameOver.hpp"
 #include <vector>
@@ -22,7 +31,7 @@
 int main()
 {
 
-    Runner player("../Assets/Character/NightBorne.png", sf::Vector2f(RUNNER_X_POS, window.getSize().y-HITBOX_RADIUS*2-INITIAL_Y_POS));
+    Runner player("../Assets/Character/NightBorne.png", sf::Vector2f(RUNNER_X_POS, window.getSize().y-INITIAL_Y_POS));
     // {"../Assets/Character/NightBorne.png", Vector2f(00, 00)};
     // Character obstacle{"../Assets/Character/NightBorne.png", Vector2f(00, 00)};
 

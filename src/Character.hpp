@@ -25,7 +25,7 @@ public:
     float gravity_strenght = GRAVITY_STRENGHT;
     float gravity_smoother = GRAVITY_SMOOTHER;
 
-    CircleShape hitbox;
+    RectangleShape hitbox;
     Texture texture;
     Sprite sprite;
     sf::Vector2f position;
@@ -37,8 +37,8 @@ public:
     float deceleration = gravity_smoother; // Deceleration factor
     float currentY;
 
-    float bottom_offset = 11;
-    float top_offset = 5;
+    float bottom_offset = 0;
+    float top_offset = 0;
 
 
     Runner(String ImagePath, Vector2f Position)
@@ -56,9 +56,9 @@ public:
         gravity = sf::Vector2f(0, gravity_strenght);
         propulsion = sf::Vector2f(0, -propulsion_strenght);
 
-        hitbox.setRadius(HITBOX_RADIUS);
+        hitbox.setSize(sf::Vector2f(HITBOX_WIDTH, HITBOX_HEIGHT));
         hitbox.setPosition(position);
-        hitbox.move(HITBOX_RADIUS/2, 0);
+        hitbox.move(HITBOX_OFFSET);
 
     }
     
@@ -85,7 +85,7 @@ public:
 
         preprocess_position = sprite.getPosition() + velocity;
 
-        if (preprocess_position.y > window.getSize().y - HITBOX_RADIUS*2 + bottom_offset)
+        if (preprocess_position.y > window.getSize().y - HITBOX_HEIGHT + bottom_offset)
         {
             velocity.y = 0;
             deceleration = gravity_smoother; // Reset the deceleration factor when pressing the up key
@@ -102,6 +102,7 @@ public:
 
     void draw()
     {
+        window.draw(hitbox);
         window.draw(sprite);
     }
 };
