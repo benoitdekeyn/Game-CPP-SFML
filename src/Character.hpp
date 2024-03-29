@@ -32,8 +32,14 @@ public:
     sf::Vector2f velocity;
     sf::Vector2f propulsion;
     sf::Vector2f gravity;
+    sf::Vector2f preprocess_position;
     float propulsionFactor = propulsion_smoother; // Add a factor to decrease propulsion over time
     float deceleration = gravity_smoother; // Deceleration factor
+    float currentY;
+
+    float bottom_offset = 11;
+    float top_offset = 5;
+
 
     Runner(String ImagePath, Vector2f Position)
     {
@@ -53,10 +59,13 @@ public:
         hitbox.setRadius(HITBOX_RADIUS);
         hitbox.setPosition(position);
         hitbox.move(HITBOX_RADIUS/2, 0);
+
     }
+    
     void update()
     {
-       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && position.y > 0)
+
+       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         {
             if (velocity.y > -speedUpMax){
                 velocity.y += propulsion.y * propulsionFactor;
@@ -64,32 +73,33 @@ public:
                 velocity.y = -speedUpMax;
             }
             deceleration = gravity_smoother; // Reset the deceleration factor when pressing the up key
-            gravity.y = gravity_strenght; // Reset the gravity when pressing the up key
-            
+            gravity.y = gravity_strenght; // Reset the gravity when pressing the up key   
         }
-        else if (position.y < window.getSize().y - HITBOX_RADIUS)
+        else
         {
             velocity.y += gravity.y - deceleration;
             deceleration += gravity_smoother; // Increase the deceleration factor over time
             propulsionFactor = 1.0f; // Reset the propulsion factor when not pressing the up key
             propulsion.y = -propulsion_strenght; // Reset the propulsion when not pressing the up key
         }
-        else
+
+        preprocess_position = sprite.getPosition() + velocity;
+
+        if (preprocess_position.y > window.getSize().y - HITBOX_RADIUS*2 + bottom_offset)
+        {
+            velocity.y = 0;
+            deceleration = gravity_smoother; // Reset the deceleration factor when pressing the up key
+            gravity.y = gravity_strenght; // Reset the gravity when pressing the up key   
+        }
+        if(preprocess_position.y < 0 - top_offset)
         {
             velocity.y = 0;
         }
-        position += velocity;
-         if (position.y > window.getSize().y - HITBOX_RADIUS)
-        {
-            position.y = window.getSize().y - HITBOX_RADIUS;
-        }
-        if (position.y < 0)
-        {
-            position.y = 0;
-        }
+
         sprite.move(velocity.x, velocity.y);
         hitbox.move(velocity.x, velocity.y);
     }
+
     void draw()
     {
         window.draw(sprite);
