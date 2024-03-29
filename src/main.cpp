@@ -1,5 +1,4 @@
 #include "gameOver.hpp"
-#include "Obstacles.hpp"
 #include <vector>
 
 int main(){  
@@ -23,7 +22,7 @@ int main(){
     int x_width_window = windowSize.x;
 
     sf::Clock clock; // Start a timer
-    float obstacleInterval = 2.0f; // Time in seconds between obstacles
+    float obstacleInterval = 0.5f; // Time in seconds between obstacles
 
     //MAIN LOOP
     while (window.isOpen()){
