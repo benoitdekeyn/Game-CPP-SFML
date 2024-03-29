@@ -16,7 +16,7 @@ int main()
     window.setFramerateLimit(60);
     int speed = 5; // number of pixels per frame
     sf::Texture backgroundTexture;
-    backgroundTexture.loadFromFile("data/backgrounds/background.png");
+    backgroundTexture.loadFromFile("../Assets/Backgrounds/background.png");
     sf::Sprite background1(backgroundTexture);
     sf::Sprite background2(backgroundTexture);
     sf::Vector2u textureSize = backgroundTexture.getSize();
