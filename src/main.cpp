@@ -25,7 +25,7 @@ int main()
     background2.setPosition(windowSize.x, 0);
     int x_width_window = windowSize.x;
 
-    // MAIN LOOP
+    // // MAIN LOOP
     while (window.isOpen())
     {
         sf::Event event;
@@ -35,7 +35,7 @@ int main()
                 window.close();
         }
 
-        // BACKGROUND INIT
+    //     // BACKGROUND INIT
         background1.move(-speed, 0);
         background2.move(-speed, 0);
         if (background1.getPosition().x <= -x_width_window)

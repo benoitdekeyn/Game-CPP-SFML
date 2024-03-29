@@ -20,8 +20,7 @@ public:
     Sprite sprite;
     Vector2f position;
     Vector2f velocity;
-    float speed;
-
+    float speed=3;
     Character(String ImagePath, Vector2f Position)
     {
         texture.loadFromFile(ImagePath);
@@ -30,11 +29,12 @@ public:
         texture.setSmooth(true);
         texture.setRepeated(false);
         sprite.setTexture(texture);
-        hitbox.setSize(Vector2f(40, 40));
+        sprite.setTextureRect(sf::IntRect(20,0,100,100));
+        sprite.setScale(1.2,1.2);
+        hitbox.setSize(Vector2f(65, 65));
     }
     void draw()
     {
-        sprite.setPosition(position);
         window.draw(sprite);
     }
 };
@@ -46,11 +46,11 @@ public:
         : Character(path, position) {}
     void update()
     {
-        if (Keyboard::isKeyPressed(Keyboard::Up) && position.y > 0)
+        if (Keyboard::isKeyPressed(Keyboard::Up) && sprite.getPosition().y > 0)
         {
             velocity.y = -speed;
         }
-        else if (position.y < window.getSize().y - hitbox.getSize().y)
+        else if (sprite.getPosition().y < window.getSize().y - hitbox.getSize().y)
         {
             velocity.y = speed;
         }
@@ -58,8 +58,6 @@ public:
         {
             velocity.y = 0;
         }
-
-        position += velocity;
-        sprite.setPosition(position);
+        sprite.move(velocity.x,velocity.y);
     }
 };
