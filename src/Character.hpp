@@ -17,7 +17,7 @@ sf::RenderWindow window(sf::VideoMode(1600, 900, 32), "SFML works!");
 class Runner
 {
 public:
-    RectangleShape hitbox;
+    CircleShape hitbox;
     Texture texture;
     Sprite sprite;
     Vector2f position;
@@ -33,7 +33,11 @@ public:
         sprite.setTexture(texture);
         sprite.setTextureRect(sf::IntRect(20, 0, 100, 100));
         sprite.setScale(1.2, 1.2);
-        hitbox.setSize(Vector2f(65, 65));
+        sprite.setPosition(position);
+
+        hitbox.setRadius(40);
+        hitbox.setPosition(position);
+        hitbox.move(20, 0);
     }
     void update()
     {
@@ -41,7 +45,7 @@ public:
         {
             velocity.y = -speed;
         }
-        else if (sprite.getPosition().y < window.getSize().y - hitbox.getSize().y)
+        else if ((hitbox.getPosition().y + hitbox.getRadius()) < window.getSize().y - hitbox.getRadius())
         {
             velocity.y = speed;
         }
@@ -50,6 +54,7 @@ public:
             velocity.y = 0;
         }
         sprite.move(velocity.x, velocity.y);
+        hitbox.move(velocity.x, velocity.y);
     }
     void draw()
     {
