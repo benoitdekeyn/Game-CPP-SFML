@@ -39,72 +39,61 @@ int main()
                 window.close();
         }
 
-        // // MAIN LOOP
-        while (window.isOpen())
+        // BACKGROUND INIT
+        background1.move(-speed, 0);
+        background2.move(-speed, 0);
+        if (background1.getPosition().x <= -x_width_window)
         {
-            sf::Event event;
-            while (window.pollEvent(event))
-            {
-                if (event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
-                    window.close();
-            }
-
-            //     // BACKGROUND INIT
-            background1.move(-speed, 0);
-            background2.move(-speed, 0);
-            if (background1.getPosition().x <= -x_width_window)
-            {
-                background1.setPosition(x_width_window, 0);
-            }
-            if (background2.getPosition().x <= -x_width_window)
-            {
-                background2.setPosition(x_width_window, 0);
-            }
-            window.clear();
-            window.draw(background1);
-            window.draw(background2);
-
-            if (clock.getElapsedTime().asSeconds() > obstacleInterval)
-            {
-                obstacles.push_back(Obstacle());
-                clock.restart();
-            }
-
-            for (auto it = obstacles.begin(); it != obstacles.end();)
-            {
-                it->update();
-                if (it->position.x + it->shape.getSize().x < 0)
-                {
-                    it = obstacles.erase(it);
-                }
-                else
-                {
-                    ++it;
-                }
-            }
-
-            for (auto &obstacle : obstacles)
-            {
-                if (collisionWithObstacles(player, obstacle, window))
-                {
-                    GameOver gameOver(window);
-                    gameOver.drawGameOver(window);
-                    window.display();
-                    sf::sleep(sf::seconds(2));
-                    window.close();
-                }
-            }
-
-            player.update();
-            player.draw();
-
-            for (auto &obstacle : obstacles)
-            {
-                obstacle.draw();
-            }
-
-            window.display();
+            background1.setPosition(x_width_window, 0);
         }
-        return 0;
+        if (background2.getPosition().x <= -x_width_window)
+        {
+            background2.setPosition(x_width_window, 0);
+        }
+        window.clear();
+        window.draw(background1);
+        window.draw(background2);
+
+        if (clock.getElapsedTime().asSeconds() > obstacleInterval)
+        {
+            obstacles.push_back(Obstacle());
+            clock.restart();
+        }
+
+        for (auto it = obstacles.begin(); it != obstacles.end();)
+        {
+            it->update();
+            if (it->position.x + it->shape.getSize().x < 0)
+            {
+                it = obstacles.erase(it);
+            }
+            else
+            {
+                ++it;
+            }
+        }
+
+        for (auto &obstacle : obstacles)
+        {
+            if (collisionWithObstacles(player, obstacle, window))
+            {
+                GameOver gameOver(window);
+                gameOver.drawGameOver(window);
+                window.display();
+                sf::sleep(sf::seconds(2));
+                window.close();
+            }
+        }
+
+        player.update();
+        player.draw();
+
+        for (auto &obstacle : obstacles)
+        {
+            obstacle.draw();
+        }
+
+        window.display();
     }
+    return 0;
 }
