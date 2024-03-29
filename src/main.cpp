@@ -14,6 +14,7 @@
 #include "gameOver.hpp"
 #include <vector>
 #include "Character.hpp"
+#include "score.hpp"
 
 
 int main()
@@ -24,6 +25,7 @@ int main()
     // Character obstacle{"../Assets/Character/NightBorne.png", Vector2f(00, 00)};
 
     std::vector<Obstacle> obstacles;
+    Score score(window);
 
     // INIT
     window.setPosition(sf::Vector2i(0, 0));
@@ -80,6 +82,7 @@ int main()
             if (it->position.x + it->shape.getSize().x < 0)
             {
                 it = obstacles.erase(it);
+                score.increment();
             }
             else
             {
@@ -107,6 +110,7 @@ int main()
             obstacle.draw();
         }
 
+        score.draw(window);
         window.display();
     }
     return 0;
