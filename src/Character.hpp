@@ -17,9 +17,8 @@ sf::RenderWindow window(sf::VideoMode(1600, 900, 32), "SFML works!");
 class Runner
 {
 public:
-
     // VARAIABLES FOR THE GRAVITY AND PROPULSION
-    int speedUpMax = 10;
+    int speedUpMax = 7;
     float propulsion_strenght = 2.1f;
     float propulsion_smoother = 1.0f;
     float gravity_strenght = 0.8f;
@@ -34,7 +33,7 @@ public:
     sf::Vector2f gravity;
     int speed = 3;
     float propulsionFactor = propulsion_smoother; // Add a factor to decrease propulsion over time
-    float deceleration = gravity_smoother; // Deceleration factor
+    float deceleration = gravity_smoother;        // Deceleration factor
 
     Runner(String ImagePath, Vector2f Position)
     {
@@ -57,22 +56,24 @@ public:
     }
     void update()
     {
-       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && position.y > 0)
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && position.y > 0)
         {
-            if (velocity.y > -speedUpMax){
+            if (velocity.y > -speedUpMax)
+            {
                 velocity.y += propulsion.y * propulsionFactor;
-            }else{
+            }
+            else
+            {
                 velocity.y = -speedUpMax;
             }
             deceleration = gravity_smoother; // Reset the deceleration factor when pressing the up key
-            gravity.y = gravity_strenght; // Reset the gravity when pressing the up key
-            
+            gravity.y = gravity_strenght;    // Reset the gravity when pressing the up key
         }
         else if (position.y < window.getSize().y - hitbox.getRadius())
         {
             velocity.y += gravity.y - deceleration;
-            deceleration += gravity_smoother; // Increase the deceleration factor over time
-            propulsionFactor = 1.0f; // Reset the propulsion factor when not pressing the up key
+            deceleration += gravity_smoother;    // Increase the deceleration factor over time
+            propulsionFactor = 1.0f;             // Reset the propulsion factor when not pressing the up key
             propulsion.y = -propulsion_strenght; // Reset the propulsion when not pressing the up key
         }
         else
@@ -80,7 +81,7 @@ public:
             velocity.y = 0;
         }
         position += velocity;
-         if (position.y > window.getSize().y - hitbox.getRadius())
+        if (position.y > window.getSize().y - hitbox.getRadius())
         {
             position.y = window.getSize().y - hitbox.getRadius();
         }
