@@ -41,6 +41,10 @@ public:
     {
         window.draw(text);
     }
+
+    int getScore(){
+        return score;
+    }
 };
 
 #endif // __SCORE__

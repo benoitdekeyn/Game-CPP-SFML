@@ -46,6 +46,7 @@ int main()
 
     sf::Clock clock;               // Start a timer
     float obstacleInterval = 0.5f; // Time in seconds between obstacles
+    int sco;
 
     // MAIN LOOP
     while (window.isOpen())
@@ -96,7 +97,8 @@ int main()
         {
             if (collisionWithObstacles(player, obstacle, window))
             {
-                GameOver gameOver(window);
+                sco = score.getScore();
+                GameOver gameOver(window, sco);
                 gameOver.drawGameOver(window);
                 window.display();
                 score.draw(window);
@@ -135,7 +137,6 @@ int main()
                 }
             }
         }
-
         player.update();
         player.draw();
 
