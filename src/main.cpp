@@ -34,9 +34,9 @@ using namespace sf;
 using namespace std;
 
 #include "background.hpp"
-#include "gameOver.hpp"
 #include "character.hpp"
 #include "score.hpp"
+#include "gameOver.hpp"
 
 
 
