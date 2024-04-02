@@ -9,7 +9,7 @@ class GameOver
 public:
     GameOver(sf::RenderWindow &window)
     {
-        texture.loadFromFile("../Assets/Backgrounds/exit.png");
+        texture.loadFromFile("../Assets/Backgrounds/overnew.png");
         gameOver.setTexture(texture);
         gameOver.setScale(window.getSize().x / gameOver.getLocalBounds().width, window.getSize().y / gameOver.getLocalBounds().height);
     }
@@ -37,7 +37,7 @@ class Menu
 public:
     Menu(sf::RenderWindow &window)
     {
-        texture.loadFromFile("../Assets/Backgrounds/menu.png");
+        texture.loadFromFile("../Assets/Backgrounds/menunew.png");
         menu.setTexture(texture);
         menu.setScale(window.getSize().x / menu.getLocalBounds().width, window.getSize().y / menu.getLocalBounds().height);
     }
