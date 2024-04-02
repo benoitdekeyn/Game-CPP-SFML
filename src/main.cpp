@@ -48,7 +48,7 @@ int main()
 
     // INITIALIZE BACKGROUND
     Background background("../Assets/Backgrounds/background.png", window);
-    Background menu("../Assets/Backgrounds/menu.png", window);
+    Background menu("../Assets/Backgrounds/menunew.png", window);
 
     // INITIALIZE PLAYER
     Runner player("../Assets/Character/NightBorne.png", sf::Vector2f(RUNNER_X_POS, window.getSize().y - INITIAL_Y_POS), window);
