@@ -4,6 +4,7 @@
 #include <SFML\Graphics.hpp>
 using namespace sf;
 
+//-------------------- FUNCTIONS --------------------
 struct Frame
 {
     sf::IntRect rect;
@@ -56,5 +57,8 @@ void Animation::update(double elapsed)
         }
     }
 }
+
+
+void selectAnimation();
 
 #endif // DEBUG
