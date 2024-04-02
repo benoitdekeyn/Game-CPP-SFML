@@ -5,7 +5,7 @@
 
 #define INITIAL_SPEED 3
 #define FINAL_SPEED 20
-#define SPEED_INCREASE_INTERVAL 5
+#define SPEED_INCREASE_INTERVAL 10 //skipped frames before increasing the speed by SPEED_INCREASE_VALUE (below)
 #define SPEED_INCREASE_VALUE 0.5f
 
 #define INITIAL_Y_POS 450
