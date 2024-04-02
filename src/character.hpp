@@ -113,7 +113,6 @@ public:
     sf::RectangleShape shape;
     sf::Vector2f position;
     sf::Vector2f velocity;
-    int speed = SPEED;
 
     Obstacle(sf::RenderWindow& window)
     {
@@ -136,3 +135,4 @@ public:
 };
 
 #endif
+
