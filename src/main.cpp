@@ -37,9 +37,9 @@ using namespace std;
 
 #include "speed.hpp"
 #include "background.hpp"
-#include "gameOver.hpp"
-#include "Character.hpp"
+#include "character.hpp"
 #include "score.hpp"
+#include "gameOver.hpp"
 
 int main()
 {
