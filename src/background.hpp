@@ -43,5 +43,4 @@ class Background
     }
 };
 
-
 #endif // BACKGROUND_HPP

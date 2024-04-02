@@ -1,10 +1,6 @@
 #ifndef _CHAR_
 #define _CHAR_
 
-
-
-
-
 /**
  * The character class to manage every entity on screen
  * @param ImagePath (string): load an image's path to use a texture
