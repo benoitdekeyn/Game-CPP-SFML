@@ -51,7 +51,7 @@ int main()
     int window_height = window.getSize().y;
 
     // INITIALIZE BACKGROUND
-    Background background("../Assets/Backgrounds/background.png", window);
+    Background background(window);
     Background menu("../Assets/Backgrounds/menunew.png", window);
 
     // INITIALIZE PLAYER
@@ -96,7 +96,7 @@ int main()
         speedUp();
 
         //UPDATE BACKGROUND
-        background.updateBackground(window);
+        background.moveBackground(window);
         window.clear();
         background.drawBackground(window);
 
