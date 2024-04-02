@@ -1,6 +1,6 @@
 #ifndef _OVER_
 #define _OVER_
-#include "Character.hpp"
+#include "character.hpp"
 #include "score.hpp"
 
 class GameOver
