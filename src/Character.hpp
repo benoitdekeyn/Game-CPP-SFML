@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
+#include "Animation.hpp"
 
 using namespace sf;
 
@@ -17,9 +18,8 @@ sf::RenderWindow window(sf::VideoMode(1600, 900, 32), "SFML works!");
 class Runner
 {
 public:
-
     // VARAIABLES FOR THE GRAVITY AND PROPULSION
-    int speedUpMax = 7;
+    int speedUpMax = 3;
     float propulsion_strenght = 2.1f;
     float propulsion_smoother = 1.0f;
     float gravity_strenght = 0.6f;
@@ -27,25 +27,25 @@ public:
 
     CircleShape hitbox;
     Texture texture;
-    Sprite sprite;
+    sf::Sprite sprite;
     sf::Vector2f position;
     sf::Vector2f velocity;
     sf::Vector2f propulsion;
     sf::Vector2f gravity;
     int speed = 3;
     float propulsionFactor = propulsion_smoother; // Add a factor to decrease propulsion over time
-    float deceleration = gravity_smoother; // Deceleration factor
+    float deceleration = gravity_smoother;        // Deceleration factor
 
-    Runner(String ImagePath, Vector2f Position)
+    
+    Runner(Vector2f Position)
     {
-        texture.loadFromFile(ImagePath);
         position = Position;
+        texture.loadFromFile("../Assets/Character/NightBorne.png");
 
         texture.setSmooth(true);
         texture.setRepeated(false);
         sprite.setTexture(texture);
-        sprite.setTextureRect(sf::IntRect(20, 0, 100, 100));
-        sprite.setScale(1.2, 1.2);
+        sprite.setScale(2, 2);
         sprite.setPosition(position);
 
         gravity = sf::Vector2f(0, gravity_strenght);
@@ -54,25 +54,28 @@ public:
         hitbox.setRadius(40);
         hitbox.setPosition(position);
         hitbox.move(20, 0);
+
     }
     void update()
     {
-       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && position.y > 0)
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && position.y > 0)
         {
-            if (velocity.y > -speedUpMax){
+            if (velocity.y > -speedUpMax)
+            {
                 velocity.y += propulsion.y * propulsionFactor;
-            }else{
+            }
+            else
+            {
                 velocity.y = -speedUpMax;
             }
             deceleration = gravity_smoother; // Reset the deceleration factor when pressing the up key
-            gravity.y = gravity_strenght; // Reset the gravity when pressing the up key
-            
+            gravity.y = gravity_strenght;    // Reset the gravity when pressing the up key
         }
         else if (position.y < window.getSize().y - hitbox.getRadius())
         {
             velocity.y += gravity.y - deceleration;
-            deceleration += gravity_smoother; // Increase the deceleration factor over time
-            propulsionFactor = 1.0f; // Reset the propulsion factor when not pressing the up key
+            deceleration += gravity_smoother;    // Increase the deceleration factor over time
+            propulsionFactor = 1.0f;             // Reset the propulsion factor when not pressing the up key
             propulsion.y = -propulsion_strenght; // Reset the propulsion when not pressing the up key
         }
         else
@@ -80,7 +83,7 @@ public:
             velocity.y = 0;
         }
         position += velocity;
-         if (position.y > window.getSize().y - hitbox.getRadius())
+        if (position.y > window.getSize().y - hitbox.getRadius())
         {
             position.y = window.getSize().y - hitbox.getRadius();
         }
