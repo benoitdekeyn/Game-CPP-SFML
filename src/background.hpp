@@ -29,12 +29,14 @@ class Background
 
     void updateBackground(sf::RenderWindow& window) {
         int window_width = window.getSize().x;
-        background1.move(-SPEED, 0);
-        background2.move(-SPEED, 0);
+        background1.move(-speed, 0);
+        background2.move(-speed, 0);
         if (background1.getPosition().x <= -window_width){
-            background1.setPosition(window_width, 0);}
+            background1.setPosition(window_width, 0);
+            background2.setPosition(0, 0);}
         if (background2.getPosition().x <= -window_width){
-            background2.setPosition(window_width, 0);}
+            background2.setPosition(window_width, 0);
+            background1.setPosition(0, 0);}
     }
 
     void drawBackground(sf::RenderWindow& window) {

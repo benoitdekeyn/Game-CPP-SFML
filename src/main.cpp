@@ -3,7 +3,10 @@
 #define COLOR_DEPTH 32
 #define FPS 60
 
-#define SPEED 5
+#define INITIAL_SPEED 3
+#define FINAL_SPEED 20
+#define SPEED_INCREASE_INTERVAL 10 //skipped frames before increasing the speed by SPEED_INCREASE_VALUE (below)
+#define SPEED_INCREASE_VALUE 0.5f
 
 #define INITIAL_Y_POS 450
 #define RUNNER_X_POS 200
@@ -32,6 +35,7 @@
 using namespace sf;
 using namespace std;
 
+#include "speed.hpp"
 #include "background.hpp"
 #include "gameOver.hpp"
 #include "Character.hpp"
@@ -88,6 +92,10 @@ int main()
 
         }
 
+        //UPDATE SPEED
+        speedUp();
+
+        //UPDATE BACKGROUND
         background.updateBackground(window);
         window.clear();
         background.drawBackground(window);
