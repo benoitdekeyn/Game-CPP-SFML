@@ -3,12 +3,12 @@
 #define COLOR_DEPTH 32
 #define FPS 60
 
-#define INITIAL_SPEED 3
-#define FINAL_SPEED 20
-#define SPEED_INCREASE_INTERVAL 15 //skipped frames before increasing the speed by SPEED_INCREASE_VALUE (below)
+#define INITIAL_SPEED 8
+#define FINAL_SPEED 8
+#define SPEED_INCREASE_INTERVAL 10000 //skipped frames before increasing the speed by SPEED_INCREASE_VALUE (below)
 #define SPEED_INCREASE_VALUE 0.1f
 
-#define BACKGROUND_CHANGING_INTERVAL 1 //number of frames before the background changes
+#define BACKGROUND_CHANGING_INTERVAL 1000 //number of frames before the background changes
 
 #define INITIAL_Y_POS 450
 #define RUNNER_X_POS 200
@@ -102,7 +102,7 @@ int main()
 
         if (clock.getElapsedTime().asSeconds() > OBSTACLE_INTERVAL)
         {
-            obstacles.push_back(Obstacle(window));
+            //obstacles.push_back(Obstacle(window));
             clock.restart();
         }
 

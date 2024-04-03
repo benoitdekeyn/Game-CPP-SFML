@@ -19,7 +19,6 @@ class Background
         for (int i = 0; i < 4; ++i) {
             images[i].loadFromFile(picture[i]);
         }
-    
         setImage(window, 0);
         background2.setPosition(window.getSize().x, 0);
         background1.setPosition(0, 0);
@@ -27,13 +26,9 @@ class Background
     }
 
     void update(sf::RenderWindow& window) {
-        
-        if (counter == 0){ //call a picture change as soon as possible
-            counter = BACKGROUND_CHANGING_INTERVAL;
-            changeASAP();
-        }else{counter--;}
 
         moveIt(window);
+        checkChange();
         updatePicture(window);
         window.clear();
         drawIt(window);
@@ -51,10 +46,15 @@ class Background
             background1.setPosition(0, 0);}
     }
 
-    void changeASAP() { //change As Soon As Possible : when one picture perfectly fits the screen
-        if (background_transformation_step == 0){
-            n++; if (n>3) n=0;
-        background_transformation_step = 1;
+    void checkChange() {
+        if (counter == 0){ 
+            counter = BACKGROUND_CHANGING_INTERVAL;
+            if (background_transformation_step == 0){ 
+                n++; if (n>3) n=0;
+                background_transformation_step = 1; //change As Soon As Possible : when one picture perfectly fits the screen
+            }
+        }else{
+            counter--;
         }
     }
 
@@ -65,20 +65,26 @@ class Background
             return;
         }else if (background_transformation_step == 1){
             if (background1.getPosition().x == 0 && background2.getPosition().x == window_width){
-                setImage(window, 1);
-                background_transformation_step = 22;
-            }else if (background1.getPosition().x == window_width && background2.getPosition().x == 0){
                 setImage(window, 2);
                 background_transformation_step = 21;
+                return;
+            }else if (background2.getPosition().x == 0 && background1.getPosition().x == window_width){
+                setImage(window, 1);
+                background_transformation_step = 22;
+                return;
             }else{
                 return;
             }
         }else if (background_transformation_step == 21){
-            background1.setTexture(images[n]);
-            background_transformation_step = 0;
+            if (background2.getPosition().x == 0 && background1.getPosition().x == window_width){
+                background1.setTexture(images[n]);
+                background_transformation_step = 0;
+            }
         }else if (background_transformation_step == 22){
-            background2.setTexture(images[n]);
-            background_transformation_step = 0;
+            if (background1.getPosition().x == 0 && background2.getPosition().x == window_width){
+                background2.setTexture(images[n]);
+                background_transformation_step = 0;
+            }
         }
     }
 
