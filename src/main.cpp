@@ -2,22 +2,25 @@
 
 int main()
 {
-    // INTIALIZE WINDOW
-    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, COLOR_DEPTH), "SFML works!");
+    //---------- WINDOW ----------
     window.setPosition(sf::Vector2i(0, 0));
     window.setFramerateLimit(FPS);
     int window_width = window.getSize().x;
     int window_height = window.getSize().y;
 
-    // INITIALIZE BACKGROUND
-    Background background("../Assets/Backgrounds/background.png", window);
-    Background menu("../Assets/Backgrounds/menunew.png", window);
+    //------------------ INITIALIZATIONS ------------------
 
-    // INITIALIZE PLAYER
+    //-------- BACKGROUND --------
+    Background background("../Assets/Backgrounds/background.png", window);
+
+    //----------- MENU -----------
+    Background menu("../Assets/Backgrounds/menunew.png", window);
+    bool menuOn = true;
+
+    //---------- PLAYER ----------
     Runner player(sf::Vector2f(RUNNER_X_POS, window.getSize().y - INITIAL_Y_POS), window);
 
-    //-------------------- ANIMATION SETUP --------------------
-    // Create animations
+    //--------- ANIMATION --------
     Animation jumpAnim(player.sprite);
     Animation runAnim(player.sprite);
     Animation fallAnim(player.sprite);
@@ -27,17 +30,17 @@ int main()
     addJumpFrames(&jumpAnim);
     addFallFrames(&fallAnim);
     addDeathFrames(&deathAnim);
-    //----------------- END ANIMATION SETUP  ------------------
 
-    // INITIALIZE OBSTACLES
+    //--------- OBSTACLES --------
     std::vector<Obstacle> obstacles;
+
+    //---------- SCORE -----------
     Score score(window);
 
-    bool menuOn = true;
-
+    //---------- CLOCK -----------
     sf::Clock clock; // Start a timer
 
-    // // MAIN LOOP
+    // MAIN LOOP
     while (window.isOpen())
     {
         sf::Event event;
@@ -137,7 +140,7 @@ int main()
 
         //-------------------- ANIMATION UPDATE  --------------------
         auto elapsed = clock.restart();
-        runAnim.update(elapsed.asSeconds());
+        deathAnim.update(elapsed.asSeconds());
         //------------------ END ANIMATION UPDATE  ------------------
 
         for (auto &obstacle : obstacles)

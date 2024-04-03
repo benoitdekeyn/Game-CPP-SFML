@@ -39,7 +39,7 @@ public:
         texture.setSmooth(true);
         texture.setRepeated(false);
         sprite.setTexture(texture);
-        sprite.setScale(2, 2);
+        sprite.setScale(1.5, 1.5);
         sprite.setPosition(position);
 
         gravity = sf::Vector2f(0, gravity_strenght);

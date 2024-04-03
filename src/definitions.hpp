@@ -56,4 +56,7 @@ using namespace std;
 #include "gameOver.hpp"
 #include "animation.hpp"
 
+//---------- WINDOW ----------
+sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, COLOR_DEPTH), "SFML works!");
+
 #endif // !_DEFINITIONS_
