@@ -13,12 +13,16 @@
 #define INITIAL_Y_POS 450
 #define RUNNER_X_POS 200
 
+
+
 #include "gameOver.hpp"
 #include <vector>
+#include <iostream>
 #include "Character.hpp"
 #include "score.hpp"
+#include "sound.hpp"
 
-
+using namespace sf;
 int main()
 {
 
@@ -28,6 +32,9 @@ int main()
 
     std::vector<Obstacle> obstacles;
     Score score(window);
+
+    musicSound musicPlay("../music/Endless_sand.mp3");
+    musicPlay.play();
 
     // INIT
     window.setPosition(sf::Vector2i(0, 0));
@@ -100,6 +107,7 @@ int main()
                 sco = score.getScore();
                 GameOver gameOver(window, sco);
                 gameOver.drawGameOver(window);
+                musicPlay.stop();
                 window.display();
                 score.draw(window);
                 while (true)
