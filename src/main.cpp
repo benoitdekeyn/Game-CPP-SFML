@@ -49,9 +49,8 @@ int main()
             if (event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
                 window.close();
         }
-
-        while (menuOn == true)
-        {
+        
+        while(menuOn == true){
             menu.drawBackground(window);
             window.display();
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
@@ -64,12 +63,13 @@ int main()
                 window.close();
                 exit(0);
             }
+
         }
 
-        // UPDATE SPEED
+        //UPDATE SPEED
         speedUp();
 
-        // UPDATE BACKGROUND
+        //UPDATE BACKGROUND
         background.updateBackground(window);
         window.clear();
         background.drawBackground(window);
@@ -140,7 +140,7 @@ int main()
 
         //-------------------- ANIMATION UPDATE  --------------------
         auto elapsed = clock.restart();
-        deathAnim.update(elapsed.asSeconds());
+        fallAnim.update(elapsed.asSeconds());
         //------------------ END ANIMATION UPDATE  ------------------
 
         for (auto &obstacle : obstacles)

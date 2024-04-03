@@ -85,7 +85,8 @@ void addJumpFrames(Animation *jumpAnim)
 void addFallFrames(Animation *fallAnim)
 {
     // Add frames to the fall animation
-    fallAnim->addFrame({sf::IntRect(160, 210, 100, 100), 0.1});
+    fallAnim->addFrame({sf::IntRect(280, 210, 100, 100), 0.1});
+    fallAnim->addFrame({sf::IntRect(280, 210, 100, 100), 0.1}); // I need at least two frames per animation to make it work.
 }
 void addDeathFrames(Animation *deathAnim)
 {
