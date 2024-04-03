@@ -51,38 +51,43 @@ public:
 
 class Obstacle
 {
-    public:
-
-    // The obstacle has a y position that is randomly generated and comes from the right of the screen to the left until it is off the screen or collides with the player.
-
-    sf::RectangleShape shape;
+public:
     sf::Vector2f position;
     sf::Vector2f velocity;
     float speed = 0.1f;
 
+    sf::Sprite sprite;
+    sf::Texture texture;
+
+    // Constructor
     Obstacle()
     {
-        shape.setSize(sf::Vector2f(50, 50));
-        shape.setFillColor(sf::Color::Red);
+        if (!texture.loadFromFile("test.JPG")) 
+        {
+            std::cout << "Error loading texture" << std::endl;
+        }
+        sprite.setTexture(texture);
+
+        sprite.setScale(0.1f, 0.1f);
         position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
-        shape.setPosition(position);
+        sprite.setPosition(position);
     }
 
     void update()
     {
         position.x -= speed;
-        shape.setPosition(position);
+        sprite.setPosition(position);
     }
 
-    void draw()
+    void draw(sf::RenderWindow& window)
     {
-        window.draw(shape);
+        window.draw(sprite);
     }
 };
 
 void checkCollision(Player player, Obstacle obstacle)
 {
-    if(player.shape.getGlobalBounds().intersects(obstacle.shape.getGlobalBounds()))
+    if(player.shape.getGlobalBounds().intersects(obstacle.sprite.getGlobalBounds()))
     {
         exit(0);
     }
@@ -110,7 +115,7 @@ int main()
         player.draw();
 
         obstacle.update();
-        obstacle.draw();
+        obstacle.draw(window);
 
         window.display();
         
