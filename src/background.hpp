@@ -52,8 +52,10 @@ class Background
     }
 
     void changeASAP() { //change As Soon As Possible : when one picture perfectly fits the screen
-        n++; if (n>3) n=0;
+        if (background_transformation_step == 0){
+            n++; if (n>3) n=0;
         background_transformation_step = 1;
+        }
     }
 
     void updatePicture(sf::RenderWindow& window) {
