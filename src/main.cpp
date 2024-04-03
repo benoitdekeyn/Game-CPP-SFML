@@ -140,7 +140,7 @@ int main()
 
         //-------------------- ANIMATION UPDATE  --------------------
         auto elapsed = clock.restart();
-        fallAnim.update(elapsed.asSeconds());
+        runAnim.update(elapsed.asSeconds());
         //------------------ END ANIMATION UPDATE  ------------------
 
         for (auto &obstacle : obstacles)

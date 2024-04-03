@@ -1,8 +1,6 @@
 #ifndef _ANIM_
 #define _ANIM_
 
-#include "Character.hpp"
-
 using namespace sf;
 
 //-------------------- FUNCTIONS --------------------
