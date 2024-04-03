@@ -1,43 +1,37 @@
 #ifndef _CHAR_
 #define _CHAR_
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/System.hpp>
-#include "Animation.hpp"
-
-using namespace sf;
-
-// Define gridSize globally
-sf::RenderWindow window(sf::VideoMode(1600, 900, 32), "SFML works!");
 
 /**
  * The character class to manage every entity on screen
- * @param ImagePath (string): load an image's path to use a texture
  * @param Position (sf::Vector2f): the X and Y position of the character
  */
 class Runner
 {
 public:
     // VARAIABLES FOR THE GRAVITY AND PROPULSION
-    int speedUpMax = 3;
-    float propulsion_strenght = 2.1f;
-    float propulsion_smoother = 1.0f;
-    float gravity_strenght = 0.6f;
-    float gravity_smoother = 0.01f;
+    int speedUpMax = SPEED_UP_MAX;
+    float propulsion_strenght = PROPULSION_STRENGHT;
+    float propulsion_smoother = PROPULSION_SMOOTHER;
+    float gravity_strenght = GRAVITY_STRENGHT;
+    float gravity_smoother = GRAVITY_SMOOTHER;
 
-    CircleShape hitbox;
+    RectangleShape hitbox;
     Texture texture;
     sf::Sprite sprite;
     sf::Vector2f position;
     sf::Vector2f velocity;
     sf::Vector2f propulsion;
     sf::Vector2f gravity;
-    int speed = 3;
+    sf::Vector2f preprocess_position;
     float propulsionFactor = propulsion_smoother; // Add a factor to decrease propulsion over time
-    float deceleration = gravity_smoother;        // Deceleration factor
+    float deceleration = gravity_smoother; // Deceleration factor
+    float currentY;
 
-    
-    Runner(Vector2f Position)
+    float bottom_offset = BOTTOM_OFFSET;
+    float top_offset = TOP_OFFSET;
+
+
+    Runner(Vector2f Position, sf::RenderWindow& window)
     {
         position = Position;
         texture.loadFromFile("../Assets/Character/NightBorne.png");
@@ -51,14 +45,16 @@ public:
         gravity = sf::Vector2f(0, gravity_strenght);
         propulsion = sf::Vector2f(0, -propulsion_strenght);
 
-        hitbox.setRadius(40);
+        hitbox.setSize(sf::Vector2f(HITBOX_WIDTH, HITBOX_HEIGHT));
         hitbox.setPosition(position);
-        hitbox.move(20, 0);
+        hitbox.move(HITBOX_OFFSET);
 
     }
-    void update()
+    
+    void update(sf::RenderWindow& window)
     {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && position.y > 0)
+
+       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         {
             if (velocity.y > -speedUpMax)
             {
@@ -69,36 +65,44 @@ public:
                 velocity.y = -speedUpMax;
             }
             deceleration = gravity_smoother; // Reset the deceleration factor when pressing the up key
-            gravity.y = gravity_strenght;    // Reset the gravity when pressing the up key
+            gravity.y = gravity_strenght; // Reset the gravity when pressing the up key   
         }
-        else if (position.y < window.getSize().y - hitbox.getRadius())
+        else
         {
             velocity.y += gravity.y - deceleration;
             deceleration += gravity_smoother;    // Increase the deceleration factor over time
             propulsionFactor = 1.0f;             // Reset the propulsion factor when not pressing the up key
             propulsion.y = -propulsion_strenght; // Reset the propulsion when not pressing the up key
         }
-        else
+
+        preprocess_position = sprite.getPosition() + velocity;
+
+        if (preprocess_position.y > window.getSize().y - HITBOX_HEIGHT + bottom_offset)
         {
             velocity.y = 0;
+            deceleration = gravity_smoother; // Reset the deceleration factor when pressing the up key
+            gravity.y = gravity_strenght; // Reset the gravity when pressing the up key   
         }
-        position += velocity;
-        if (position.y > window.getSize().y - hitbox.getRadius())
+        if(preprocess_position.y < 0 - top_offset)
         {
-            position.y = window.getSize().y - hitbox.getRadius();
-        }
-        if (position.y < 0)
-        {
-            position.y = 0;
+            velocity.y = 0;
         }
         sprite.move(velocity.x, velocity.y);
         hitbox.move(velocity.x, velocity.y);
     }
-    void draw()
+
+    void draw(sf::RenderWindow& window)
     {
+        //window.draw(hitbox);
         window.draw(sprite);
     }
 };
+
+
+
+
+//OBSTACLES
+
 
 class Obstacle
 {
@@ -108,26 +112,26 @@ public:
     sf::RectangleShape shape;
     sf::Vector2f position;
     sf::Vector2f velocity;
-    int speed = 5;
 
-    Obstacle()
+    Obstacle(sf::RenderWindow& window)
     {
-        shape.setSize(sf::Vector2f(50, 50));
-        shape.setFillColor(sf::Color::Red);
+        shape.setSize(sf::Vector2f(OBSTACLE_WIDTH, OBSTACLE_WIDTH));
+        shape.setFillColor(OBSTACLE_COLOR);
         position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
         shape.setPosition(position);
     }
 
-    void update()
+    void update(sf::RenderWindow& window)
     {
         position.x -= speed;
         shape.setPosition(position);
     }
 
-    void draw()
+    void draw(sf::RenderWindow& window)
     {
         window.draw(shape);
     }
 };
 
 #endif
+

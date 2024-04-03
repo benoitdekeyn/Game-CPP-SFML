@@ -1,82 +1,41 @@
-#include "gameOver.hpp"
-#include <vector>
-#include "Character.hpp"
-#include "Animation.hpp"
+#include "definitions.hpp"
+
 int main()
 {
+    // INTIALIZE WINDOW
+    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, COLOR_DEPTH), "SFML works!");
+    window.setPosition(sf::Vector2i(0, 0));
+    window.setFramerateLimit(FPS);
+    int window_width = window.getSize().x;
+    int window_height = window.getSize().y;
 
-    Runner player(sf::Vector2f(100, 830));
+    // INITIALIZE BACKGROUND
+    Background background("../Assets/Backgrounds/background.png", window);
+    Background menu("../Assets/Backgrounds/menunew.png", window);
+
+    // INITIALIZE PLAYER
+    Runner player(sf::Vector2f(RUNNER_X_POS, window.getSize().y - INITIAL_Y_POS), window);
 
     //-------------------- ANIMATION SETUP --------------------
-
     // Create animations
     Animation jumpAnim(player.sprite);
     Animation runAnim(player.sprite);
     Animation fallAnim(player.sprite);
     Animation deathAnim(player.sprite);
 
-    // Add frames to the running animation
-    runAnim.addFrame({sf::IntRect(0, 0, 66, 66), 0.06});
-    runAnim.addFrame({sf::IntRect(80, 0, 66, 66), 0.06});
-    runAnim.addFrame({sf::IntRect(160, 0, 66, 66), 0.06});
-    runAnim.addFrame({sf::IntRect(240, 0, 66, 66), 0.06});
-    runAnim.addFrame({sf::IntRect(320, 0, 66, 66), 0.06});
-    runAnim.addFrame({sf::IntRect(400, 0, 66, 66), 0.06});
+    addRunFrames(&runAnim);
+    addJumpFrames(&jumpAnim);
+    addFallFrames(&fallAnim);
+    addDeathFrames(&deathAnim);
+    //----------------- END ANIMATION SETUP  ------------------
 
-    // Add frames to the jumping animation
-    jumpAnim.addFrame({sf::IntRect(0, 50, 66, 66), 0.1});
-    jumpAnim.addFrame({sf::IntRect(80, 50, 66, 66), 0.2});
-    jumpAnim.addFrame({sf::IntRect(0, 50, 66, 66), 0.2});
-    jumpAnim.addFrame({sf::IntRect(80, 50, 66, 66), 0.1});
-
-    // Add frames to the fall animation
-    fallAnim.addFrame({sf::IntRect(160, 142, 66, 66), 0.1});
-
-    // Add frames to the death animation
-    deathAnim.addFrame({sf::IntRect(0, 142, 66, 66), 0.1});
-    deathAnim.addFrame({sf::IntRect(80, 142, 66, 66), 0.1});
-    deathAnim.addFrame({sf::IntRect(160, 142, 66, 66), 0.1});
-    deathAnim.addFrame({sf::IntRect(240, 142, 66, 66), 0.1});
-    deathAnim.addFrame({sf::IntRect(320, 142, 66, 66), 0.1});
-    deathAnim.addFrame({sf::IntRect(400, 142, 66, 66), 0.1});
-    deathAnim.addFrame({sf::IntRect(480, 142, 66, 66), 0.1});
-    deathAnim.addFrame({sf::IntRect(560, 142, 66, 66), 0.1});
-    deathAnim.addFrame({sf::IntRect(640, 142, 66, 66), 0.1});
-    deathAnim.addFrame({sf::IntRect(720, 142, 66, 66), 0.1});
-    deathAnim.addFrame({sf::IntRect(800, 142, 66, 66), 0.1});
-    deathAnim.addFrame({sf::IntRect(880, 142, 66, 66), 0.1});
-    deathAnim.addFrame({sf::IntRect(950, 142, 66, 66), 0.1});
-    deathAnim.addFrame({sf::IntRect(1030, 142, 66, 66), 0.1});
-    deathAnim.addFrame({sf::IntRect(1110, 142, 66, 66), 0.1});
-    deathAnim.addFrame({sf::IntRect(1190, 142, 66, 66), 0.1});
-    deathAnim.addFrame({sf::IntRect(1270, 142, 66, 66), 0.1});
-    deathAnim.addFrame({sf::IntRect(1350, 142, 66, 66), 0.1});
-    deathAnim.addFrame({sf::IntRect(1430, 142, 66, 66), 0.1});
-    deathAnim.addFrame({sf::IntRect(1520, 142, 66, 66), 0.1});
-    deathAnim.addFrame({sf::IntRect(1600, 142, 66, 66), 0.1});
-    deathAnim.addFrame({sf::IntRect(1680, 142, 66, 66), 0.1});
-    deathAnim.addFrame({sf::IntRect(1760, 142, 66, 66), 0.1});
-    //-------------------- END ANIMATION  --------------------
-
+    // INITIALIZE OBSTACLES
     std::vector<Obstacle> obstacles;
+    Score score(window);
 
-    // INIT
-    window.setPosition(sf::Vector2i(0, 0));
-    window.setFramerateLimit(60);
-    int speed = 5; // number of pixels per frame
-    sf::Texture backgroundTexture;
-    backgroundTexture.loadFromFile("../Assets/Backgrounds/background.png");
-    sf::Sprite background1(backgroundTexture);
-    sf::Sprite background2(backgroundTexture);
-    sf::Vector2u textureSize = backgroundTexture.getSize();
-    sf::Vector2u windowSize = window.getSize();
-    background1.setScale((float)windowSize.x / textureSize.x, (float)windowSize.y / textureSize.y);
-    background2.setScale((float)windowSize.x / textureSize.x, (float)windowSize.y / textureSize.y);
-    background2.setPosition(windowSize.x, 0);
-    int x_width_window = windowSize.x;
+    bool menuOn = true;
 
-    sf::Clock clock;               // Start a timer
-    float obstacleInterval = 0.5f; // Time in seconds between obstacles
+    sf::Clock clock; // Start a timer
 
     // // MAIN LOOP
     while (window.isOpen())
@@ -88,33 +47,43 @@ int main()
                 window.close();
         }
 
-        //     // BACKGROUND INIT
-        background1.move(-speed, 0);
-        background2.move(-speed, 0);
-        if (background1.getPosition().x <= -x_width_window)
+        while (menuOn == true)
         {
-            background1.setPosition(x_width_window, 0);
+            menu.drawBackground(window);
+            window.display();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+            {
+                menuOn = false;
+                break;
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+            {
+                window.close();
+                exit(0);
+            }
         }
-        if (background2.getPosition().x <= -x_width_window)
-        {
-            background2.setPosition(x_width_window, 0);
-        }
-        window.clear();
-        window.draw(background1);
-        window.draw(background2);
 
-        if (clock.getElapsedTime().asSeconds() > obstacleInterval)
+        // UPDATE SPEED
+        speedUp();
+
+        // UPDATE BACKGROUND
+        background.updateBackground(window);
+        window.clear();
+        background.drawBackground(window);
+
+        if (clock.getElapsedTime().asSeconds() > OBSTACLE_INTERVAL)
         {
-            obstacles.push_back(Obstacle());
+            obstacles.push_back(Obstacle(window));
             clock.restart();
         }
 
         for (auto it = obstacles.begin(); it != obstacles.end();)
         {
-            it->update();
+            it->update(window);
             if (it->position.x + it->shape.getSize().x < 0)
             {
                 it = obstacles.erase(it);
+                score.increment();
             }
             else
             {
@@ -129,24 +98,54 @@ int main()
                 GameOver gameOver(window);
                 gameOver.drawGameOver(window);
                 window.display();
-                sf::sleep(sf::seconds(2));
-                window.close();
+                score.draw(window);
+                while (true)
+                {
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+                    {
+                        main();
+                    }
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
+                    {
+                        Menu menu(window);
+                        menu.drawMenu(window);
+                        window.display();
+                        while (true)
+                        {
+                            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+                            {
+                                main();
+                            }
+                            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+                            {
+                                window.close();
+                                exit(0);
+                            }
+                        }
+                    }
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+                    {
+                        window.close();
+                        exit(0);
+                    }
+                }
             }
         }
 
-        player.update();
+        player.update(window);
+        player.draw(window);
 
-        // Insert conditions for the animations here (in a function)
-        sf::Time elapsed = clock.restart();
-        fallAnim.update(elapsed.asSeconds());
-
-        player.draw();
+        //-------------------- ANIMATION UPDATE  --------------------
+        auto elapsed = clock.restart();
+        runAnim.update(elapsed.asSeconds());
+        //------------------ END ANIMATION UPDATE  ------------------
 
         for (auto &obstacle : obstacles)
         {
-            obstacle.draw();
+            obstacle.draw(window);
         }
 
+        score.draw(window);
         window.display();
     }
     return 0;
