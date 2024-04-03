@@ -27,7 +27,7 @@
 #define INITIAL_Y_POS 450
 #define RUNNER_X_POS 200
 #define TOP_OFFSET 3
-#define BOTTOM_OFFSET -2
+#define BOTTOM_OFFSET -5
 
 //---------- HITBOX ----------
 #define HITBOX_WIDTH 55

@@ -85,19 +85,10 @@ public:
         }
         if(preprocess_position.y < 0 - top_offset)
         {
-            velocity.y += gravity.y - deceleration;
-            deceleration += gravity_smoother;    // Increase the deceleration factor over time
+            velocity.y = 0;
+            deceleration = gravity_smoother;    // Increase the deceleration factor over time
             propulsionFactor = 1.0f;             // Reset the propulsion factor when not pressing the up key
             propulsion.y = -propulsion_strenght; // Reset the propulsion when not pressing the up key
-        }
-
-        preprocess_position = sprite.getPosition() + velocity;
-
-        if (preprocess_position.y > window.getSize().y - HITBOX_HEIGHT + bottom_offset)
-        {
-            velocity.y = 0;
-            deceleration = gravity_smoother; // Reset the deceleration factor when pressing the up key
-            gravity.y = gravity_strenght; // Reset the gravity when pressing the up key   
         }
         sprite.move(velocity.x, velocity.y);
         hitbox.move(velocity.x, velocity.y);
