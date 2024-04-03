@@ -92,7 +92,7 @@ public:
         hitbox.move(velocity.x, velocity.y);
     }
 
-    void draw(sf::RenderWindow& window)
+    void drawIt(sf::RenderWindow& window)
     {
         //window.draw(hitbox);
         window.draw(sprite);
@@ -128,7 +128,7 @@ public:
         shape.setPosition(position);
     }
 
-    void draw(sf::RenderWindow& window)
+    void drawIt(sf::RenderWindow& window)
     {
         window.draw(shape);
     }

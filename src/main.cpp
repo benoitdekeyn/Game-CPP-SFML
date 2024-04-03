@@ -8,6 +8,8 @@
 #define SPEED_INCREASE_INTERVAL 15 //skipped frames before increasing the speed by SPEED_INCREASE_VALUE (below)
 #define SPEED_INCREASE_VALUE 0.1f
 
+#define BACKGROUND_CHANGING_INTERVAL 1 //number of frames before the background changes
+
 #define INITIAL_Y_POS 450
 #define RUNNER_X_POS 200
 #define TOP_OFFSET 3
@@ -52,7 +54,7 @@ int main()
 
     // INITIALIZE BACKGROUND
     Background background(window);
-    Background menu("../Assets/Backgrounds/menunew.png", window);
+    Menu menu(window);
 
     // INITIALIZE PLAYER
     Runner player("../Assets/Character/NightBorne.png", sf::Vector2f(RUNNER_X_POS, window.getSize().y - INITIAL_Y_POS), window);
@@ -76,7 +78,7 @@ int main()
         }
         
         while(menuOn == true){
-            menu.drawBackground(window);
+            menu.drawIt(window);
             window.display();
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
             {
@@ -96,9 +98,7 @@ int main()
         speedUp();
 
         //UPDATE BACKGROUND
-        background.moveBackground(window);
-        window.clear();
-        background.drawBackground(window);
+        background.update(window);
 
         if (clock.getElapsedTime().asSeconds() > OBSTACLE_INTERVAL)
         {
@@ -127,7 +127,7 @@ int main()
                 GameOver gameOver(window);
                 gameOver.drawGameOver(window);
                 window.display();
-                score.draw(window);
+                score.drawIt(window);
                 while (true)
                 {
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
@@ -137,7 +137,7 @@ int main()
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
                     {
                         Menu menu(window);
-                        menu.drawMenu(window);
+                        menu.drawIt(window);
                         window.display();
                         while (true)
                         {
@@ -162,14 +162,14 @@ int main()
         }
 
         player.update(window);
-        player.draw(window);
+        player.drawIt(window);
 
         for (auto &obstacle : obstacles)
         {
-            obstacle.draw(window);
+            obstacle.drawIt(window);
         }
 
-        score.draw(window);
+        score.drawIt(window);
         window.display();
     }
     return 0;
