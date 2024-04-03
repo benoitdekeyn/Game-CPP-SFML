@@ -2,13 +2,14 @@
 
 int main()
 {
+    //------------------ INITIALIZATIONS ------------------
+
     //---------- WINDOW ----------
     window.setPosition(sf::Vector2i(0, 0));
     window.setFramerateLimit(FPS);
     int window_width = window.getSize().x;
     int window_height = window.getSize().y;
 
-    //------------------ INITIALIZATIONS ------------------
 
     //-------- BACKGROUND --------
     Background background("../Assets/Backgrounds/background.png", window);
@@ -40,7 +41,7 @@ int main()
     //---------- CLOCK -----------
     sf::Clock clock; // Start a timer
 
-    // MAIN LOOP
+    //--------------------- MAIN LOOP ---------------------
     while (window.isOpen())
     {
         sf::Event event;
