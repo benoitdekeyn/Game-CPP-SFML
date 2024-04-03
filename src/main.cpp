@@ -21,9 +21,11 @@
 #define GRAVITY_STRENGHT 0.6f
 #define GRAVITY_SMOOTHER 0.01f
 
-#define OBSTACLE_WIDTH 50
-#define OBSTACLE_COLOR sf::Color::Red
+#define OBJECT_WIDTH 50
 #define OBSTACLE_INTERVAL 0.5f
+
+#define OBSTACLE_COLOR sf::Color::Red
+#define COIN_COLOR sf::Color::Yellow
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -38,16 +40,27 @@ using namespace std;
 #include "character.hpp"
 #include "score.hpp"
 
-
-
-int main()
+//INTIALIZE WINDOW
+void initializeWindow(sf::RenderWindow& window)
 {
-    //INTIALIZE WINDOW
-    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, COLOR_DEPTH), "SFML works!");   
+    window.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, COLOR_DEPTH), "SFML works!");
     window.setPosition(sf::Vector2i(0, 0));
     window.setFramerateLimit(FPS);
     int window_width = window.getSize().x;
     int window_height = window.getSize().y;
+}
+
+void handleWindowEvent(sf::RenderWindow& window, sf::Event& event)
+{
+    if (event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
+        window.close();
+}
+
+int main()
+{
+    int i = 0;
+    sf::RenderWindow window;
+    initializeWindow(window);
 
     //INITIALIZE BACKGROUND
     Background background("../Assets/Backgrounds/background.png",window);
@@ -56,100 +69,181 @@ int main()
     Runner player("../Assets/Character/NightBorne.png", sf::Vector2f(RUNNER_X_POS, window.getSize().y-INITIAL_Y_POS), window);
     
     //INITIALIZE OBSTACLES
-    std::vector<Obstacle> obstacles;
+    vector<Obstacle> obstacles;
+    // obstacles.reserve(100);
+
+    //INITIALIZE SCORE
     Score score(window);
 
-    sf::Clock clock;               // Start a timer
+    //INITIALIZE COINS
+    // std::vector<Coin> coins;
+
+    // Start a timer
+    sf::Clock clock;
 
 
     // MAIN LOOP
+    // In the main loop
     while (window.isOpen())
     {
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
-                window.close();
+            handleWindowEvent(window, event); // Close the window if ESC is pressed
         }
 
         background.updateBackground(window);
         window.clear();
         background.drawBackground(window);
 
-        if (clock.getElapsedTime().asSeconds() > OBSTACLE_INTERVAL)
-        {
-            obstacles.push_back(Obstacle(window));
-            clock.restart();
-        }
+        // generate obstacles and push them to the array
+        if (clock.getElapsedTime().asSeconds() > OBSTACLE_INTERVAL) {
+			int r = rand() % 275 + 75;
+			int gap = 150;
 
-        for (auto it = obstacles.begin(); it != obstacles.end();)
-        {
-            it->update(window);
-            if (it->position.x + it->shape.getSize().x < 0)
+            Obstacle obstacle(window);
+			
+            if (!obstacle.texture.loadFromFile("../Assets/coin.png")) 
             {
-                it = obstacles.erase(it);
-                score.increment();
+                std::cout << "Error loading texture" << std::endl;
             }
-            else
-            {
-                ++it;
-            }
-        }
+			obstacle.sprite.setTexture(obstacle.texture);
+			obstacle.sprite.setPosition(obstacle.position);
+			obstacle.sprite.setScale(0.1f, 0.1f);
 
-        for (auto &obstacle : obstacles)
-        {
-            if (collisionWithObstacles(player, obstacle, window))
-            {
-                GameOver gameOver(window);
-                gameOver.drawGameOver(window);
-                window.display();
-                score.draw(window);
-                while (true)
-                {
-                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-                    {
-                        // window.close();
-                        main();
-                    }
-                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
-                    {
-                        // window.close();
-                        Menu menu(window);
-                        menu.drawMenu(window);
-                        window.display();
-                        while (true)
-                        {
-                            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-                            {
-                                main();
-                            }
-                            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-                            {
-                                window.close();
-                                exit(0);
-                            }
-                        }
+			// push to the array
+			obstacles.push_back(obstacle);
+		}
 
-                    }
-                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-                    {
-                        window.close();
-                        exit(0);
-                    }
-                }
-            }
-        }
+		// move obstacles
+		if (!obstacles.empty()) {
+			for (vector<Obstacle>::iterator itr = obstacles.begin(); itr != obstacles.end(); itr++) {
+				(*itr).move(-3, 0);
+			}
+		}
+
+		// remove obstacles if offscreen
+		if (!obstacles.empty() && obstacles.front().getPosition().x < -104) {
+			vector<Obstacle>::iterator startitr = obstacles.begin();
+			vector<Obstacle>::iterator enditr = obstacles.begin();
+
+			for (; enditr != obstacles.end(); enditr++) {
+				if ((*enditr).getPosition().x > -104) {
+					break;
+				}
+			}
+
+			obstacles.erase(startitr, enditr);
+		}
+
+        for (vector<Obstacle>::iterator itr = obstacles.begin(); itr != obstacles.end(); itr++) {
+			window.draw((*itr).sprite);
+		}
+
+        // if (rand() % 100 == 0)
+        // {
+        //     coins.push_back(Coin(window, "../Assets/Character/NightBorne.png"));
+        // }
+
+        // if (clock.getElapsedTime().asSeconds() > OBSTACLE_INTERVAL)
+        // {
+        //     Obstacle obstacle(window);
+        //     obstacle.texture.loadFromFile("../Assets/coin.png");
+        //     obstacle.sprite.setTexture(obstacle.texture);
+        //     obstacle.sprite.setScale(0.1f, 0.1f);
+        //     obstacles.push_back(obstacle);
+        //     clock.restart();
+        //     //std::cout<<"maaaa biteee" << std::endl;
+        // }
+
+        // for (auto it = obstacles.begin(); it != obstacles.end();)
+        // {
+        //     std::cout<<"maaaa biteee" << std::endl;
+
+        //     it->update(); // Update each obstacle
+        //     if (it->position.x + it->sprite.getGlobalBounds().width < 0)
+        //     {
+        //         it = obstacles.erase(it); // Remove obstacle if it goes off the screen
+        //     }
+        //     else
+        //     {
+        //         ++it;
+        //     }
+        // }
+
+        // for (auto it = coins.begin(); it != coins.end();)
+        // {
+        //     it->update(window);
+        //     if (it->position.x + it->shape.getSize().x < 0)
+        //     {
+        //         it = coins.erase(it);
+        //     }
+        //     else
+        //     {
+        //         ++it;
+        //     }
+        // }
+
+        // for (auto &obstacle : obstacles)
+        // {
+        //     if (collisionWithObstacles(player, obstacle, window))
+        //     {
+        //         GameOver gameOver(window);
+        //         gameOver.drawGameOver(window);
+        //         window.display();
+        //         score.draw(window);
+        //         while (true)
+        //         {
+        //             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+        //             {
+        //                 // window.close();
+        //                 main();
+        //             }
+        //             if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
+        //             {
+        //                 // window.close();
+        //                 Menu menu(window);
+        //                 menu.drawMenu(window);
+        //                 window.display();
+        //                 while (true)
+        //                 {
+        //                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+        //                     {
+        //                         main();
+        //                     }
+        //                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+        //                     {
+        //                         window.close();
+        //                         exit(0);
+        //                     }
+        //                 }
+        //             }
+        //             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+        //             {
+        //                 window.close();
+        //                 exit(0);
+        //             }
+        //         }
+        //     }
+        // }
 
         player.update(window);
         player.draw(window);
 
-        for (auto &obstacle : obstacles)
-        {
-            obstacle.draw(window);
-        }
+        // if (!obstacles.empty()) {
+        //    // obstacles[i].draw(window);
+        //     std::cout << "i = " << i << std::endl;
+        //     i++;
+        // }
+
+        // for (auto& coin : coins)
+        // {
+        //     coin.draw(window); // Draw coins
+        // }
 
         score.draw(window);
         window.display();
     }
+
     return 0;
 }

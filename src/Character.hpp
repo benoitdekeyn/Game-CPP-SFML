@@ -1,9 +1,7 @@
 #ifndef _CHAR_
 #define _CHAR_
 
-
-
-
+#include <iostream>
 
 /**
  * The character class to manage every entity on screen
@@ -103,40 +101,115 @@ public:
     }
 };
 
-
-
-
-//OBSTACLES
-
-
 class Obstacle
 {
 public:
-    // The obstacle has a y position that is randomly generated and comes from the right of the screen to the left until it is off the screen or collides with the player.
-
-    sf::RectangleShape shape;
     sf::Vector2f position;
-    sf::Vector2f velocity;
-    int speed = SPEED;
+    sf::Sprite sprite;
+    sf::Texture texture;
+    float speed; // Add the speed variable
 
+    // Constructor
     Obstacle(sf::RenderWindow& window)
     {
-        shape.setSize(sf::Vector2f(OBSTACLE_WIDTH, OBSTACLE_WIDTH));
-        shape.setFillColor(OBSTACLE_COLOR);
         position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
-        shape.setPosition(position);
+        sprite.setPosition(position);
+        speed = 3.0f; // Set a default speed for the obstacle
     }
 
-    void update(sf::RenderWindow& window)
+    // Method to update the obstacle's position
+    void move(float offsetX, float offsetY)
+    {
+        position.x += offsetX;
+        position.y += offsetY;
+        sprite.setPosition(position);
+    }
+
+    // Method to get the obstacle's position
+    sf::Vector2f getPosition() const
+    {
+        return position;
+    }
+    
+    void update()
     {
         position.x -= speed;
-        shape.setPosition(position);
+        sprite.setPosition(position);
     }
 
     void draw(sf::RenderWindow& window)
     {
-        window.draw(shape);
+        window.draw(sprite);
     }
 };
+
+//OBSTACLES
+
+// class Object {
+// public:
+//     sf::Vector2f position;
+//     sf::Vector2f velocity;
+//     sf::RectangleShape shape;
+//     int speed = SPEED;
+// };
+
+
+// class Obstacle : public Object
+// {
+// public:
+//     // The obstacle has a y position that is randomly generated and comes from the right of the screen to the left until it is off the screen or collides with the player.
+
+//     Obstacle(sf::RenderWindow& window)
+//     {
+//         shape.setSize(sf::Vector2f(OBJECT_WIDTH, OBJECT_WIDTH));
+//         shape.setFillColor(OBSTACLE_COLOR);
+//         position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
+//         shape.setPosition(position);
+//     }
+
+//     void update(sf::RenderWindow& window)
+//     {
+//         position.x -= speed;
+//         shape.setPosition(position);
+//     }
+
+//     void draw(sf::RenderWindow& window)
+//     {
+//         window.draw(shape);
+//     }
+// };
+
+// class Coin : public Object
+// {
+// public:
+//     sf::Texture texture;
+//     sf::Sprite sprite;
+
+//     Coin(sf::RenderWindow& window, String ImagePath)
+//     {
+//         texture.loadFromFile(ImagePath);
+
+//         texture.setSmooth(true);
+//         texture.setRepeated(false);
+//         sprite.setTexture(texture);
+//         sprite.setTextureRect(sf::IntRect(20, 0, 100, 100));
+//         sprite.setScale(1.2, 1.2);
+//         position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
+//         sprite.setPosition(position);
+//     }
+
+//     // Update coin's position or any other logic here if needed
+//     void update(sf::RenderWindow& window)
+//     {
+//         position.x -= speed;
+//         sprite.setPosition(position);
+//     }
+
+//     // Draw the sprite instead of the shape
+//     void draw(sf::RenderWindow& window)
+//     {
+//         window.draw(sprite);
+//     }
+// };
 
 #endif
