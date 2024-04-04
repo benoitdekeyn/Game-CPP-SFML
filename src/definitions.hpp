@@ -13,8 +13,8 @@
 
 #define INITIAL_SPEED 3
 #define FINAL_SPEED 20
-#define SPEED_INCREASE_INTERVAL 15 // skipped frames before increasing the speed by SPEED_INCREASE_VALUE (below)
-#define SPEED_INCREASE_VALUE 0.1f
+#define SPEED_INCREASE_INTERVAL 30 // skipped frames before increasing the speed by SPEED_INCREASE_VALUE (below)
+#define SPEED_INCREASE_VALUE 0.2f
 #define SPEED_UP_MAX 7
 
 //---------- GRAVITY ---------
