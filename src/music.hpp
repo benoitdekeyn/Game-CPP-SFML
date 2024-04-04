@@ -18,7 +18,7 @@ public:
     
     void update(){
         music.stop();
-        music.openFromFile(BG_musics[currentLevel-1]);
+        music.openFromFile(BG_musics[currentLevel]);
         music.play();
     }
 

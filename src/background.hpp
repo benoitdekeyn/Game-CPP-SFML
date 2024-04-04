@@ -75,7 +75,7 @@ class Background
                 //UPDATE SPEED
                 speedUp();
                 //UPDATE MUSIC
-                music.update();
+                
             }
         }
         if (background1.getPosition().x == 0 || background2.getPosition().x == 0){
@@ -90,10 +90,12 @@ class Background
             return;
         }else if (background_transformation_step == 1){
             if (background1.getPosition().x == 0 && background2.getPosition().x == window_width){
+                music.update();
                 setImage(window, 2);
                 background_transformation_step = 21;
                 return;
             }else if (background2.getPosition().x == 0 && background1.getPosition().x == window_width){
+                music.update();
                 setImage(window, 1);
                 background_transformation_step = 22;
                 return;
