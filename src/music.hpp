@@ -20,6 +20,18 @@ public:
         music.stop();
         music.openFromFile(BG_musics[currentLevel]);
         music.play();
+        if     (currentLevel == 0){
+            music.setVolume(60);
+        }
+        else if(currentLevel == 1){
+            music.setVolume(100);
+        }
+        else if(currentLevel == 2){
+            music.setVolume(100);
+        }
+        else if(currentLevel == 3){
+            music.setVolume(100);
+        }
     }
 
     void stop(){
@@ -30,6 +42,7 @@ public:
         music.stop();
         music.openFromFile(menu_music);
         music.play();
+        music.setVolume(60);
     }
 
     void reset(){
