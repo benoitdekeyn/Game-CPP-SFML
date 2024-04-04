@@ -17,7 +17,7 @@
 #define INITIAL_SPEED 3 
 #define FINAL_SPEED 20
 #define SPEED_INCREASE_INTERVAL 0 // skipped frames before increasing the speed by SPEED_INCREASE_VALUE (below)
-#define SPEED_INCREASE_VALUE 3.0f //HERE NORMAL = 1.0f, test = 3.0f
+#define SPEED_INCREASE_VALUE 1.0f //HERE NORMAL = 1.0f, test = 3.0f
 
 //---------- GRAVITY ---------
 #define PROPULSION_STRENGHT 2.1f
@@ -44,11 +44,9 @@
 
 //----------- SFML -----------
 #include <string.h>
-//#include <unistd.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
-//#include <SFML/Audio.hpp>
 #include <vector>
 
 using namespace sf;
