@@ -204,7 +204,9 @@ public:
         if(!coinTextures.empty()) {
             sprite.setTexture(coinTextures[0]); // Use the globally loaded texture
         }
+        // set a y position that doesn't overlap with obstacles   
         position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
+        
         // set sprite scale and position
         sprite.setScale(0.08f, 0.08f);
         sprite.setPosition(position);

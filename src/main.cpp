@@ -222,7 +222,7 @@ int main()
             // Check if obstacle has passed the player without collision
             if ((*itr).hitbox.getPosition().x + OBSTACLE_WIDTH < player.hitbox.getPosition().x && !(*itr).hasScored())
             {
-                score.increment();
+                // score.increment();
                 (*itr).setScored(true);
             }
 
