@@ -10,13 +10,13 @@
 #define FPS 60
 
 //--------- BACKGROUND -------
-#define BACKGROUND_CHANGING_REGULARITY 1 // HERE NORMAL = 4 at least, TEST= 1 : number in perfect pictures at a speed between 1 and 5
+#define BACKGROUND_CHANGING_REGULARITY 4 // HERE NORMAL = 4 at least, TEST= 1 : number in perfect pictures at a speed between 1 and 5
 
 //---------- SPEED -----------
 #define INITIAL_SPEED 3
 #define FINAL_SPEED 20
 #define SPEED_INCREASE_INTERVAL 0 // skipped frames before increasing the speed by SPEED_INCREASE_VALUE (below)
-#define SPEED_INCREASE_VALUE 1.0f // HERE NORMAL = 1.0f, test = 3.0f
+#define SPEED_INCREASE_VALUE 2.0f // HERE NORMAL = 1.0f, test = 3.0f
 
 //---------- GRAVITY ---------
 #define PROPULSION_STRENGHT 2.1f

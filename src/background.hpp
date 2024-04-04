@@ -7,7 +7,7 @@ class Background
 {
     int background_transformation_step = 0;
     int counter = BACKGROUND_CHANGING_REGULARITY;
-    int increaser = 0;
+    int first = 0;
     std::string picture[4]= {"../Assets/Backgrounds/1/background.png", "../Assets/Backgrounds/2/background.png", "../Assets/Backgrounds/3/background.png", "../Assets/Backgrounds/4/background.png"};
     sf::Texture images[4];
     sf::Sprite background1;
@@ -35,7 +35,7 @@ class Background
     void reset(sf::RenderWindow& window) {
         currentLevel = 0;
         counter = BACKGROUND_CHANGING_REGULARITY;
-        increaser = 0;
+        
         background_transformation_step = 0;
         setImage(window, 0);
         background2.setPosition(window.getSize().x, 0);
@@ -44,9 +44,14 @@ class Background
 
     void update(sf::RenderWindow& window, GameMusic& music) {
 
+        if (first == 0){
+            first = 1;
+            music.update();
+            return;
+        }
         moveIt(window);
-        checkChange(music);
-        updatePicture(window);
+        checkChange();
+        updatePictureAndMusic(window, music);
         window.clear();
         drawIt(window);
     }
@@ -63,11 +68,7 @@ class Background
             background1.setPosition(0, 0);}
     }
 
-    void checkChange(GameMusic& music) {
-
-        if (background1.getPosition().x == 0 || background2.getPosition().x == 0){
-            counter ++;
-        }
+    void checkChange() {
 
         int speedFactor = (int)(speed/5);
         if (speedFactor == 0) {speedFactor = 1;}
@@ -79,22 +80,27 @@ class Background
                 //UPDATE SPEED
                 speedUp();
                 //UPDATE MUSIC
-                music.update();
+                
             }
+        }
+        if (background1.getPosition().x == 0 || background2.getPosition().x == 0){
+            counter ++;
         }
     }
 
-    void updatePicture(sf::RenderWindow& window) {
+    void updatePictureAndMusic(sf::RenderWindow& window, GameMusic& music) {
         int window_width = window.getSize().x;
 
         if (background_transformation_step == 0){
             return;
         }else if (background_transformation_step == 1){
             if (background1.getPosition().x == 0 && background2.getPosition().x == window_width){
+                music.update();
                 setImage(window, 2);
                 background_transformation_step = 21;
                 return;
             }else if (background2.getPosition().x == 0 && background1.getPosition().x == window_width){
+                music.update();
                 setImage(window, 1);
                 background_transformation_step = 22;
                 return;
