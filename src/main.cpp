@@ -8,7 +8,7 @@
 #define SPEED_INCREASE_INTERVAL 10000 //skipped frames before increasing the speed by SPEED_INCREASE_VALUE (below)
 #define SPEED_INCREASE_VALUE 0.1f
 
-#define BACKGROUND_CHANGING_INTERVAL 1000 //number of frames before the background changes
+#define BACKGROUND_CHANGING_INTERVAL 100 //number of frames before the background changes
 
 #define INITIAL_Y_POS 450
 #define RUNNER_X_POS 200
