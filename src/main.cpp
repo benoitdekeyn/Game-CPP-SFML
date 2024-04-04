@@ -10,8 +10,7 @@ int main()
     int window_width = window.getSize().x;
     int window_height = window.getSize().y;
 
-     //---------- MUSIC -----------
-    GameMusic music;
+   
 
     //-------- BACKGROUND --------
     Background background(window);
@@ -44,7 +43,8 @@ int main()
     sf::Clock clock; // Start a timer
     sf::Clock animClock;
     
-   
+     //---------- MUSIC -----------
+    GameMusic music;
     
     
     //--------------------- MAIN LOOP ---------------------
@@ -67,7 +67,7 @@ int main()
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
             {
                 menuOn = false;
-                music.update();
+                
                 break;
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
