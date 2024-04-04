@@ -6,7 +6,8 @@ class Background
 {
     int n=0;
     int background_transformation_step = 0;
-    int counter = BACKGROUND_CHANGING_INTERVAL;
+    int counter = BACKGROUND_CHANGING_REGULARITY;
+    int increaser = 0;
     std::string picture[4]= {"../Assets/Backgrounds/1/background.png", "../Assets/Backgrounds/2/background.png", "../Assets/Backgrounds/3/background.png", "../Assets/Backgrounds/4/background.png"};
     sf::Texture images[4];
     sf::Sprite background1;
@@ -22,10 +23,10 @@ class Background
         
         sf::Vector2u textureSize = images[n].getSize();
         sf::Vector2u windowSize = window.getSize();
-
         background1.setScale((float)windowSize.x / textureSize.x, (float)windowSize.y / textureSize.y);
         background2.setScale((float)windowSize.x / textureSize.x, (float)windowSize.y / textureSize.y);
-    setImage(window, 0);
+
+        setImage(window, 0);
         background2.setPosition(window.getSize().x, 0);
         background1.setPosition(0, 0);
         drawIt(window);
@@ -53,14 +54,21 @@ class Background
     }
 
     void checkChange() {
-        if (counter == BACKGROUND_CHANGING_INTERVAL){ 
+
+        if (background1.getPosition().x == 0 || background2.getPosition().x == 0){
+            counter ++;
+        }
+
+        int speedFactor = (int)(speed/5);
+        if (speedFactor == 0) {speedFactor = 1;}
+        if (counter == BACKGROUND_CHANGING_REGULARITY * speedFactor){ 
             counter = 0;
             if (background_transformation_step == 0){ 
                 n++; if (n>3) n=0;
                 background_transformation_step = 1; //change As Soon As Possible : when one picture perfectly fits the screen
+                //UPDATE SPEED
+                speedUp();
             }
-        }else{
-            counter++;
         }
     }
 
@@ -85,13 +93,13 @@ class Background
             if (background2.getPosition().x == 0 && background1.getPosition().x == window_width){
                 setImage(window, 1);
                 background_transformation_step = 0;
-                counter = 0;
+                
             }
         }else if (background_transformation_step == 22){
             if (background1.getPosition().x == 0 && background2.getPosition().x == window_width){
                 setImage(window, 2);
                 background_transformation_step = 0;
-                counter = 0;
+                
             }
         }
     }
@@ -103,16 +111,6 @@ class Background
         if (background_number == 2 || background_number == 0) {
             background2.setTexture(images[n]);
         }
-
-        /* sf::Vector2u textureSize = images[n].getSize();
-        sf::Vector2u windowSize = window.getSize();
-
-        if (background_number == 1 || background_number == 0) {
-            background1.setScale((float)windowSize.x / textureSize.x, (float)windowSize.y / textureSize.y);
-        }
-        if (background_number == 2 || background_number == 0) {
-            background2.setScale((float)windowSize.x / textureSize.x, (float)windowSize.y / textureSize.y);
-        } */
     }
 
     void drawIt(sf::RenderWindow& window) {

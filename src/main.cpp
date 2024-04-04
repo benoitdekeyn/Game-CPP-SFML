@@ -71,10 +71,8 @@ int main()
 
         }
 
-        //UPDATE SPEED
-        speedUp();
-
-        //UPDATE BACKGROUND
+        
+        //UPDATE BACKGROUND and speed and music
         background.update(window);
 
         if (clock.getElapsedTime().asSeconds() > OBSTACLE_INTERVAL)
