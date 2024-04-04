@@ -118,7 +118,7 @@ public:
 
     Obstacle(sf::RenderWindow& window)
     {
-        shape.setSize(sf::Vector2f(OBSTACLE_WIDTH, OBSTACLE_WIDTH));
+        shape.setSize(sf::Vector2f(OBSTACLE_WIDTH, rand() % 150 + 30));
         shape.setFillColor(OBSTACLE_COLOR);
         position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
         shape.setPosition(position);

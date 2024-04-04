@@ -50,8 +50,9 @@ int main()
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)){
-                window.close();
                 exit(0);
+                window.close();
+                
             }
         }
         
@@ -65,8 +66,8 @@ int main()
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             {
-                window.close();
                 exit(0);
+                window.close();
             }
 
         }
@@ -126,15 +127,15 @@ int main()
                             }
                             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                             {
-                                window.close();
                                 exit(0);
+                                window.close();
                             }
                         }
                     }
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                     {
-                        window.close();
                         exit(0);
+                        window.close();
                     }
                 }
             }
@@ -148,7 +149,7 @@ int main()
         runAnim.update(elapsed.asSeconds());
         //------------------ END ANIMATION UPDATE  ------------------
         player.draw(window);
-        
+
         for (auto &obstacle : obstacles)
         {
             obstacle.draw(window);
