@@ -1,61 +1,51 @@
-#define WINDOW_WIDTH 1600
-#define WINDOW_HEIGHT 900
-#define COLOR_DEPTH 32
-#define SPEED 5
-#define HITBOX_RADIUS 40
-#define SPEED_UP_MAX 7
-#define PROPULSION_STRENGHT 2.1f
-#define PROPULSION_SMOOTHER 1.0f
-#define GRAVITY_STRENGHT 0.6f
-#define GRAVITY_SMOOTHER 0.01f
-#define OBSTACLE_WIDTH 50
-#define OBSTACLE_COLOR sf::Color::Red
-#define INITIAL_Y_POS 450
-#define RUNNER_X_POS 200
+#include "definitions.hpp"
 
-
-
-#include "gameOver.hpp"
-#include <vector>
-#include <iostream>
-#include "Character.hpp"
-#include "score.hpp"
-#include "sound.hpp"
-
-using namespace sf;
 int main()
 {
+    //------------------ INITIALIZATIONS ------------------
 
-    Runner player("../Assets/Character/NightBorne.png", sf::Vector2f(RUNNER_X_POS, window.getSize().y-HITBOX_RADIUS*2-INITIAL_Y_POS));
-    // {"../Assets/Character/NightBorne.png", Vector2f(00, 00)};
-    // Character obstacle{"../Assets/Character/NightBorne.png", Vector2f(00, 00)};
+    //---------- WINDOW ----------
+    window.setPosition(sf::Vector2i(0, 0));
+    window.setFramerateLimit(FPS);
+    int window_width = window.getSize().x;
+    int window_height = window.getSize().y;
 
+
+    //-------- BACKGROUND --------
+    Background background("../Assets/Backgrounds/background.png", window);
+
+    //----------- MENU -----------
+    Background menu("../Assets/Backgrounds/menunew.png", window);
+    bool menuOn = true;
+
+    //---------- PLAYER ----------
+    Runner player(sf::Vector2f(RUNNER_X_POS, window.getSize().y - INITIAL_Y_POS), window);
+
+    //--------- ANIMATION --------
+    Animation jumpAnim(player.sprite);
+    Animation runAnim(player.sprite);
+    Animation fallAnim(player.sprite);
+    Animation deathAnim(player.sprite);
+
+    addRunFrames(&runAnim);
+    addJumpFrames(&jumpAnim);
+    addFallFrames(&fallAnim);
+    addDeathFrames(&deathAnim);
+
+    //--------- OBSTACLES --------
     std::vector<Obstacle> obstacles;
+
+    //---------- SCORE -----------
     Score score(window);
 
+    //---------- CLOCK -----------
+    sf::Clock clock; // Start a timer
+
+    //---------- MUSIC -----------
     musicSound musicPlay("../music/Endless_sand.mp3");
     musicPlay.play();
 
-    // INIT
-    window.setPosition(sf::Vector2i(0, 0));
-    window.setFramerateLimit(60);
-    int speed = SPEED; // number of pixels per frame
-    sf::Texture backgroundTexture;
-    backgroundTexture.loadFromFile("../Assets/Backgrounds/background.png");
-    sf::Sprite background1(backgroundTexture);
-    sf::Sprite background2(backgroundTexture);
-    sf::Vector2u textureSize = backgroundTexture.getSize();
-    sf::Vector2u windowSize = window.getSize();
-    background1.setScale((float)windowSize.x / textureSize.x, (float)windowSize.y / textureSize.y);
-    background2.setScale((float)windowSize.x / textureSize.x, (float)windowSize.y / textureSize.y);
-    background2.setPosition(windowSize.x, 0);
-    int x_width_window = windowSize.x;
-
-    sf::Clock clock;               // Start a timer
-    float obstacleInterval = 0.5f; // Time in seconds between obstacles
-    int sco;
-
-    // MAIN LOOP
+    //--------------------- MAIN LOOP ---------------------
     while (window.isOpen())
     {
         sf::Event event;
@@ -64,31 +54,40 @@ int main()
             if (event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
                 window.close();
         }
+        
+        while(menuOn == true){
+            menu.drawBackground(window);
+            window.display();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+            {
+                menuOn = false;
+                break;
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+            {
+                window.close();
+                exit(0);
+            }
 
-        // BACKGROUND INIT
-        background1.move(-speed, 0);
-        background2.move(-speed, 0);
-        if (background1.getPosition().x <= -x_width_window)
-        {
-            background1.setPosition(x_width_window, 0);
         }
-        if (background2.getPosition().x <= -x_width_window)
-        {
-            background2.setPosition(x_width_window, 0);
-        }
+
+        //UPDATE SPEED
+        speedUp();
+
+        //UPDATE BACKGROUND
+        background.updateBackground(window);
         window.clear();
-        window.draw(background1);
-        window.draw(background2);
+        background.drawBackground(window);
 
-        if (clock.getElapsedTime().asSeconds() > obstacleInterval)
+        if (clock.getElapsedTime().asSeconds() > OBSTACLE_INTERVAL)
         {
-            obstacles.push_back(Obstacle());
+            obstacles.push_back(Obstacle(window));
             clock.restart();
         }
 
         for (auto it = obstacles.begin(); it != obstacles.end();)
         {
-            it->update();
+            it->update(window);
             if (it->position.x + it->shape.getSize().x < 0)
             {
                 it = obstacles.erase(it);
@@ -104,7 +103,7 @@ int main()
         {
             if (collisionWithObstacles(player, obstacle, window))
             {
-                sco = score.getScore();
+                int sco = score.getScore();
                 GameOver gameOver(window, sco);
                 gameOver.drawGameOver(window);
                 musicPlay.stop();
@@ -114,12 +113,10 @@ int main()
                 {
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
                     {
-                        // window.close();
                         main();
                     }
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
                     {
-                        // window.close();
                         Menu menu(window);
                         menu.drawMenu(window);
                         window.display();
@@ -135,7 +132,6 @@ int main()
                                 exit(0);
                             }
                         }
-
                     }
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                     {
@@ -145,12 +141,18 @@ int main()
                 }
             }
         }
-        player.update();
-        player.draw();
+
+        player.update(window);
+        player.draw(window);
+
+        //-------------------- ANIMATION UPDATE  --------------------
+        auto elapsed = clock.restart();
+        runAnim.update(elapsed.asSeconds());
+        //------------------ END ANIMATION UPDATE  ------------------
 
         for (auto &obstacle : obstacles)
         {
-            obstacle.draw();
+            obstacle.draw(window);
         }
 
         score.draw(window);

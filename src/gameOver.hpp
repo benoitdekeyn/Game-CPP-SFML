@@ -1,7 +1,5 @@
 #ifndef _OVER_
 #define _OVER_
-#include "Character.hpp"
-#include "score.hpp"
 
 class GameOver
 {
@@ -13,7 +11,7 @@ class GameOver
 public:
     GameOver(sf::RenderWindow &window, int finalScore)
     {
-        texture.loadFromFile("../Assets/Backgrounds/exit.png");
+        texture.loadFromFile("../Assets/Backgrounds/overnew.png");
         gameOver.setTexture(texture);
         //set scale
         float scale_x = window.getSize().x / gameOver.getLocalBounds().width;
@@ -62,7 +60,7 @@ class Menu
 public:
     Menu(sf::RenderWindow &window)
     {
-        texture.loadFromFile("../Assets/Backgrounds/menu.png");
+        texture.loadFromFile("../Assets/Backgrounds/menunew.png");
         menu.setTexture(texture);
         menu.setScale(window.getSize().x / menu.getLocalBounds().width, window.getSize().y / menu.getLocalBounds().height);
     }
