@@ -79,6 +79,7 @@ int main()
         
         //UPDATE BACKGROUND and speed and music
         background.update(window, music);
+        music.update();
 
         if (death)
         {
