@@ -5,8 +5,8 @@
 class GameMusic
 {   
     sf::Music music;
-    std::string BG_musics[4] = {"../Assets/Musics/Copacabana_Beach.mp3", "../Assets/Musics/Lost_Woods_BOTW_bg3.mp3", "../Assets/Musics/Shadow_Forest_bg4.mp3", "../Assets/Musics/Hinox_Battle_BOTW_bg1.mp3"};
-    std::string menu_music = "../Assets/Musics/Endless_sand.mp3";
+    std::string BG_musics[4] = {"../Assets/Musics/Copacabana_Beach.wav", "../Assets/Musics/Lost_Woods_BOTW.wav", "../Assets/Musics/Shadow_Forest.wav", "../Assets/Musics/Hinox_Battle_BOTW.wav"};
+    std::string menu_music = "../Assets/Musics/Endless_sand.wav";
 
 public:
     GameMusic()
@@ -24,7 +24,7 @@ public:
             music.setVolume(60);
         }
         else if(currentLevel == 1){
-            music.setVolume(100);
+            music.setVolume(90);
         }
         else if(currentLevel == 2){
             music.setVolume(100);
