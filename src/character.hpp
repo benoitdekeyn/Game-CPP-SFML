@@ -104,21 +104,31 @@ public:
 class Obstacle
 {
 public:
-    // The obstacle has a y position that is randomly generated and comes from the right of the screen to the left until it is off the screen or collides with the player.
-
     sf::RectangleShape shape;
     sf::Vector2f position;
-    sf::Vector2f velocity;
+    float speed;
 
-    Obstacle(sf::RenderWindow &window)
+    Obstacle()
     {
         shape.setSize(sf::Vector2f(OBSTACLE_WIDTH, rand() % 150 + 30));
         shape.setFillColor(OBSTACLE_COLOR);
-        position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
+        position = sf::Vector2f(0, 0); // Initialize position properly
+        speed = 3.0f; // Set a default speed
+    }
+
+    void move(float offsetX, float offsetY)
+    {
+        position.x += offsetX;
+        position.y += offsetY;
         shape.setPosition(position);
     }
 
-    void update(sf::RenderWindow &window)
+    sf::Vector2f getPosition()
+    {
+        return position;
+    }
+
+    void update()
     {
         position.x -= speed;
         shape.setPosition(position);
@@ -127,6 +137,65 @@ public:
     void draw(sf::RenderWindow &window)
     {
         window.draw(shape);
+    }
+};
+
+
+vector<Texture> coinTextures;
+
+// Load textures function
+void loadTextures()
+{
+    Texture texture;
+    if (texture.loadFromFile("../Assets/coin.png")) // Adjust path if needed
+    {
+        coinTextures.push_back(texture);
+    }
+    else
+    {
+        // std::cout << "Error loading texture" << std::endl;
+    }
+}
+
+class Coin {
+public:
+    sf::Vector2f position;
+    sf::Sprite sprite;
+    float speed;
+    // Constructor
+    Coin(sf::RenderWindow& window) {
+        if(!coinTextures.empty()) {
+            sprite.setTexture(coinTextures[0]); // Use the globally loaded texture
+        }
+        position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
+        sprite.setScale(0.08f, 0.08f);
+        sprite.setPosition(position);
+    }
+
+
+    // Method to update the coin's position
+    void move(float offsetX, float offsetY)
+    {
+        position.x += offsetX;
+        position.y += offsetY;
+        sprite.setPosition(position);
+    }
+
+    // Method to get the coin's position
+    sf::Vector2f getPosition() const
+    {
+        return position;
+    }
+    
+    void update()
+    {
+        position.x -= speed;
+        sprite.setPosition(position);
+    }
+
+    void draw(sf::RenderWindow& window)
+    {
+        window.draw(sprite);
     }
 };
 
