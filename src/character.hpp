@@ -3,13 +3,11 @@
 
 /**
  * The character class to manage every entity on screen
- * @param ImagePath (string): load an image's path to use a texture
  * @param Position (sf::Vector2f): the X and Y position of the character
  */
 class Runner
 {
 public:
-
     // VARAIABLES FOR THE GRAVITY AND PROPULSION
     int speedUpMax = SPEED_UP_MAX;
     float propulsion_strenght = PROPULSION_STRENGHT;
@@ -19,7 +17,7 @@ public:
 
     RectangleShape hitbox;
     Texture texture;
-    Sprite sprite;
+    sf::Sprite sprite;
     sf::Vector2f position;
     sf::Vector2f velocity;
     sf::Vector2f propulsion;
@@ -33,16 +31,15 @@ public:
     float top_offset = TOP_OFFSET;
 
 
-    Runner(String ImagePath, Vector2f Position, sf::RenderWindow& window)
+    Runner(Vector2f Position, sf::RenderWindow& window)
     {
-        texture.loadFromFile(ImagePath);
         position = Position;
+        texture.loadFromFile("../Assets/Character/NightBorne.png");
 
         texture.setSmooth(true);
         texture.setRepeated(false);
         sprite.setTexture(texture);
-        sprite.setTextureRect(sf::IntRect(20, 0, 100, 100));
-        sprite.setScale(1.2, 1.2);
+        sprite.setScale(1.4, 1.4);
         sprite.setPosition(position);
 
         gravity = sf::Vector2f(0, gravity_strenght);
@@ -59,9 +56,12 @@ public:
 
        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         {
-            if (velocity.y > -speedUpMax){
+            if (velocity.y > -speedUpMax)
+            {
                 velocity.y += propulsion.y * propulsionFactor;
-            }else{
+            }
+            else
+            {
                 velocity.y = -speedUpMax;
             }
             deceleration = gravity_smoother; // Reset the deceleration factor when pressing the up key
@@ -86,8 +86,10 @@ public:
         if(preprocess_position.y < 0 - top_offset)
         {
             velocity.y = 0;
+            deceleration = gravity_smoother;    // Increase the deceleration factor over time
+            propulsionFactor = 1.0f;             // Reset the propulsion factor when not pressing the up key
+            propulsion.y = -propulsion_strenght; // Reset the propulsion when not pressing the up key
         }
-
         sprite.move(velocity.x, velocity.y);
         hitbox.move(velocity.x, velocity.y);
     }

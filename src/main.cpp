@@ -1,90 +1,67 @@
-#define WINDOW_WIDTH 1600
-#define WINDOW_HEIGHT 900
-#define COLOR_DEPTH 32
-#define FPS 60
-
-#define INITIAL_SPEED 8
-#define FINAL_SPEED 8
-#define SPEED_INCREASE_INTERVAL 10000 //skipped frames before increasing the speed by SPEED_INCREASE_VALUE (below)
-#define SPEED_INCREASE_VALUE 0.1f
-
-#define BACKGROUND_CHANGING_INTERVAL 100 //number of frames before the background changes
-
-#define INITIAL_Y_POS 450
-#define RUNNER_X_POS 200
-#define TOP_OFFSET 3
-#define BOTTOM_OFFSET -2
-
-#define HITBOX_WIDTH 55
-#define HITBOX_HEIGHT 60
-#define HITBOX_OFFSET sf::Vector2f(40, 6)
-
-#define SPEED_UP_MAX 7
-#define PROPULSION_STRENGHT 2.1f
-#define PROPULSION_SMOOTHER 1.0f
-#define GRAVITY_STRENGHT 0.6f
-#define GRAVITY_SMOOTHER 0.01f
-
-#define OBSTACLE_WIDTH 50
-#define OBSTACLE_COLOR sf::Color::Red
-#define OBSTACLE_INTERVAL 0.5f
-
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/System.hpp>
-#include <vector>
-
-using namespace sf;
-using namespace std;
-
-#include "speed.hpp"
-#include "background.hpp"
-#include "character.hpp"
-#include "score.hpp"
-#include "gameOver.hpp"
+#include "definitions.hpp"
 
 int main()
 {
-    // INTIALIZE WINDOW
-    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, COLOR_DEPTH), "SFML works!");
+    //------------------ INITIALIZATIONS ------------------
+
+    //---------- WINDOW ----------
     window.setPosition(sf::Vector2i(0, 0));
     window.setFramerateLimit(FPS);
     int window_width = window.getSize().x;
     int window_height = window.getSize().y;
 
-    // INITIALIZE BACKGROUND
+
+    //-------- BACKGROUND --------
     Background background(window);
+
+    //----------- MENU -----------
     Menu menu(window);
-
-    // INITIALIZE PLAYER
-    Runner player("../Assets/Character/NightBorne.png", sf::Vector2f(RUNNER_X_POS, window.getSize().y - INITIAL_Y_POS), window);
-
-    // INITIALIZE OBSTACLES
-    std::vector<Obstacle> obstacles;
-    Score score(window);
-
     bool menuOn = true;
 
-    sf::Clock clock; // Start a timer
+    //---------- PLAYER ----------
+    Runner player(sf::Vector2f(RUNNER_X_POS, window.getSize().y - INITIAL_Y_POS), window);
 
-    // MAIN LOOP
+    //--------- ANIMATION --------
+    Animation jumpAnim(player.sprite);
+    Animation runAnim(player.sprite);
+    Animation fallAnim(player.sprite);
+    Animation deathAnim(player.sprite);
+
+    addRunFrames(&runAnim);
+    addJumpFrames(&jumpAnim);
+    addFallFrames(&fallAnim);
+    addDeathFrames(&deathAnim);
+
+    //--------- OBSTACLES --------
+    std::vector<Obstacle> obstacles;
+
+    //---------- SCORE -----------
+    Score score(window);
+
+    //---------- CLOCK -----------
+    sf::Clock clock; // Start a timer
+    sf::Clock animClock;
+    
+
+    //--------------------- MAIN LOOP ---------------------
     while (window.isOpen())
     {
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
+            if (event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)){
                 window.close();
+                exit(0);
+            }
         }
         
         while(menuOn == true){
-            menu.drawIt(window);
+            menu.draw(window);
             window.display();
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
             {
                 menuOn = false;
                 break;
-            
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             {
@@ -127,7 +104,7 @@ int main()
                 GameOver gameOver(window);
                 gameOver.drawGameOver(window);
                 window.display();
-                score.drawIt(window);
+                score.draw(window);
                 while (true)
                 {
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
@@ -137,7 +114,7 @@ int main()
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
                     {
                         Menu menu(window);
-                        menu.drawIt(window);
+                        menu.draw(window);
                         window.display();
                         while (true)
                         {
@@ -162,14 +139,20 @@ int main()
         }
 
         player.update(window);
-        player.drawIt(window);
+        
 
+        //-------------------- ANIMATION UPDATE  --------------------
+        auto elapsed = animClock.restart();
+        runAnim.update(elapsed.asSeconds());
+        //------------------ END ANIMATION UPDATE  ------------------
+        player.draw(window);
+        
         for (auto &obstacle : obstacles)
         {
-            obstacle.drawIt(window);
+            obstacle.draw(window);
         }
 
-        score.drawIt(window);
+        score.draw(window);
         window.display();
     }
     return 0;
