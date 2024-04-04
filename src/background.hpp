@@ -1,10 +1,10 @@
 #ifndef BACKGROUND_HPP
 #define BACKGROUND_HPP
 
+int currentLevel=0;
 
 class Background
 {
-    int n=0;
     int background_transformation_step = 0;
     int counter = BACKGROUND_CHANGING_REGULARITY;
     int increaser = 0;
@@ -21,7 +21,7 @@ class Background
             images[i].loadFromFile(picture[i]);
         }
         
-        sf::Vector2u textureSize = images[n].getSize();
+        sf::Vector2u textureSize = images[currentLevel].getSize();
         sf::Vector2u windowSize = window.getSize();
         background1.setScale((float)windowSize.x / textureSize.x, (float)windowSize.y / textureSize.y);
         background2.setScale((float)windowSize.x / textureSize.x, (float)windowSize.y / textureSize.y);
@@ -30,6 +30,15 @@ class Background
         background2.setPosition(window.getSize().x, 0);
         background1.setPosition(0, 0);
         drawIt(window);
+    }
+    void reset(sf::RenderWindow& window) {
+        currentLevel = 0;
+        counter = BACKGROUND_CHANGING_REGULARITY;
+        increaser = 0;
+        background_transformation_step = 0;
+        setImage(window, 0);
+        background2.setPosition(window.getSize().x, 0);
+        background1.setPosition(0, 0);
     }
 
     void update(sf::RenderWindow& window) {
@@ -64,7 +73,7 @@ class Background
         if (counter == BACKGROUND_CHANGING_REGULARITY * speedFactor){ 
             counter = 0;
             if (background_transformation_step == 0){ 
-                n++; if (n>3) n=0;
+                currentLevel++; if (currentLevel>3) currentLevel=0;
                 background_transformation_step = 1; //change As Soon As Possible : when one picture perfectly fits the screen
                 //UPDATE SPEED
                 speedUp();
@@ -106,10 +115,10 @@ class Background
 
     void setImage(sf::RenderWindow& window, int background_number=0){ //0 = both, 1 = back 1 and 2 = back2
         if (background_number == 1 || background_number == 0) {
-            background1.setTexture(images[n]);
+            background1.setTexture(images[currentLevel]);
         }
         if (background_number == 2 || background_number == 0) {
-            background2.setTexture(images[n]);
+            background2.setTexture(images[currentLevel]);
         }
     }
 
