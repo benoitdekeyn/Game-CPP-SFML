@@ -94,7 +94,7 @@ int main()
                 auto elapsed = animClock.restart();
                 deathAnim.update(elapsed.asSeconds());
             }
-            if (animationStarted && deathClock.getElapsedTime().asSeconds() >= 3.23)
+            if (animationStarted && deathClock.getElapsedTime().asSeconds() >= 2.3)
             {
                 int sco = score.getScore();
                 background.reset(window);
