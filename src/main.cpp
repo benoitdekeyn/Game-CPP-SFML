@@ -10,9 +10,11 @@ int main()
     int window_width = window.getSize().x;
     int window_height = window.getSize().y;
 
-
+     //---------- MUSIC -----------
+    GameMusic music;
+    
     //-------- BACKGROUND --------
-    Background background(window);
+    Background background(window, music);
 
     //----------- MENU -----------
     Menu menu(window);
@@ -42,8 +44,8 @@ int main()
     sf::Clock clock; // Start a timer
     sf::Clock animClock;
     
-    //---------- MUSIC -----------*
-    GameMusic music;
+   
+    
     
     //--------------------- MAIN LOOP ---------------------
     while (window.isOpen())
