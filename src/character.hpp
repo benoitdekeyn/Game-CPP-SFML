@@ -149,9 +149,8 @@ public:
         hitbox.setPosition(position);
     }
 
-    sf::Vector2f getPosition()
-    {
-        return position;
+    sf::Vector2f getPosition() const {
+        return sprite.getPosition();
     }
 
     void update()
@@ -206,6 +205,11 @@ public:
         }
         // set a y position that doesn't overlap with obstacles   
         position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
+        for (Obstacle& obstacle : obstacles) {
+            while (position.y > obstacle.getPosition().y - 100 && position.y < obstacle.getPosition().y + 100) {
+                position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
+            }
+        }
         
         // set sprite scale and position
         sprite.setScale(0.08f, 0.08f);
