@@ -92,25 +92,25 @@ void addDeathFrames(Animation *deathAnim)
     deathAnim->addFrame({sf::IntRect(0, 210, 100, 100), 0.15});
     deathAnim->addFrame({sf::IntRect(140, 210, 100, 100), 0.15});
     deathAnim->addFrame({sf::IntRect(280, 210, 100, 100), 0.15});
-    deathAnim->addFrame({sf::IntRect(420, 210, 100, 100), 0.15});
-    deathAnim->addFrame({sf::IntRect(560, 210, 100, 100), 0.15});
-    deathAnim->addFrame({sf::IntRect(700, 210, 100, 100), 0.15});
-    deathAnim->addFrame({sf::IntRect(840, 210, 100, 100), 0.15});
-    deathAnim->addFrame({sf::IntRect(980, 210, 100, 100), 0.15});
-    deathAnim->addFrame({sf::IntRect(1120, 210, 100, 100), 0.15});
-    deathAnim->addFrame({sf::IntRect(1260, 210, 100, 100), 0.15});
-    deathAnim->addFrame({sf::IntRect(1400, 210, 100, 100), 0.15});
-    deathAnim->addFrame({sf::IntRect(1540, 210, 100, 100), 0.15});
-    deathAnim->addFrame({sf::IntRect(1680, 210, 100, 100), 0.15});
-    deathAnim->addFrame({sf::IntRect(1820, 210, 100, 100), 0.15});
-    deathAnim->addFrame({sf::IntRect(1960, 210, 100, 100), 0.15});
-    deathAnim->addFrame({sf::IntRect(2100, 210, 100, 100), 0.15});
-    deathAnim->addFrame({sf::IntRect(2240, 210, 100, 100), 0.15});
-    deathAnim->addFrame({sf::IntRect(2380, 210, 100, 100), 0.15});
-    deathAnim->addFrame({sf::IntRect(2520, 210, 100, 100), 0.15});
-    deathAnim->addFrame({sf::IntRect(2660, 210, 100, 100), 0.15});
-    deathAnim->addFrame({sf::IntRect(2800, 210, 100, 100), 0.15});
-    deathAnim->addFrame({sf::IntRect(2940, 210, 100, 100), 0.15});
+    deathAnim->addFrame({sf::IntRect(420, 210, 100, 100),  0.15});
+    deathAnim->addFrame({sf::IntRect(560, 210, 100, 100),  0.1});
+    deathAnim->addFrame({sf::IntRect(700, 210, 100, 100),  0.1});
+    deathAnim->addFrame({sf::IntRect(840, 210, 100, 100),  0.1});
+    deathAnim->addFrame({sf::IntRect(980, 210, 100, 100),  0.1});
+    deathAnim->addFrame({sf::IntRect(1120, 210, 100, 100),  0.1});
+    deathAnim->addFrame({sf::IntRect(1260, 210, 100, 100),  0.1});
+    deathAnim->addFrame({sf::IntRect(1400, 210, 100, 100),  0.1});
+    deathAnim->addFrame({sf::IntRect(1540, 210, 100, 100),  0.1});
+    deathAnim->addFrame({sf::IntRect(1680, 210, 100, 100),  0.1});
+    deathAnim->addFrame({sf::IntRect(1820, 210, 100, 100),  0.1});
+    deathAnim->addFrame({sf::IntRect(1960, 210, 100, 100),  0.1});
+    deathAnim->addFrame({sf::IntRect(2100, 210, 100, 100),  0.1});
+    deathAnim->addFrame({sf::IntRect(2240, 210, 100, 100),  0.1});
+    deathAnim->addFrame({sf::IntRect(2380, 210, 100, 100),  0.1});
+    deathAnim->addFrame({sf::IntRect(2520, 210, 100, 100),  0.1});
+    deathAnim->addFrame({sf::IntRect(2660, 210, 100, 100),  0.1});
+    deathAnim->addFrame({sf::IntRect(2800, 210, 100, 100),  0.1});
+    deathAnim->addFrame({sf::IntRect(2940, 210, 100, 100),  0.1});
 }
 
 void animationUpdate(double elapsed, Runner player, sf::RenderWindow &window, Animation animations[3])

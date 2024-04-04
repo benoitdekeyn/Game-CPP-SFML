@@ -3,6 +3,7 @@
 int main()
 {
     //------------------ INITIALIZATIONS ------------------
+    loadTextures();
 
     //---------- WINDOW ----------
     window.setPosition(sf::Vector2i(0, 0));
@@ -33,7 +34,10 @@ int main()
 
     Animation animations[3] = {runAnim, jumpAnim, fallAnim};
     //--------- OBSTACLES --------
-    std::vector<Obstacle> obstacles;
+    // std::vector<Obstacle> obstacles;
+
+    //----------- COINS -----------
+    std::vector<Coin> coins;
 
     //---------- SCORE -----------
     Score score(window);
@@ -83,7 +87,7 @@ int main()
 
         if (death)
         {
-            obstacles.clear();
+            // obstacles.clear();
             if (!animationStarted)
             {
                 deathAnim.progress = 0.0;
@@ -95,7 +99,7 @@ int main()
                 auto elapsed = animClock.restart();
                 deathAnim.update(elapsed.asSeconds());
             }
-            if (animationStarted && deathClock.getElapsedTime().asSeconds() >= 3.23)
+            if (animationStarted && deathClock.getElapsedTime().asSeconds() >= 2.3)
             {
                 int sco = score.getScore();
                 background.reset(window);
@@ -148,31 +152,59 @@ int main()
         }
         if (clock.getElapsedTime().asSeconds() > OBSTACLE_INTERVAL && !death)
         {
-            obstacles.push_back(Obstacle(window));
+            // push a new obstacle to the array
+            // obstacles.push_back(Obstacle());
+
+            // push a new coin to the array
+			coins.push_back(Coin(window));
+
             clock.restart();
         }
 
-        for (auto it = obstacles.begin(); it != obstacles.end();)
+        // move coins
+		if (!coins.empty()) 
         {
-            it->update(window);
-            if (it->position.x + it->shape.getSize().x < 0)
-            {
-                it = obstacles.erase(it);
-                score.increment();
-            }
-            else
-            {
-                ++it;
-            }
-        }
+			for (vector<Coin>::iterator itr = coins.begin(); itr != coins.end(); itr++) {
+				(*itr).move(-3, 0);
+			}
+		}
 
-        for (auto &obstacle : obstacles)
-        {
-            if (collisionWithObstacles(player, obstacle, window))
-            {
-                death = true;
-            }
-        }
+        // move obstacles
+        // if (!obstacles.empty())
+        // {
+        //     for (vector<Obstacle>::iterator itr = obstacles.begin(); itr != obstacles.end(); itr++)
+        //     {
+        //         (*itr).move(-3, 0);
+        //     }
+        // }
+
+        // remove coins if offscreen
+		// if (!obstacles.empty() && obstacles.front().getPosition().x < -104) 
+        // {
+        //     if (collisionWithObstacles(player, obstacle, window))
+        //     {
+        //         death = true;
+        //     }
+        // }
+
+        // remove coins if offscreen
+        if (!coins.empty() && coins.front().getPosition().x < -104) {
+			vector<Coin>::iterator startitr = coins.begin();
+			vector<Coin>::iterator enditr = coins.begin();
+
+			for (; enditr != coins.end(); enditr++) {
+				if ((*enditr).getPosition().x > -104) {
+					break;
+				}
+			}
+
+			coins.erase(startitr, enditr);
+		}
+
+        // draw coins
+        for (vector<Coin>::iterator itr = coins.begin(); itr != coins.end(); itr++) {
+			window.draw((*itr).sprite);
+		}
 
         //-------------------- ANIMATION UPDATE  --------------------
         if (!death)
@@ -183,11 +215,6 @@ int main()
         }
         //------------------ END ANIMATION UPDATE  ------------------
         player.draw(window);
-
-        for (auto &obstacle : obstacles)
-        {
-            obstacle.draw(window);
-        }
 
         score.draw(window);
         window.display();
