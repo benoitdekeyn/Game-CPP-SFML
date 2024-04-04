@@ -59,9 +59,9 @@ int main()
                 
             }
         }
-        
+        if (menuOn == true){music.playMenu();}
         while(menuOn == true){
-            //music.playMenu();
+            
             menu.draw(window);
             window.display();
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
