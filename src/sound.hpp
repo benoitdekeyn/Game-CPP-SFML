@@ -1,9 +1,6 @@
 #ifndef _SOUND_
 #define _SOUND_
 
-#include <SFML/Audio.hpp>
-#include <string.h>
-#include <unistd.h>
 
 class musicSound
 {

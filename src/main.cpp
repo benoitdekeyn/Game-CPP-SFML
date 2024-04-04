@@ -43,9 +43,9 @@ int main()
     sf::Clock animClock;
     
     //---------- MUSIC -----------
-    musicSound musicPlay("../music/Endless_sand.mp3");
+    /* musicSound musicPlay("../music/Endless_sand.mp3");
     musicPlay.play();
-
+ */
     //--------------------- MAIN LOOP ---------------------
     while (window.isOpen())
     {
@@ -106,7 +106,7 @@ int main()
                 int sco = score.getScore();
                 GameOver gameOver(window, sco);
                 gameOver.drawGameOver(window);
-                musicPlay.stop();
+                //musicPlay.stop();
                 window.display();
                 score.draw(window);
                 while (true)

@@ -43,13 +43,16 @@
 #define OBSTACLE_INTERVAL 0.5f
 
 //----------- SFML -----------
+#include <string.h>
+//#include <unistd.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
+//#include <SFML/Audio.hpp>
+#include <vector>
+
 using namespace sf;
 using namespace std;
-
-#include <vector>
 
 //---------- HEADERS ---------
 #include "speed.hpp"
@@ -58,7 +61,7 @@ using namespace std;
 #include "score.hpp"
 #include "gameOver.hpp"
 #include "animation.hpp"
-#include "sound.hpp"
+//#include "sound.hpp"
 
 //---------- WINDOW ----------
 sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, COLOR_DEPTH), "SFML works!");
