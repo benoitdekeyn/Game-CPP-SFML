@@ -14,10 +14,10 @@
 
 //---------- SPEED -----------
 
-#define INITIAL_SPEED 3 
+#define INITIAL_SPEED 3
 #define FINAL_SPEED 20
 #define SPEED_INCREASE_INTERVAL 0 // skipped frames before increasing the speed by SPEED_INCREASE_VALUE (below)
-#define SPEED_INCREASE_VALUE 1.0f //HERE NORMAL = 1.0f, test = 3.0f
+#define SPEED_INCREASE_VALUE 1.0f // HERE NORMAL = 1.0f, test = 3.0f
 
 //---------- GRAVITY ---------
 #define PROPULSION_STRENGHT 2.1f
@@ -59,6 +59,9 @@ using namespace std;
 #include "score.hpp"
 #include "gameOver.hpp"
 #include "animation.hpp"
+
+//---------- MENU ---------
+bool menuOn = true;
 
 //---------- WINDOW ----------
 sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, COLOR_DEPTH), "SFML works!");

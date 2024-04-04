@@ -108,31 +108,33 @@ int main()
                 gameOver.drawGameOver(window);
                 window.display();
                 score.draw(window);
-                while (true)
+                sf::Event event;
+                while (window.waitEvent(event))
                 {
-                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+                    if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Enter))
                     {
                         main();
                     }
-                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
+                    if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::M))
                     {
                         Menu menu(window);
                         menu.draw(window);
                         window.display();
+                        sf::Event secondEvent;
                         while (true)
                         {
-                            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+                            if ((secondEvent.type == sf::Event::KeyPressed) && (secondEvent.key.code == sf::Keyboard::Enter))
                             {
                                 main();
                             }
-                            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+                            if ((secondEvent.type == sf::Event::KeyPressed) && (secondEvent.key.code == sf::Keyboard::Escape))
                             {
                                 exit(0);
                                 window.close();
                             }
                         }
                     }
-                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+                    if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape))
                     {
                         exit(0);
                         window.close();
