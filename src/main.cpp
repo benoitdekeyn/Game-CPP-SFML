@@ -16,7 +16,7 @@ int main()
 
     //----------- MENU -----------
     Menu menu(window);
-    bool menuOn = true;
+    // bool menuOn = true;
 
     //---------- PLAYER ----------
     Runner player(sf::Vector2f(RUNNER_X_POS, window.getSize().y - INITIAL_Y_POS), window);
