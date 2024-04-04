@@ -35,7 +35,7 @@ class Background
     void reset(sf::RenderWindow& window) {
         currentLevel = 0;
         counter = BACKGROUND_CHANGING_REGULARITY;
-        increaser = 0;
+        
         background_transformation_step = 0;
         setImage(window, 0);
         background2.setPosition(window.getSize().x, 0);
