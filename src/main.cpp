@@ -12,10 +12,10 @@ int main()
 
 
     //-------- BACKGROUND --------
-    Background background("../Assets/Backgrounds/background.png", window);
+    Background background(window);
 
     //----------- MENU -----------
-    Background menu("../Assets/Backgrounds/menunew.png", window);
+    Menu menu(window);
     bool menuOn = true;
 
     //---------- PLAYER ----------
@@ -43,9 +43,7 @@ int main()
     sf::Clock animClock;
     
     //---------- MUSIC -----------
-    musicSound musicPlay("../music/Endless_sand.mp3");
-    musicPlay.play();
-
+    
     //--------------------- MAIN LOOP ---------------------
     while (window.isOpen())
     {
@@ -60,7 +58,7 @@ int main()
         }
         
         while(menuOn == true){
-            menu.drawBackground(window);
+            menu.draw(window);
             window.display();
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
             {
@@ -75,13 +73,9 @@ int main()
 
         }
 
-        //UPDATE SPEED
-        speedUp();
-
-        //UPDATE BACKGROUND
-        background.updateBackground(window);
-        window.clear();
-        background.drawBackground(window);
+        
+        //UPDATE BACKGROUND and speed and music
+        background.update(window);
 
         if (clock.getElapsedTime().asSeconds() > OBSTACLE_INTERVAL)
         {
@@ -108,9 +102,10 @@ int main()
             if (collisionWithObstacles(player, obstacle, window))
             {
                 int sco = score.getScore();
+                background.reset(window);
+                speedReset();
                 GameOver gameOver(window, sco);
                 gameOver.drawGameOver(window);
-                musicPlay.stop();
                 window.display();
                 score.draw(window);
                 while (true)
@@ -122,7 +117,7 @@ int main()
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
                     {
                         Menu menu(window);
-                        menu.drawMenu(window);
+                        menu.draw(window);
                         window.display();
                         while (true)
                         {

@@ -65,7 +65,7 @@ public:
         menu.setScale(window.getSize().x / menu.getLocalBounds().width, window.getSize().y / menu.getLocalBounds().height);
     }
 
-    void drawMenu(sf::RenderWindow &window)
+    void draw(sf::RenderWindow &window)
     {
         window.draw(menu);
     }
