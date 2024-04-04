@@ -45,7 +45,7 @@ public:
 
 bool collisionWithObstacles(Runner player, Obstacle obstacle, sf::RenderWindow &window)
 {
-    if (player.hitbox.getGlobalBounds().intersects(obstacle.shape.getGlobalBounds()))
+    if (player.hitbox.getGlobalBounds().intersects(obstacle.hitbox.getGlobalBounds()))
     {
         return true;
     }

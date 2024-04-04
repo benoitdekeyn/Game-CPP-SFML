@@ -118,10 +118,11 @@ void loadObstacleTextures()
 // OBSTACLES
 class Obstacle {
 public:
-    sf::RectangleShape shape;
+    sf::RectangleShape hitbox;
     sf::Vector2f position;
     sf::Sprite sprite; // Use sf::Sprite instead of sf::RectangleShape
     float speed;
+    bool scored;
 
     Obstacle(sf::RenderWindow &window)
     {
@@ -129,8 +130,15 @@ public:
             sprite.setTexture(obstacleTextures[0]); // Use the globally loaded texture
         }
         position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
+
+        // set sprite scale and position
         sprite.setScale(0.15f, 0.15f);
         sprite.setPosition(position);
+
+        // set hitbox size and position
+        hitbox.setSize(sf::Vector2f(60, 60));
+        hitbox.setPosition(position);
+        hitbox.setFillColor(sf::Color::Red);
     }
 
     void move(float offsetX, float offsetY)
@@ -138,6 +146,7 @@ public:
         position.x += offsetX;
         position.y += offsetY;
         sprite.setPosition(position);
+        hitbox.setPosition(position);
     }
 
     sf::Vector2f getPosition()
@@ -149,15 +158,23 @@ public:
     {
         position.x -= speed;
         sprite.setPosition(position);
+        hitbox.setPosition(position);
     }
 
     void draw(sf::RenderWindow &window)
     {
         window.draw(sprite); // Draw the sprite instead of the shape
+        // window.draw(hitbox);
+    }
+
+    bool hasScored() const {
+        return scored;
+    }
+
+    void setScored(bool value) {
+        scored = value;
     }
 };
-
-
 
 vector<Texture> coinTextures;
 
@@ -177,6 +194,8 @@ void loadCoinTextures()
 
 class Coin {
 public:
+
+    sf::RectangleShape hitbox;
     sf::Vector2f position;
     sf::Sprite sprite;
     float speed;
@@ -186,6 +205,7 @@ public:
             sprite.setTexture(coinTextures[0]); // Use the globally loaded texture
         }
         position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
+        // set sprite scale and position
         sprite.setScale(0.08f, 0.08f);
         sprite.setPosition(position);
     }
@@ -197,6 +217,7 @@ public:
         position.x += offsetX;
         position.y += offsetY;
         sprite.setPosition(position);
+        // hitbox.setPosition(position);
     }
 
     // Method to get the coin's position
@@ -209,11 +230,13 @@ public:
     {
         position.x -= speed;
         sprite.setPosition(position);
+        // hitbox.setPosition(position);
     }
 
     void draw(sf::RenderWindow& window)
     {
         window.draw(sprite);
+        // window.draw(hitbox);
     }
 };
 

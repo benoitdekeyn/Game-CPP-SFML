@@ -215,24 +215,35 @@ int main()
 			coins.erase(startitr, enditr);
 		}
 
-        // check for collisions
+        // Check for collisions and increment score
         for (vector<Obstacle>::iterator itr = obstacles.begin(); itr != obstacles.end(); itr++)
         {
-            if (player.sprite.getGlobalBounds().intersects((*itr).sprite.getGlobalBounds()))
+            // Check if obstacle has passed the player without collision
+            if ((*itr).hitbox.getPosition().x + OBSTACLE_WIDTH < player.hitbox.getPosition().x && !(*itr).hasScored())
+            {
+                score.increment();
+                (*itr).setScored(true);
+            }
+
+            // Check for collision with player
+            if (player.hitbox.getGlobalBounds().intersects((*itr).hitbox.getGlobalBounds()))
             {
                 death = true;
                 music.stop();
             }
         }
 
+
         // draw obstacles
         for (vector<Obstacle>::iterator itr = obstacles.begin(); itr != obstacles.end(); itr++) {
-			window.draw((*itr).sprite);
+			// draw with the function from the class
+            (*itr).draw(window);
 		}
 
         // draw coins
         for (vector<Coin>::iterator itr = coins.begin(); itr != coins.end(); itr++) {
-			window.draw((*itr).sprite);
+			// draw with the function from the class
+            (*itr).draw(window);
 		}
 
         //-------------------- ANIMATION UPDATE  --------------------
