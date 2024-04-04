@@ -4,7 +4,6 @@
 
 class Music
 {
-
     std::string musics[4] = {"../Assets/Sounds/BackgroundMusic1.wav", "../Assets/Sounds/BackgroundMusic2.wav", "../Assets/Sounds/BackgroundMusic3.wav", "../Assets/Sounds/BackgroundMusic4.wav"};
 
 public:
@@ -22,7 +21,9 @@ public:
     {
         music.stop();
     }
-    void setMusic()
+    void changeMusic(){
+        music.openFromFile(musics[random]);
+    }
 
 private:
     sf::Music music;
