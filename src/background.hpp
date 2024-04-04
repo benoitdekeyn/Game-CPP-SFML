@@ -15,7 +15,7 @@ class Background
 
     public:
 
-    Background(sf::RenderWindow& window) {
+    Background(sf::RenderWindow& window, GameMusic& music) {
         
         for (int i = 0; i < 4; ++i) {
             images[i].loadFromFile(picture[i]);
@@ -30,6 +30,9 @@ class Background
         background2.setPosition(window.getSize().x, 0);
         background1.setPosition(0, 0);
         drawIt(window);
+
+        music.update();
+
     }
     void reset(sf::RenderWindow& window) {
         currentLevel = 0;
