@@ -40,6 +40,8 @@ int main()
 
     //---------- CLOCK -----------
     sf::Clock clock; // Start a timer
+    sf::Clock animClock;
+    
 
     //--------------------- MAIN LOOP ---------------------
     while (window.isOpen())
@@ -47,8 +49,10 @@ int main()
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
+            if (event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)){
                 window.close();
+                exit(0);
+            }
         }
         
         while(menuOn == true){
@@ -137,13 +141,14 @@ int main()
         }
 
         player.update(window);
-        player.draw(window);
+        
 
         //-------------------- ANIMATION UPDATE  --------------------
-        auto elapsed = clock.restart();
+        auto elapsed = animClock.restart();
         runAnim.update(elapsed.asSeconds());
         //------------------ END ANIMATION UPDATE  ------------------
-
+        player.draw(window);
+        
         for (auto &obstacle : obstacles)
         {
             obstacle.draw(window);
