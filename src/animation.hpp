@@ -14,10 +14,10 @@ class Animation
 {
     std::vector<Frame> frames;
     double totalLength;
-    double progress;
     sf::Sprite &target;
 
 public:
+    double progress;
     Animation(sf::Sprite &target);
     void addFrame(Frame &&frame);
     void update(double elapsed);
@@ -89,27 +89,45 @@ void addFallFrames(Animation *fallAnim)
 void addDeathFrames(Animation *deathAnim)
 {
     // Add frames to the death animation
-    deathAnim->addFrame({sf::IntRect(0, 210, 100, 100), 0.1});
-    deathAnim->addFrame({sf::IntRect(140, 210, 100, 100), 0.1});
-    deathAnim->addFrame({sf::IntRect(280, 210, 100, 100), 0.1});
-    deathAnim->addFrame({sf::IntRect(420, 210, 100, 100), 0.1});
-    deathAnim->addFrame({sf::IntRect(560, 210, 100, 100), 0.1});
-    deathAnim->addFrame({sf::IntRect(700, 210, 100, 100), 0.1});
-    deathAnim->addFrame({sf::IntRect(840, 210, 100, 100), 0.1});
-    deathAnim->addFrame({sf::IntRect(980, 210, 100, 100), 0.1});
-    deathAnim->addFrame({sf::IntRect(1120, 210, 100, 100), 0.1});
-    deathAnim->addFrame({sf::IntRect(1260, 210, 100, 100), 0.1});
-    deathAnim->addFrame({sf::IntRect(1400, 210, 100, 100), 0.1});
-    deathAnim->addFrame({sf::IntRect(1540, 210, 100, 100), 0.1});
-    deathAnim->addFrame({sf::IntRect(1680, 210, 100, 100), 0.1});
-    deathAnim->addFrame({sf::IntRect(1820, 210, 100, 100), 0.1});
-    deathAnim->addFrame({sf::IntRect(1960, 210, 100, 100), 0.1});
-    deathAnim->addFrame({sf::IntRect(2100, 210, 100, 100), 0.1});
-    deathAnim->addFrame({sf::IntRect(2240, 210, 100, 100), 0.1});
-    deathAnim->addFrame({sf::IntRect(2380, 210, 100, 100), 0.1});
-    deathAnim->addFrame({sf::IntRect(2520, 210, 100, 100), 0.1});
-    deathAnim->addFrame({sf::IntRect(2660, 210, 100, 100), 0.1});
-    deathAnim->addFrame({sf::IntRect(2800, 210, 100, 100), 0.1});
-    deathAnim->addFrame({sf::IntRect(2940, 210, 100, 100), 0.1});
+    deathAnim->addFrame({sf::IntRect(0, 210, 100, 100), 0.15});
+    deathAnim->addFrame({sf::IntRect(140, 210, 100, 100), 0.15});
+    deathAnim->addFrame({sf::IntRect(280, 210, 100, 100), 0.15});
+    deathAnim->addFrame({sf::IntRect(420, 210, 100, 100), 0.15});
+    deathAnim->addFrame({sf::IntRect(560, 210, 100, 100), 0.15});
+    deathAnim->addFrame({sf::IntRect(700, 210, 100, 100), 0.15});
+    deathAnim->addFrame({sf::IntRect(840, 210, 100, 100), 0.15});
+    deathAnim->addFrame({sf::IntRect(980, 210, 100, 100), 0.15});
+    deathAnim->addFrame({sf::IntRect(1120, 210, 100, 100), 0.15});
+    deathAnim->addFrame({sf::IntRect(1260, 210, 100, 100), 0.15});
+    deathAnim->addFrame({sf::IntRect(1400, 210, 100, 100), 0.15});
+    deathAnim->addFrame({sf::IntRect(1540, 210, 100, 100), 0.15});
+    deathAnim->addFrame({sf::IntRect(1680, 210, 100, 100), 0.15});
+    deathAnim->addFrame({sf::IntRect(1820, 210, 100, 100), 0.15});
+    deathAnim->addFrame({sf::IntRect(1960, 210, 100, 100), 0.15});
+    deathAnim->addFrame({sf::IntRect(2100, 210, 100, 100), 0.15});
+    deathAnim->addFrame({sf::IntRect(2240, 210, 100, 100), 0.15});
+    deathAnim->addFrame({sf::IntRect(2380, 210, 100, 100), 0.15});
+    deathAnim->addFrame({sf::IntRect(2520, 210, 100, 100), 0.15});
+    deathAnim->addFrame({sf::IntRect(2660, 210, 100, 100), 0.15});
+    deathAnim->addFrame({sf::IntRect(2800, 210, 100, 100), 0.15});
+    deathAnim->addFrame({sf::IntRect(2940, 210, 100, 100), 0.15});
+}
+
+void animationUpdate(double elapsed, Runner player, sf::RenderWindow &window, Animation animations[3])
+{
+    sf::Vector2f preprocess_position = player.sprite.getPosition() + player.velocity;
+
+    if (preprocess_position.y + 10 >= window.getSize().y - HITBOX_HEIGHT + BOTTOM_OFFSET)
+    {
+        animations[0].update(elapsed);
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+    {
+        animations[1].update(elapsed);
+    }
+    else
+    {
+        animations[2].update(elapsed);
+    }
 }
 #endif // DEBUG

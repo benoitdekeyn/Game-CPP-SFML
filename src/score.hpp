@@ -11,14 +11,14 @@ public:
     Score(sf::RenderWindow &window)
     {
         score = 0;
-        if (!font.loadFromFile("Arial font/arial_light.ttf"))
+        if (!font.loadFromFile("Fonts/scoreFont.otf"))
         {
         }
-
         text.setFont(font);
-        text.setCharacterSize(24); // in pixels
-        text.setFillColor(sf::Color::Blue);
-        text.setPosition(50, 50); // top-left corner
+        text.setCharacterSize(40); // in pixels
+        text.setFillColor(sf::Color::Black);
+        // text.setPosition(WINDOW_WIDTH/1.15, WINDOW_HEIGHT/17); // top-left corner
+        text.setPosition(window.getSize().x - 250, 50);
         updateText();
     }
 
@@ -38,7 +38,8 @@ public:
         window.draw(text);
     }
 
-    int getScore(){
+    int getScore()
+    {
         return score;
     }
 };

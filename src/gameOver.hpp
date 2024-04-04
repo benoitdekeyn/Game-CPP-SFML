@@ -22,7 +22,7 @@ public:
         float pos_x = (window.getSize().x - gameOver.getLocalBounds().width * scale_x) / 2;
         float pos_y = (window.getSize().y - gameOver.getLocalBounds().height * scale_y) / 2;
         gameOver.setPosition(pos_x, pos_y);
-        if (!font.loadFromFile("Arial font/arial_light.ttf")) // Make sure the path to your font is correct
+        if (!font.loadFromFile("Fonts/scoreFont.otf")) // Make sure the path to your font is correct
         {
             // Handle error
            //std::cout << "Error loading font" << std::endl;
