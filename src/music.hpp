@@ -5,7 +5,7 @@
 class GameMusic
 {   
     sf::Music music;
-    std::string musics[4] = {"../Assets/Sounds/BackgroundMusic1.mp3", "../Assets/Sounds/BackgroundMusic2.mp3", "../Assets/Sounds/BackgroundMusic3.mp3", "../Assets/Sounds/BackgroundMusic4.mp3"};
+    std::string musics[4] = {"../Assets/Musics/BackgroundMusic1.mp3", "../Assets/Musics/BackgroundMusic2.mp3", "../Assets/Musics/BackgroundMusic3.mp3", "../Assets/Musics/BackgroundMusic4.mp3"};
 
 public:
     GameMusic()
