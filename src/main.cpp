@@ -59,6 +59,7 @@ int main()
         }
         
         while(menuOn == true){
+            music.playMenu();
             menu.draw(window);
             window.display();
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
@@ -104,12 +105,13 @@ int main()
             {
                 int sco = score.getScore();
                 background.reset(window);
-                music.reset();
                 speedReset();
                 GameOver gameOver(window, sco);
                 gameOver.drawGameOver(window);
                 window.display();
-                score.draw(window);
+                //score.draw(window);
+
+                
                 while (true)
                 {
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
@@ -121,6 +123,7 @@ int main()
                         Menu menu(window);
                         menu.draw(window);
                         window.display();
+                        music.playMenu();
                         while (true)
                         {
                             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
