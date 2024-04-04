@@ -81,7 +81,7 @@ int main()
 
         if (clock.getElapsedTime().asSeconds() > OBSTACLE_INTERVAL)
         {
-            //obstacles.push_back(Obstacle(window));
+            obstacles.push_back(Obstacle(window));
             clock.restart();
         }
 
