@@ -9,10 +9,13 @@
 #define COLOR_DEPTH 32
 #define FPS 60
 
+//--------- BACKGROUND -------
+#define BACKGROUND_CHANGING_INTERVAL 1000
+
 //---------- SPEED -----------
 
-#define INITIAL_SPEED 3
-#define FINAL_SPEED 20
+#define INITIAL_SPEED 5
+#define FINAL_SPEED 5
 #define SPEED_INCREASE_INTERVAL 15 // skipped frames before increasing the speed by SPEED_INCREASE_VALUE (below)
 #define SPEED_INCREASE_VALUE 0.1f
 #define SPEED_UP_MAX 7

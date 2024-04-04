@@ -19,7 +19,13 @@ class Background
         for (int i = 0; i < 4; ++i) {
             images[i].loadFromFile(picture[i]);
         }
-        setImage(window, 0);
+        
+        sf::Vector2u textureSize = images[n].getSize();
+        sf::Vector2u windowSize = window.getSize();
+
+        background1.setScale((float)windowSize.x / textureSize.x, (float)windowSize.y / textureSize.y);
+        background2.setScale((float)windowSize.x / textureSize.x, (float)windowSize.y / textureSize.y);
+    setImage(window, 0);
         background2.setPosition(window.getSize().x, 0);
         background1.setPosition(0, 0);
         drawIt(window);
@@ -79,11 +85,13 @@ class Background
             if (background2.getPosition().x == 0 && background1.getPosition().x == window_width){
                 setImage(window, 1);
                 background_transformation_step = 0;
+                counter = 0;
             }
         }else if (background_transformation_step == 22){
             if (background1.getPosition().x == 0 && background2.getPosition().x == window_width){
                 setImage(window, 2);
                 background_transformation_step = 0;
+                counter = 0;
             }
         }
     }
@@ -96,7 +104,7 @@ class Background
             background2.setTexture(images[n]);
         }
 
-        sf::Vector2u textureSize = images[n].getSize();
+        /* sf::Vector2u textureSize = images[n].getSize();
         sf::Vector2u windowSize = window.getSize();
 
         if (background_number == 1 || background_number == 0) {
@@ -104,7 +112,7 @@ class Background
         }
         if (background_number == 2 || background_number == 0) {
             background2.setScale((float)windowSize.x / textureSize.x, (float)windowSize.y / textureSize.y);
-        }
+        } */
     }
 
     void drawIt(sf::RenderWindow& window) {

@@ -33,7 +33,7 @@ public:
         text.setString("SCORE: " + std::to_string(score));
     }
 
-    void drawIt(sf::RenderWindow &window)
+    void draw(sf::RenderWindow &window)
     {
         window.draw(text);
     }
