@@ -215,6 +215,16 @@ int main()
 			coins.erase(startitr, enditr);
 		}
 
+        // check for collisions
+        for (vector<Obstacle>::iterator itr = obstacles.begin(); itr != obstacles.end(); itr++)
+        {
+            if (player.sprite.getGlobalBounds().intersects((*itr).sprite.getGlobalBounds()))
+            {
+                death = true;
+                music.stop();
+            }
+        }
+
         // draw obstacles
         for (vector<Obstacle>::iterator itr = obstacles.begin(); itr != obstacles.end(); itr++) {
 			window.draw((*itr).sprite);
