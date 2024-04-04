@@ -14,7 +14,7 @@ int main()
     GameMusic music;
 
     //-------- BACKGROUND --------
-    Background background(window, music);
+    Background background(window);
 
     //----------- MENU -----------
     Menu menu(window);
