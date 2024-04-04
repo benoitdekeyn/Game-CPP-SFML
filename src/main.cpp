@@ -126,7 +126,7 @@ int main()
                         window.display();
                         music.playMenu();
                         sf::Event secondEvent;
-                        while (true)
+                        while (window.waitEvent(secondEvent))
                         {
                             if ((secondEvent.type == sf::Event::KeyPressed) && (secondEvent.key.code == sf::Keyboard::Enter))
                             {
