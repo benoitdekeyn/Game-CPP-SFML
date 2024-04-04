@@ -12,7 +12,7 @@ int main()
 
      //---------- MUSIC -----------
     GameMusic music;
-    
+
     //-------- BACKGROUND --------
     Background background(window, music);
 
@@ -67,6 +67,7 @@ int main()
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
             {
                 menuOn = false;
+                music.update();
                 break;
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
