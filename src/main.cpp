@@ -150,6 +150,7 @@ int main()
         auto elapsed = animClock.restart();
         runAnim.update(elapsed.asSeconds());
         //------------------ END ANIMATION UPDATE  ------------------
+        
         player.draw(window);
 
         for (auto &obstacle : obstacles)
