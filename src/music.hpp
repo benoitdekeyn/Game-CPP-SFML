@@ -11,9 +11,9 @@ class GameMusic
 public:
     GameMusic()
     {
-        music.openFromFile(BG_musics[currentLevel]);
+        music.openFromFile(menu_music);
         music.setLoop(true);
-        playMenu();
+        music.play();
     }
     
     void update(){
@@ -27,7 +27,7 @@ public:
     }
 
     void playMenu(){
-        stop();
+        music.stop();
         music.openFromFile(menu_music);
         music.play();
     }
