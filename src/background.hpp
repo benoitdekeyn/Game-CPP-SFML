@@ -45,8 +45,8 @@ class Background
     void update(sf::RenderWindow& window, GameMusic& music) {
 
         moveIt(window);
-        checkChange(music);
-        updatePicture(window);
+        checkChange();
+        updatePictureAndMusic(window, music);
         window.clear();
         drawIt(window);
     }
@@ -63,7 +63,7 @@ class Background
             background1.setPosition(0, 0);}
     }
 
-    void checkChange(GameMusic& music) {
+    void checkChange() {
 
         int speedFactor = (int)(speed/5);
         if (speedFactor == 0) {speedFactor = 1;}
@@ -83,7 +83,7 @@ class Background
         }
     }
 
-    void updatePicture(sf::RenderWindow& window) {
+    void updatePictureAndMusic(sf::RenderWindow& window, GameMusic& music) {
         int window_width = window.getSize().x;
 
         if (background_transformation_step == 0){
