@@ -42,6 +42,9 @@ int main()
     sf::Clock clock; // Start a timer
     sf::Clock animClock;
     
+    //---------- MUSIC -----------
+    musicSound musicPlay("../music/Endless_sand.mp3");
+    musicPlay.play();
 
     //--------------------- MAIN LOOP ---------------------
     while (window.isOpen())
@@ -50,8 +53,9 @@ int main()
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)){
-                window.close();
                 exit(0);
+                window.close();
+                
             }
         }
         
@@ -65,8 +69,8 @@ int main()
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             {
-                window.close();
                 exit(0);
+                window.close();
             }
 
         }
@@ -99,8 +103,10 @@ int main()
         {
             if (collisionWithObstacles(player, obstacle, window))
             {
-                GameOver gameOver(window);
+                int sco = score.getScore();
+                GameOver gameOver(window, sco);
                 gameOver.drawGameOver(window);
+                musicPlay.stop();
                 window.display();
                 score.draw(window);
                 while (true)
@@ -122,15 +128,15 @@ int main()
                             }
                             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                             {
-                                window.close();
                                 exit(0);
+                                window.close();
                             }
                         }
                     }
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                     {
-                        window.close();
                         exit(0);
+                        window.close();
                     }
                 }
             }
@@ -144,7 +150,7 @@ int main()
         runAnim.update(elapsed.asSeconds());
         //------------------ END ANIMATION UPDATE  ------------------
         player.draw(window);
-        
+
         for (auto &obstacle : obstacles)
         {
             obstacle.draw(window);

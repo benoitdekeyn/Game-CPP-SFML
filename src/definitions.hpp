@@ -58,6 +58,7 @@ using namespace std;
 #include "score.hpp"
 #include "gameOver.hpp"
 #include "animation.hpp"
+#include "sound.hpp"
 
 //---------- WINDOW ----------
 sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, COLOR_DEPTH), "SFML works!");
