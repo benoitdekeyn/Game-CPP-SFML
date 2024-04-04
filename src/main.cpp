@@ -42,7 +42,6 @@ int main()
     sf::Clock clock; // Start a timer
     sf::Clock animClock;
     
-
     //---------- MUSIC -----------
     musicSound musicPlay("../music/Endless_sand.mp3");
     musicPlay.play();
