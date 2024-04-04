@@ -43,7 +43,7 @@ int main()
 
     //---------- MUSIC -----------
     musicSound musicPlay("../music/Endless_sand.mp3");
-    musicPlay.play();
+
 
     //--------------------- MAIN LOOP ---------------------
     while (window.isOpen())
@@ -61,6 +61,7 @@ int main()
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
             {
                 menuOn = false;
+                musicPlay.play();
                 break;
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
