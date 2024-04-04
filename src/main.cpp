@@ -42,7 +42,8 @@ int main()
     sf::Clock clock; // Start a timer
     sf::Clock animClock;
     
-    //---------- MUSIC -----------
+    //---------- MUSIC -----------*
+    GameMusic music;
     
     //--------------------- MAIN LOOP ---------------------
     while (window.isOpen())
@@ -75,7 +76,7 @@ int main()
 
         
         //UPDATE BACKGROUND and speed and music
-        background.update(window);
+        background.update(window, music);
 
         if (clock.getElapsedTime().asSeconds() > OBSTACLE_INTERVAL)
         {
@@ -103,6 +104,7 @@ int main()
             {
                 int sco = score.getScore();
                 background.reset(window);
+                music.reset();
                 speedReset();
                 GameOver gameOver(window, sco);
                 gameOver.drawGameOver(window);

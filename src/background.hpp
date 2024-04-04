@@ -1,7 +1,7 @@
 #ifndef BACKGROUND_HPP
 #define BACKGROUND_HPP
 
-int currentLevel=0;
+
 
 class Background
 {
@@ -41,10 +41,10 @@ class Background
         background1.setPosition(0, 0);
     }
 
-    void update(sf::RenderWindow& window) {
+    void update(sf::RenderWindow& window, GameMusic& music) {
 
         moveIt(window);
-        checkChange();
+        checkChange(music);
         updatePicture(window);
         window.clear();
         drawIt(window);
@@ -62,7 +62,7 @@ class Background
             background1.setPosition(0, 0);}
     }
 
-    void checkChange() {
+    void checkChange(GameMusic& music) {
 
         if (background1.getPosition().x == 0 || background2.getPosition().x == 0){
             counter ++;
@@ -77,6 +77,8 @@ class Background
                 background_transformation_step = 1; //change As Soon As Possible : when one picture perfectly fits the screen
                 //UPDATE SPEED
                 speedUp();
+                //UPDATE MUSIC
+                music.update();
             }
         }
     }

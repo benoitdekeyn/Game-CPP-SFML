@@ -1,32 +1,35 @@
-#ifndef _SOUND_
-#define _SOUND_
+#ifndef _MUSIC_
+#define _MUSIC_
 
 
-class Music
-{
-    std::string musics[4] = {"../Assets/Sounds/BackgroundMusic1.wav", "../Assets/Sounds/BackgroundMusic2.wav", "../Assets/Sounds/BackgroundMusic3.wav", "../Assets/Sounds/BackgroundMusic4.wav"};
+class GameMusic
+{   
+    sf::Music music;
+    std::string musics[4] = {"../Assets/Sounds/BackgroundMusic1.mp3", "../Assets/Sounds/BackgroundMusic2.mp3", "../Assets/Sounds/BackgroundMusic3.mp3", "../Assets/Sounds/BackgroundMusic4.mp3"};
 
 public:
-    Music()
+    GameMusic()
     {
-        music.openFromFile("Assets/Sounds/BackgroundMusic.wav");
+        music.openFromFile(musics[currentLevel]);
         music.setLoop(true);
+        music.play();
     }
-    void play()
-    {
+    
+    void update(){
+        music.stop();
+        music.openFromFile(musics[currentLevel]);
         music.play();
     }
 
-    void stop()
-    {
+    void stop(){
         music.stop();
     }
-    void changeMusic(){
-        music.openFromFile(musics[random]);
+
+    void reset(){
+        update();
+        stop();
     }
 
-private:
-    sf::Music music;
 };
 
-#endif // _SOUND__
+#endif // _MUSIC_

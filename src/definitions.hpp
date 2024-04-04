@@ -42,11 +42,14 @@
 #define OBSTACLE_COLOR sf::Color::Red
 #define OBSTACLE_INTERVAL 0.5f
 
+int currentLevel=0;
+
 //----------- SFML -----------
 #include <string.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
+#include <SFML/Audio.hpp>
 #include <vector>
 
 using namespace sf;
@@ -54,12 +57,13 @@ using namespace std;
 
 //---------- HEADERS ---------
 #include "speed.hpp"
+#include "music.hpp"
 #include "background.hpp"
 #include "character.hpp"
 #include "score.hpp"
 #include "gameOver.hpp"
 #include "animation.hpp"
-#include "music.hpp"
+
 
 //---------- WINDOW ----------
 sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, COLOR_DEPTH), "SFML works!");
