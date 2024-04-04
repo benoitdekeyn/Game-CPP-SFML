@@ -15,6 +15,7 @@ public:
         if(music.openFromFile(filepath)){
             std::cout << "Error loading sound" << std::endl;
         }
+        music.setLoop(true);
     }
     void play(){
         music.play();
