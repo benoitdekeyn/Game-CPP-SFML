@@ -40,6 +40,9 @@ using namespace std;
 #include "character.hpp"
 #include "score.hpp"
 
+
+// Global texture storage
+
 //INTIALIZE WINDOW
 void initializeWindow(sf::RenderWindow& window)
 {
@@ -58,6 +61,7 @@ void handleWindowEvent(sf::RenderWindow& window, sf::Event& event)
 
 int main()
 {
+    loadTextures(); // Load textures before using them
     int i = 0;
     sf::RenderWindow window;
     initializeWindow(window);
@@ -102,17 +106,10 @@ int main()
 			int gap = 150;
 
             Obstacle obstacle(window);
-			
-            if (!obstacle.texture.loadFromFile("../Assets/coin.png")) 
-            {
-                std::cout << "Error loading texture" << std::endl;
-            }
-			obstacle.sprite.setTexture(obstacle.texture);
-			obstacle.sprite.setPosition(obstacle.position);
-			obstacle.sprite.setScale(0.1f, 0.1f);
 
 			// push to the array
 			obstacles.push_back(obstacle);
+            clock.restart();
 		}
 
 		// move obstacles

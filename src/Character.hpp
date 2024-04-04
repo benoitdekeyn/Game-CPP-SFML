@@ -59,7 +59,7 @@ public:
     void update(sf::RenderWindow& window)
     {
 
-       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         {
             if (velocity.y > -speedUpMax){
                 velocity.y += propulsion.y * propulsionFactor;
@@ -101,21 +101,31 @@ public:
     }
 };
 
-class Obstacle
-{
+vector<Texture> obstacleTextures;
+void loadTextures() {
+    Texture texture;
+    if(texture.loadFromFile("../Assets/coin.png")) { // Ensure this path is correct
+        obstacleTextures.push_back(texture);
+    } else {
+        cout << "Error loading obstacle texture" << endl;
+    }
+}
+
+class Obstacle {
 public:
     sf::Vector2f position;
     sf::Sprite sprite;
-    sf::Texture texture;
-    float speed; // Add the speed variable
-
+    float speed;
     // Constructor
-    Obstacle(sf::RenderWindow& window)
-    {
+    Obstacle(sf::RenderWindow& window) {
+        if(!obstacleTextures.empty()) {
+            sprite.setTexture(obstacleTextures[0]); // Use the globally loaded texture
+        }
         position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
+        sprite.setScale(0.08f, 0.08f);
         sprite.setPosition(position);
-        speed = 3.0f; // Set a default speed for the obstacle
     }
+
 
     // Method to update the obstacle's position
     void move(float offsetX, float offsetY)
