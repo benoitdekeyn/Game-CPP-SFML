@@ -24,14 +24,13 @@ public:
     sf::Vector2f gravity;
     sf::Vector2f preprocess_position;
     float propulsionFactor = propulsion_smoother; // Add a factor to decrease propulsion over time
-    float deceleration = gravity_smoother; // Deceleration factor
+    float deceleration = gravity_smoother;        // Deceleration factor
     float currentY;
 
     float bottom_offset = BOTTOM_OFFSET;
     float top_offset = TOP_OFFSET;
 
-
-    Runner(Vector2f Position, sf::RenderWindow& window)
+    Runner(Vector2f Position, sf::RenderWindow &window)
     {
         position = Position;
         texture.loadFromFile("../Assets/Character/NightBorne.png");
@@ -48,13 +47,12 @@ public:
         hitbox.setSize(sf::Vector2f(HITBOX_WIDTH, HITBOX_HEIGHT));
         hitbox.setPosition(position);
         hitbox.move(HITBOX_OFFSET);
-
     }
-    
-    void update(sf::RenderWindow& window)
+
+    void update(sf::RenderWindow &window)
     {
 
-       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         {
             if (velocity.y > -speedUpMax)
             {
@@ -65,13 +63,13 @@ public:
                 velocity.y = -speedUpMax;
             }
             deceleration = gravity_smoother; // Reset the deceleration factor when pressing the up key
-            gravity.y = gravity_strenght; // Reset the gravity when pressing the up key   
+            gravity.y = gravity_strenght;    // Reset the gravity when pressing the up key
         }
         else
         {
             velocity.y += gravity.y - deceleration;
-            deceleration += gravity_smoother; // Increase the deceleration factor over time
-            propulsionFactor = 1.0f; // Reset the propulsion factor when not pressing the up key
+            deceleration += gravity_smoother;    // Increase the deceleration factor over time
+            propulsionFactor = 1.0f;             // Reset the propulsion factor when not pressing the up key
             propulsion.y = -propulsion_strenght; // Reset the propulsion when not pressing the up key
         }
 
@@ -81,12 +79,12 @@ public:
         {
             velocity.y = 0;
             deceleration = gravity_smoother; // Reset the deceleration factor when pressing the up key
-            gravity.y = gravity_strenght; // Reset the gravity when pressing the up key   
+            gravity.y = gravity_strenght;    // Reset the gravity when pressing the up key
         }
-        if(preprocess_position.y < 0 - top_offset)
+        if (preprocess_position.y < 0 - top_offset)
         {
             velocity.y = 0;
-            deceleration = gravity_smoother;    // Increase the deceleration factor over time
+            deceleration = gravity_smoother;     // Increase the deceleration factor over time
             propulsionFactor = 1.0f;             // Reset the propulsion factor when not pressing the up key
             propulsion.y = -propulsion_strenght; // Reset the propulsion when not pressing the up key
         }
@@ -94,18 +92,14 @@ public:
         hitbox.move(velocity.x, velocity.y);
     }
 
-    void draw(sf::RenderWindow& window)
+    void draw(sf::RenderWindow &window)
     {
-        //window.draw(hitbox);
+        // window.draw(hitbox);
         window.draw(sprite);
     }
 };
 
-
-
-
-//OBSTACLES
-
+// OBSTACLES
 
 class Obstacle
 {
@@ -116,7 +110,7 @@ public:
     sf::Vector2f position;
     sf::Vector2f velocity;
 
-    Obstacle(sf::RenderWindow& window)
+    Obstacle(sf::RenderWindow &window)
     {
         shape.setSize(sf::Vector2f(OBSTACLE_WIDTH, rand() % 150 + 30));
         shape.setFillColor(OBSTACLE_COLOR);
@@ -124,17 +118,16 @@ public:
         shape.setPosition(position);
     }
 
-    void update(sf::RenderWindow& window)
+    void update(sf::RenderWindow &window)
     {
         position.x -= speed;
         shape.setPosition(position);
     }
 
-    void draw(sf::RenderWindow& window)
+    void draw(sf::RenderWindow &window)
     {
         window.draw(shape);
     }
 };
 
 #endif
-
