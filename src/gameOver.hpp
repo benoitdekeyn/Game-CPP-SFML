@@ -52,6 +52,15 @@ bool collisionWithObstacles(Runner player, Obstacle obstacle, sf::RenderWindow &
     return false;
 }
 
+bool collisionsWithCoins(Runner player, Coin coin, sf::RenderWindow &window)
+{
+    if (player.hitbox.getGlobalBounds().intersects(coin.hitbox.getGlobalBounds()))
+    {
+        return true;
+    }
+    return false;
+}
+
 class Menu
 {
     sf::Texture texture;

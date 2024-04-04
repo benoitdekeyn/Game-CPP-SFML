@@ -200,7 +200,7 @@ public:
     sf::Sprite sprite;
     float speed;
     // Constructor
-    Coin(sf::RenderWindow& window) {
+    Coin(sf::RenderWindow& window, vector<Obstacle>& obstacles) {
         if(!coinTextures.empty()) {
             sprite.setTexture(coinTextures[0]); // Use the globally loaded texture
         }
@@ -208,6 +208,9 @@ public:
         // set sprite scale and position
         sprite.setScale(0.08f, 0.08f);
         sprite.setPosition(position);
+        // set hitbox size and position
+        hitbox.setSize(sf::Vector2f(60, 60));
+        hitbox.setPosition(position);
     }
 
 
@@ -217,7 +220,7 @@ public:
         position.x += offsetX;
         position.y += offsetY;
         sprite.setPosition(position);
-        // hitbox.setPosition(position);
+        hitbox.setPosition(position);
     }
 
     // Method to get the coin's position
@@ -230,7 +233,7 @@ public:
     {
         position.x -= speed;
         sprite.setPosition(position);
-        // hitbox.setPosition(position);
+        hitbox.setPosition(position);
     }
 
     void draw(sf::RenderWindow& window)

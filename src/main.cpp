@@ -151,13 +151,14 @@ int main()
                 }
             }
         }
+        
         if (clock.getElapsedTime().asSeconds() > OBSTACLE_INTERVAL && !death)
         {
             // push a new obstacle to the array
             obstacles.push_back(Obstacle(window));
 
             // push a new coin to the array
-			coins.push_back(Coin(window));
+			coins.push_back(Coin(window, obstacles));
 
             clock.restart();
         }
@@ -226,13 +227,24 @@ int main()
             }
 
             // Check for collision with player
-            if (player.hitbox.getGlobalBounds().intersects((*itr).hitbox.getGlobalBounds()))
+            if (collisionWithObstacles(player, *itr, window))
             {
                 death = true;
                 music.stop();
+                break;
             }
         }
 
+        // Check for coin collisions
+        for (vector<Coin>::iterator itr = coins.begin(); itr != coins.end(); itr++) 
+        {
+            if (collisionsWithCoins(player, *itr, window)) 
+            {
+                score.increment();
+                coins.erase(itr);
+                break;
+            }
+        }
 
         // draw obstacles
         for (vector<Obstacle>::iterator itr = obstacles.begin(); itr != obstacles.end(); itr++) {
