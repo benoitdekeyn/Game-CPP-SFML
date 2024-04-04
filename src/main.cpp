@@ -42,8 +42,9 @@ int main()
     sf::Clock clock; // Start a timer
 
     //---------- MUSIC -----------
-    musicSound musicPlay("../music/Endless_sand.mp3");
-
+    musicSound musicPlay1("../music/Endless_sand.mp3");
+    musicSound musicPlay2("../music/elelctro_sonic.mp3");
+    musicPlay2.play();
 
     //--------------------- MAIN LOOP ---------------------
     while (window.isOpen())
@@ -61,7 +62,8 @@ int main()
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
             {
                 menuOn = false;
-                musicPlay.play();
+                musicPlay2.stop();
+                musicPlay1.play();
                 break;
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
@@ -107,7 +109,7 @@ int main()
                 int sco = score.getScore();
                 GameOver gameOver(window, sco);
                 gameOver.drawGameOver(window);
-                musicPlay.stop();
+                musicPlay1.stop();
                 window.display();
                 score.draw(window);
                 while (true)
