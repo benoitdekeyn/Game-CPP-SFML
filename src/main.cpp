@@ -59,7 +59,7 @@ int main()
                 
             }
         }
-        if (menuOn == true){music.playMenu();}
+        
         while(menuOn == true){
             
             menu.draw(window);
@@ -113,24 +113,26 @@ int main()
                 gameOver.drawGameOver(window);
                 window.display();
                 score.draw(window);
-
                 
                 while (true)
                 {
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
                     {
+                        music.stop();
                         main();
+                        
                     }
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
                     {
                         Menu menu(window);
                         menu.draw(window);
                         window.display();
-                        //music.playMenu();
+                        music.playMenu();
                         while (true)
                         {
                             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
                             {
+                                music.stop();
                                 main();
                             }
                             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
