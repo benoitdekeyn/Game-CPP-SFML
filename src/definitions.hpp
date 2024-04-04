@@ -13,7 +13,6 @@
 #define BACKGROUND_CHANGING_REGULARITY 1 // HERE NORMAL = 4 at least, TEST= 1 : number in perfect pictures at a speed between 1 and 5
 
 //---------- SPEED -----------
-
 #define INITIAL_SPEED 3
 #define FINAL_SPEED 20
 #define SPEED_INCREASE_INTERVAL 0 // skipped frames before increasing the speed by SPEED_INCREASE_VALUE (below)
@@ -60,8 +59,12 @@ using namespace std;
 #include "gameOver.hpp"
 #include "animation.hpp"
 
-//---------- MENU ---------
+//----------- MENU -----------
 bool menuOn = true;
+
+//----------- DEATH ----------
+bool death = false;
+bool animationStarted = false;
 
 //---------- WINDOW ----------
 sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, COLOR_DEPTH), "SFML works!");

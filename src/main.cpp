@@ -10,7 +10,6 @@ int main()
     int window_width = window.getSize().x;
     int window_height = window.getSize().y;
 
-
     //-------- BACKGROUND --------
     Background background(window);
 
@@ -22,8 +21,8 @@ int main()
     Runner player(sf::Vector2f(RUNNER_X_POS, window.getSize().y - INITIAL_Y_POS), window);
 
     //--------- ANIMATION --------
-    Animation jumpAnim(player.sprite);
     Animation runAnim(player.sprite);
+    Animation jumpAnim(player.sprite);
     Animation fallAnim(player.sprite);
     Animation deathAnim(player.sprite);
 
@@ -32,6 +31,7 @@ int main()
     addFallFrames(&fallAnim);
     addDeathFrames(&deathAnim);
 
+    Animation animations[3] = {runAnim, jumpAnim, fallAnim};
     //--------- OBSTACLES --------
     std::vector<Obstacle> obstacles;
 
@@ -39,25 +39,26 @@ int main()
     Score score(window);
 
     //---------- CLOCK -----------
-    sf::Clock clock; // Start a timer
-    sf::Clock animClock;
-    
+    sf::Clock clock;      // Start a timer
+    sf::Clock animClock;  // Timer for animations
+    sf::Clock deathClock; // Timer for the death animation
     //---------- MUSIC -----------
-    
+
     //--------------------- MAIN LOOP ---------------------
     while (window.isOpen())
     {
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)){
+            if (event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
+            {
                 exit(0);
                 window.close();
-                
             }
         }
-        
-        while(menuOn == true){
+
+        while (menuOn == true)
+        {
             menu.draw(window);
             window.display();
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
@@ -70,14 +71,74 @@ int main()
                 exit(0);
                 window.close();
             }
-
         }
-
-        
-        //UPDATE BACKGROUND and speed and music
+        // UPDATE BACKGROUND and speed and music
         background.update(window);
 
-        if (clock.getElapsedTime().asSeconds() > OBSTACLE_INTERVAL)
+        if (death)
+        {
+            obstacles.clear();
+            if (!animationStarted)
+            {
+                deathAnim.progress = 0.0;
+                animationStarted = true;
+                auto elapsed = deathClock.restart();
+            }
+            else
+            {
+                auto elapsed = animClock.restart();
+                deathAnim.update(elapsed.asSeconds());
+            }
+            if (animationStarted && deathClock.getElapsedTime().asSeconds() >= 3.23)
+            {
+                int sco = score.getScore();
+                background.reset(window);
+                speedReset();
+                GameOver gameOver(window, sco);
+                gameOver.drawGameOver(window);
+                window.display();
+                score.draw(window);
+                sf::Event event;
+                while (window.waitEvent(event))
+                {
+
+                    if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Enter))
+                    {
+                        death = false;
+                        animationStarted = false;
+
+                        main();
+                    }
+                    if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::M))
+                    {
+                        Menu menu(window);
+                        menu.draw(window);
+                        window.display();
+                        sf::Event secondEvent;
+                        while (true)
+                        {
+                            if ((secondEvent.type == sf::Event::KeyPressed) && (secondEvent.key.code == sf::Keyboard::Enter))
+                            {
+                                death = false;
+                                animationStarted = false;
+                                main();
+                            }
+                            if ((secondEvent.type == sf::Event::KeyPressed) && (secondEvent.key.code == sf::Keyboard::Escape))
+                            {
+                                exit(0);
+                                window.close();
+                            }
+                        }
+                    }
+                    if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape))
+                    {
+                        exit(0);
+                        window.close();
+                    }
+                }
+            }
+        }
+        if (clock.getElapsedTime().asSeconds() > OBSTACLE_INTERVAL && !death)
         {
             obstacles.push_back(Obstacle(window));
             clock.restart();
@@ -101,55 +162,19 @@ int main()
         {
             if (collisionWithObstacles(player, obstacle, window))
             {
-                int sco = score.getScore();
-                background.reset(window);
-                speedReset();
-                GameOver gameOver(window, sco);
-                gameOver.drawGameOver(window);
-                window.display();
-                score.draw(window);
-                sf::Event event;
-                while (window.waitEvent(event))
-                {
-                    if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Enter))
-                    {
-                        main();
-                    }
-                    if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::M))
-                    {
-                        Menu menu(window);
-                        menu.draw(window);
-                        window.display();
-                        sf::Event secondEvent;
-                        while (true)
-                        {
-                            if ((secondEvent.type == sf::Event::KeyPressed) && (secondEvent.key.code == sf::Keyboard::Enter))
-                            {
-                                main();
-                            }
-                            if ((secondEvent.type == sf::Event::KeyPressed) && (secondEvent.key.code == sf::Keyboard::Escape))
-                            {
-                                exit(0);
-                                window.close();
-                            }
-                        }
-                    }
-                    if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape))
-                    {
-                        exit(0);
-                        window.close();
-                    }
-                }
+                death = true;
             }
         }
 
-        player.update(window);
-        
-
         //-------------------- ANIMATION UPDATE  --------------------
-        auto elapsed = animClock.restart();
-        runAnim.update(elapsed.asSeconds());
+        if (!death)
+        {
+            player.update(window);
+            auto elapsed = animClock.restart();
+            animationUpdate(elapsed.asSeconds(), player, window, animations);
+        }
         //------------------ END ANIMATION UPDATE  ------------------
+
         player.draw(window);
 
         for (auto &obstacle : obstacles)
