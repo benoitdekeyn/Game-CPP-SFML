@@ -99,28 +99,45 @@ public:
     }
 };
 
-// OBSTACLES
+vector<Texture> obstacleTextures;
 
-class Obstacle
+// Load obstacle textures function
+void loadObstacleTextures()
 {
+    Texture texture;
+    if (texture.loadFromFile("../Assets/Objects/obstacle.png")) // Adjust path if needed
+    {
+        obstacleTextures.push_back(texture);
+    }
+    else
+    {
+        // std::cout << "Error loading texture" << std::endl;
+    }
+}
+
+// OBSTACLES
+class Obstacle {
 public:
     sf::RectangleShape shape;
     sf::Vector2f position;
+    sf::Sprite sprite; // Use sf::Sprite instead of sf::RectangleShape
     float speed;
 
-    Obstacle()
+    Obstacle(sf::RenderWindow &window)
     {
-        shape.setSize(sf::Vector2f(OBSTACLE_WIDTH, rand() % 150 + 30));
-        shape.setFillColor(OBSTACLE_COLOR);
-        position = sf::Vector2f(0, 0); // Initialize position properly
-        speed = 3.0f; // Set a default speed
+        if(!obstacleTextures.empty()) {
+            sprite.setTexture(obstacleTextures[0]); // Use the globally loaded texture
+        }
+        position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
+        sprite.setScale(0.15f, 0.15f);
+        sprite.setPosition(position);
     }
 
     void move(float offsetX, float offsetY)
     {
         position.x += offsetX;
         position.y += offsetY;
-        shape.setPosition(position);
+        sprite.setPosition(position);
     }
 
     sf::Vector2f getPosition()
@@ -131,23 +148,24 @@ public:
     void update()
     {
         position.x -= speed;
-        shape.setPosition(position);
+        sprite.setPosition(position);
     }
 
     void draw(sf::RenderWindow &window)
     {
-        window.draw(shape);
+        window.draw(sprite); // Draw the sprite instead of the shape
     }
 };
+
 
 
 vector<Texture> coinTextures;
 
 // Load textures function
-void loadTextures()
+void loadCoinTextures()
 {
     Texture texture;
-    if (texture.loadFromFile("../Assets/coin.png")) // Adjust path if needed
+    if (texture.loadFromFile("../Assets/Objects/coin.png")) // Adjust path if needed
     {
         coinTextures.push_back(texture);
     }
