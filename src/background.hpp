@@ -65,10 +65,6 @@ class Background
 
     void checkChange(GameMusic& music) {
 
-        if (background1.getPosition().x == 0 || background2.getPosition().x == 0){
-            counter ++;
-        }
-
         int speedFactor = (int)(speed/5);
         if (speedFactor == 0) {speedFactor = 1;}
         if (counter == BACKGROUND_CHANGING_REGULARITY * speedFactor){ 
@@ -81,6 +77,9 @@ class Background
                 //UPDATE MUSIC
                 music.update();
             }
+        }
+        if (background1.getPosition().x == 0 || background2.getPosition().x == 0){
+            counter ++;
         }
     }
 
