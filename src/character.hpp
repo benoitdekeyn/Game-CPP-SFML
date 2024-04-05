@@ -94,7 +94,6 @@ public:
 
     void draw(sf::RenderWindow &window)
     {
-        // window.draw(hitbox);
         window.draw(sprite);
     }
 };
@@ -143,9 +142,8 @@ public:
         sprite.setPosition(position);
 
         // set hitbox size and position
-        hitbox.setSize(sf::Vector2f(60, 60));
-        hitbox.setPosition(position.x,position.y+3000);
-        hitbox.setFillColor(sf::Color::Red);
+        hitbox.setSize(sf::Vector2f(20, 20));
+        hitbox.setPosition(position.x, position.y + 50);
     }
 
     void move(float offsetX, float offsetY)
@@ -153,7 +151,7 @@ public:
         position.x += offsetX;
         position.y += offsetY;
         sprite.setPosition(position);
-        hitbox.setPosition(position.x,position.y+50);
+        hitbox.setPosition(position.x+40, position.y + 70);
     }
 
     sf::Vector2f getPosition() const
@@ -171,7 +169,6 @@ public:
     void draw(sf::RenderWindow &window)
     {
         window.draw(sprite); // Draw the sprite instead of the shape
-        // window.draw(hitbox);
     }
 
     bool hasScored() const
@@ -258,7 +255,6 @@ public:
     void draw(sf::RenderWindow &window)
     {
         window.draw(sprite);
-        // window.draw(hitbox);
     }
 };
 
