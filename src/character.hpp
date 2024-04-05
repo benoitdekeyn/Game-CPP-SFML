@@ -210,7 +210,7 @@ public:
         // set a y position that doesn't overlap with obstacles   
         position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
         for (Obstacle& obstacle : obstacles) {
-            while (position.y > obstacle.getPosition().y - 100 && position.y < obstacle.getPosition().y + 100) {
+            while (position.y > obstacle.getPosition().y - 100 && position.y < obstacle.getPosition().y + 100 || position.y > window.getSize().y - 100) {
                 position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
             }
         }
@@ -238,6 +238,8 @@ public:
     {
         return position;
     }
+
+    
     
     void update()
     {
