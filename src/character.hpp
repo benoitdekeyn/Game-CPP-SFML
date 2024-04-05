@@ -99,55 +99,93 @@ public:
     }
 };
 
-// OBSTACLES
+vector<Texture> obstacleTextures;
 
-class Obstacle
+// Load obstacle textures function
+void loadObstacleTextures()
 {
-public:
-    sf::RectangleShape shape;
-    sf::Vector2f position;
-    float speed;
-
-    Obstacle()
+    Texture texture;
+    if (texture.loadFromFile("../Assets/Objects/obstacle.png")) // Adjust path if needed
     {
-        shape.setSize(sf::Vector2f(OBSTACLE_WIDTH, rand() % 150 + 30));
-        shape.setFillColor(OBSTACLE_COLOR);
-        position = sf::Vector2f(0, 0); // Initialize position properly
-        speed = 3.0f; // Set a default speed
+        obstacleTextures.push_back(texture);
+    }
+    else
+    {
+        // std::cout << "Error loading texture" << std::endl;
+    }
+}
+
+// OBSTACLES
+class Obstacle {
+public:
+    sf::RectangleShape hitbox;
+    sf::Vector2f position;
+    sf::Sprite sprite; // Use sf::Sprite instead of sf::RectangleShape
+    float speed;
+    bool scored;
+
+    Obstacle(sf::RenderWindow &window)
+    {
+        if(!obstacleTextures.empty()) {
+            sprite.setTexture(obstacleTextures[0]); // Use the globally loaded texture
+        }
+
+        position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
+        while (position.y > window.getSize().y - 100) {
+            position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
+        }
+
+        // set sprite scale and position
+        sprite.setScale(0.15f, 0.15f);
+        sprite.setPosition(position);
+
+        // set hitbox size and position
+        hitbox.setSize(sf::Vector2f(60, 60));
+        hitbox.setPosition(position);
+        hitbox.setFillColor(sf::Color::Red);
     }
 
     void move(float offsetX, float offsetY)
     {
         position.x += offsetX;
         position.y += offsetY;
-        shape.setPosition(position);
+        sprite.setPosition(position);
+        hitbox.setPosition(position);
     }
 
-    sf::Vector2f getPosition()
-    {
-        return position;
+    sf::Vector2f getPosition() const {
+        return sprite.getPosition();
     }
 
     void update()
     {
         position.x -= speed;
-        shape.setPosition(position);
+        sprite.setPosition(position);
+        hitbox.setPosition(position);
     }
 
     void draw(sf::RenderWindow &window)
     {
-        window.draw(shape);
+        window.draw(sprite); // Draw the sprite instead of the shape
+        // window.draw(hitbox);
+    }
+
+    bool hasScored() const {
+        return scored;
+    }
+
+    void setScored(bool value) {
+        scored = value;
     }
 };
-
 
 vector<Texture> coinTextures;
 
 // Load textures function
-void loadTextures()
+void loadCoinTextures()
 {
     Texture texture;
-    if (texture.loadFromFile("../Assets/coin.png")) // Adjust path if needed
+    if (texture.loadFromFile("../Assets/Objects/coin.png")) // Adjust path if needed
     {
         coinTextures.push_back(texture);
     }
@@ -159,17 +197,30 @@ void loadTextures()
 
 class Coin {
 public:
+
+    sf::RectangleShape hitbox;
     sf::Vector2f position;
     sf::Sprite sprite;
     float speed;
     // Constructor
-    Coin(sf::RenderWindow& window) {
+    Coin(sf::RenderWindow& window, vector<Obstacle>& obstacles) {
         if(!coinTextures.empty()) {
             sprite.setTexture(coinTextures[0]); // Use the globally loaded texture
         }
+        // set a y position that doesn't overlap with obstacles   
         position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
+        for (Obstacle& obstacle : obstacles) {
+            while (position.y > obstacle.getPosition().y - 100 && position.y < obstacle.getPosition().y + 100) {
+                position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
+            }
+        }
+        
+        // set sprite scale and position
         sprite.setScale(0.08f, 0.08f);
         sprite.setPosition(position);
+        // set hitbox size and position
+        hitbox.setSize(sf::Vector2f(60, 60));
+        hitbox.setPosition(position);
     }
 
 
@@ -179,6 +230,7 @@ public:
         position.x += offsetX;
         position.y += offsetY;
         sprite.setPosition(position);
+        hitbox.setPosition(position);
     }
 
     // Method to get the coin's position
@@ -191,11 +243,13 @@ public:
     {
         position.x -= speed;
         sprite.setPosition(position);
+        hitbox.setPosition(position);
     }
 
     void draw(sf::RenderWindow& window)
     {
         window.draw(sprite);
+        // window.draw(hitbox);
     }
 };
 

@@ -3,7 +3,8 @@
 int main()
 {
     //------------------ INITIALIZATIONS ------------------
-    loadTextures();
+    loadObstacleTextures();
+    loadCoinTextures();
 
     //---------- WINDOW ----------
     window.setPosition(sf::Vector2i(0, 0));
@@ -34,7 +35,7 @@ int main()
 
     Animation animations[3] = {runAnim, jumpAnim, fallAnim};
     //--------- OBSTACLES --------
-    // std::vector<Obstacle> obstacles;
+    std::vector<Obstacle> obstacles;
 
     //----------- COINS -----------
     std::vector<Coin> coins;
@@ -42,13 +43,16 @@ int main()
     //---------- SCORE -----------
     Score score(window);
 
-    //---------- CLOCK -----------
-    sf::Clock clock;      // Start a timer
-    sf::Clock animClock;  // Timer for animations
-    sf::Clock deathClock; // Timer for the death animation
+    //---------- CLOCKS ----------
+    sf::Clock obstacleClock; // Timer for obstacle generation
+    sf::Clock animClock;     // Timer for animations
+    sf::Clock deathClock;    // Timer for the death animation
 
     //---------- MUSIC -----------
     GameMusic music;
+
+    //---------- SET OBSTACLE COUNTER ----------
+    int obstacleCount = 0;
 
     //--------------------- MAIN LOOP ---------------------
     while (window.isOpen())
@@ -126,7 +130,7 @@ int main()
                         window.display();
                         music.playMenu();
                         sf::Event secondEvent;
-                        while (true)
+                        while (window.waitEvent(secondEvent))
                         {
                             if ((secondEvent.type == sf::Event::KeyPressed) && (secondEvent.key.code == sf::Keyboard::Enter))
                             {
@@ -150,50 +154,67 @@ int main()
                 }
             }
         }
-        if (clock.getElapsedTime().asSeconds() > OBSTACLE_INTERVAL && !death)
+        
+        if (obstacleClock.getElapsedTime().asSeconds() > OBSTACLE_INTERVAL && !death)
         {
             // push a new obstacle to the array
-            // obstacles.push_back(Obstacle());
+            obstacles.push_back(Obstacle(window));
+            obstacleClock.restart();
+            obstacleCount++;
 
-            // push a new coin to the array
-			coins.push_back(Coin(window));
+            if (obstacleCount % 2 == 0)
+            {
+                coins.push_back(Coin(window, obstacles));
+                obstacleCount = 0;
+            }
+        }
 
-            clock.restart();
+        // move obstacles
+        if (!obstacles.empty())
+        {
+            for (vector<Obstacle>::iterator itr = obstacles.begin(); itr != obstacles.end(); itr++)
+            {
+                (*itr).move(-3, 0);
+            }
         }
 
         // move coins
 		if (!coins.empty()) 
         {
-			for (vector<Coin>::iterator itr = coins.begin(); itr != coins.end(); itr++) {
+			for (vector<Coin>::iterator itr = coins.begin(); itr != coins.end(); itr++) 
+            {
 				(*itr).move(-3, 0);
 			}
 		}
 
-        // move obstacles
-        // if (!obstacles.empty())
-        // {
-        //     for (vector<Obstacle>::iterator itr = obstacles.begin(); itr != obstacles.end(); itr++)
-        //     {
-        //         (*itr).move(-3, 0);
-        //     }
-        // }
+
+        // remove obstacles if offscreen
+        if (!obstacles.empty() && obstacles.front().getPosition().x < -104)
+        {
+            vector<Obstacle>::iterator startitr = obstacles.begin();
+            vector<Obstacle>::iterator enditr = obstacles.begin();
+
+            for (; enditr != obstacles.end(); enditr++)
+            {
+                if ((*enditr).getPosition().x > -104)
+                {
+                    break;
+                }
+            }
+
+            obstacles.erase(startitr, enditr);
+        }
 
         // remove coins if offscreen
-		// if (!obstacles.empty() && obstacles.front().getPosition().x < -104) 
-        // {
-        //     if (collisionWithObstacles(player, obstacle, window))
-        //     {
-        //         death = true;
-        //     }
-        // }
-
-        // remove coins if offscreen
-        if (!coins.empty() && coins.front().getPosition().x < -104) {
+        if (!coins.empty() && coins.front().getPosition().x < -104) 
+        {
 			vector<Coin>::iterator startitr = coins.begin();
 			vector<Coin>::iterator enditr = coins.begin();
 
-			for (; enditr != coins.end(); enditr++) {
-				if ((*enditr).getPosition().x > -104) {
+			for (; enditr != coins.end(); enditr++) 
+            {
+				if ((*enditr).getPosition().x > -104) 
+                {
 					break;
 				}
 			}
@@ -201,9 +222,46 @@ int main()
 			coins.erase(startitr, enditr);
 		}
 
+        // Check for collisions and increment score
+        for (vector<Obstacle>::iterator itr = obstacles.begin(); itr != obstacles.end(); itr++)
+        {
+            // Check if obstacle has passed the player without collision
+            if ((*itr).hitbox.getPosition().x + OBSTACLE_WIDTH < player.hitbox.getPosition().x && !(*itr).hasScored())
+            {
+                // score.increment();
+                (*itr).setScored(true);
+            }
+
+            // Check for collision with player
+            if (collisionWithObstacles(player, *itr, window))
+            {
+                death = true;
+                music.stop();
+                break;
+            }
+        }
+
+        // Check for coin collisions
+        for (vector<Coin>::iterator itr = coins.begin(); itr != coins.end(); itr++) 
+        {
+            if (collisionsWithCoins(player, *itr, window) && !death)
+            {
+                score.increment();
+                coins.erase(itr);
+                break;
+            }
+        }
+
+        // draw obstacles
+        for (vector<Obstacle>::iterator itr = obstacles.begin(); itr != obstacles.end(); itr++) {
+			// draw with the function from the class
+            (*itr).draw(window);
+		}
+
         // draw coins
         for (vector<Coin>::iterator itr = coins.begin(); itr != coins.end(); itr++) {
-			window.draw((*itr).sprite);
+			// draw with the function from the class
+            (*itr).draw(window);
 		}
 
         //-------------------- ANIMATION UPDATE  --------------------
