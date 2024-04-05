@@ -12,6 +12,7 @@ class Background
     sf::Texture images[4];
     sf::Sprite background1;
     sf::Sprite background2;
+    
 
     public:
 
