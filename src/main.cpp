@@ -246,8 +246,19 @@ int main()
             if (collisionsWithCoins(player, *itr, window) && !death)
             {
                 score.increment();
-                coins.erase(itr);
+                (*itr).hasCollided = true;
+                (*itr).hitbox.setSize(sf::Vector2f(0, 0));
                 break;
+            }
+
+            if ((*itr).hasCollided)
+            {
+                (*itr).fade();
+            }
+
+            if ((*itr).opacity <= 0)
+            {
+                coins.erase(itr);
             }
         }
 

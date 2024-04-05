@@ -1,6 +1,8 @@
 #ifndef _CHAR_
 #define _CHAR_
 
+#include <unistd.h>
+
 /**
  * The character class to manage every entity on screen
  * @param Position (sf::Vector2f): the X and Y position of the character
@@ -208,6 +210,9 @@ public:
     sf::Vector2f position;
     sf::Sprite sprite;
     float speed;
+    bool hasCollided = false;
+    int opacity;
+
     // Constructor
     Coin(sf::RenderWindow &window, vector<Obstacle> &obstacles)
     {
@@ -248,6 +253,16 @@ public:
         return position;
     }
 
+    void fade()
+    {
+        int opacity = sprite.getColor().a;
+        if (opacity > 0)
+        {
+            opacity -= 5;
+            sprite.setColor(sf::Color(255, 255, 255, opacity));
+        }
+    }
+    
     void update()
     {
         position.x -= speed;
