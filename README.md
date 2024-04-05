@@ -11,9 +11,8 @@ The actual realease is not as advanced as the main branch content, but is stable
 
 ## How to play
 
-You have access to two actions: 
-
-- By pressing Z or ↑ (up arrow), the character goes up until it reaches the top of the screen. 
-- By pressing S or ↓ (down arrow), the character goes down until it hits the ground.
+By pressing ↑ (up arrow), the character goes up until it reaches the top of the screen. 
 
 You have to avoid enemies and obstacles as long as you can, each step adds points to your score which is displayed after the end of a run.
+
+Your score is calculated with the number of coins that you have collected.
