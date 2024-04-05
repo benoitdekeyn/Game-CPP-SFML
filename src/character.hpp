@@ -129,7 +129,11 @@ public:
         if(!obstacleTextures.empty()) {
             sprite.setTexture(obstacleTextures[0]); // Use the globally loaded texture
         }
+
         position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
+        while (position.y > window.getSize().y - 100) {
+            position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
+        }
 
         // set sprite scale and position
         sprite.setScale(0.15f, 0.15f);
