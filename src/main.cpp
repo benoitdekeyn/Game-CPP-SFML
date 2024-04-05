@@ -243,21 +243,30 @@ int main()
         // Check for coin collisions
         for (vector<Coin>::iterator itr = coins.begin(); itr != coins.end(); itr++)
         {
+            // if the player collides with a coin
+            // if (collisionsWithCoins(player, *itr, window) && !death)
+            // {
+            //     score.increment(); // increment the score
+            //     (*itr).hasCollided = true; // set this variable to true (it will be used for the fade)
+            //     (*itr).hitbox.setSize(sf::Vector2f(0, 0)); // erase the hitbox so the player can't collide with it again
+            //     break;
+            // }
+
+            // // if the coin has collided, fade it
+            // if ((*itr).hasCollided)
+            // {
+            //     (*itr).fade();
+            // }
+
+            // // if the coin has faded, erase it
+            // if ((*itr).opacity <= 0)
+            // {
+            //     coins.erase(itr);
+            // }
+
             if (collisionsWithCoins(player, *itr, window) && !death)
             {
                 score.increment();
-                (*itr).hasCollided = true;
-                (*itr).hitbox.setSize(sf::Vector2f(0, 0));
-                break;
-            }
-
-            if ((*itr).hasCollided)
-            {
-                (*itr).fade();
-            }
-
-            if ((*itr).opacity <= 0)
-            {
                 coins.erase(itr);
             }
         }
