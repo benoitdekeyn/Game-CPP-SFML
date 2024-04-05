@@ -1,6 +1,8 @@
 #ifndef _CHAR_
 #define _CHAR_
 
+#include <unistd.h>
+
 /**
  * The character class to manage every entity on screen
  * @param Position (sf::Vector2f): the X and Y position of the character
@@ -105,7 +107,7 @@ vector<Texture> obstacleTextures;
 void loadObstacleTextures()
 {
     Texture texture;
-    if (texture.loadFromFile("../Assets/Objects/obstacle.png")) // Adjust path if needed
+    if (texture.loadFromFile("../Assets/enemies/ShadowForest.png", sf::IntRect(10, 10, 25, 35))) // Adjust path if needed
     {
         obstacleTextures.push_back(texture);
     }
@@ -116,7 +118,8 @@ void loadObstacleTextures()
 }
 
 // OBSTACLES
-class Obstacle {
+class Obstacle
+{
 public:
     sf::RectangleShape hitbox;
     sf::Vector2f position;
@@ -125,22 +128,24 @@ public:
 
     Obstacle(sf::RenderWindow &window)
     {
-        if(!obstacleTextures.empty()) {
+        if (!obstacleTextures.empty())
+        {
             sprite.setTexture(obstacleTextures[0]); // Use the globally loaded texture
         }
 
         position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
-        while (position.y > window.getSize().y - 100) {
+        while (position.y > window.getSize().y - 100)
+        {
             position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
         }
 
         // set sprite scale and position
-        sprite.setScale(0.15f, 0.15f);
+        sprite.setScale(4, 4);
         sprite.setPosition(position);
 
         // set hitbox size and position
         hitbox.setSize(sf::Vector2f(60, 60));
-        hitbox.setPosition(position);
+        hitbox.setPosition(position.x,position.y+3000);
         hitbox.setFillColor(sf::Color::Red);
     }
 
@@ -149,10 +154,11 @@ public:
         position.x += offsetX;
         position.y += offsetY;
         sprite.setPosition(position);
-        hitbox.setPosition(position);
+        hitbox.setPosition(position.x,position.y+50);
     }
 
-    sf::Vector2f getPosition() const {
+    sf::Vector2f getPosition() const
+    {
         return sprite.getPosition();
     }
 
@@ -169,11 +175,13 @@ public:
         // window.draw(hitbox);
     }
 
-    bool hasScored() const {
+    bool hasScored() const
+    {
         return scored;
     }
 
-    void setScored(bool value) {
+    void setScored(bool value)
+    {
         scored = value;
     }
 };
@@ -194,26 +202,33 @@ void loadCoinTextures()
     }
 }
 
-class Coin {
+class Coin
+{
 public:
-
     sf::RectangleShape hitbox;
     sf::Vector2f position;
     sf::Sprite sprite;
-    
+    float speed;
+    bool hasCollided = false;
+    int opacity;
+
     // Constructor
-    Coin(sf::RenderWindow& window, vector<Obstacle>& obstacles) {
-        if(!coinTextures.empty()) {
+    Coin(sf::RenderWindow &window, vector<Obstacle> &obstacles)
+    {
+        if (!coinTextures.empty())
+        {
             sprite.setTexture(coinTextures[0]); // Use the globally loaded texture
         }
-        // set a y position that doesn't overlap with obstacles   
+        // set a y position that doesn't overlap with obstacles
         position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
-        for (Obstacle& obstacle : obstacles) {
-            while (position.y > obstacle.getPosition().y - 100 && position.y < obstacle.getPosition().y + 100 || position.y > window.getSize().y - 100) {
+        for (Obstacle &obstacle : obstacles)
+        {
+            while (position.y > obstacle.getPosition().y - 100 && position.y < obstacle.getPosition().y + 100 || position.y > window.getSize().y - 100)
+            {
                 position = sf::Vector2f(window.getSize().x, rand() % window.getSize().y);
             }
         }
-        
+
         // set sprite scale and position
         sprite.setScale(0.08f, 0.08f);
         sprite.setPosition(position);
@@ -221,7 +236,6 @@ public:
         hitbox.setSize(sf::Vector2f(60, 60));
         hitbox.setPosition(position);
     }
-
 
     // Method to update the coin's position
     void move(float offsetX, float offsetY)
@@ -238,7 +252,15 @@ public:
         return position;
     }
 
-    
+    void fade()
+    {
+        int opacity = sprite.getColor().a;
+        if (opacity > 0)
+        {
+            opacity -= 5;
+            sprite.setColor(sf::Color(255, 255, 255, opacity));
+        }
+    }
     
     void update()
     {
@@ -247,7 +269,7 @@ public:
         hitbox.setPosition(position);
     }
 
-    void draw(sf::RenderWindow& window)
+    void draw(sf::RenderWindow &window)
     {
         window.draw(sprite);
         // window.draw(hitbox);
