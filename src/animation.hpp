@@ -113,7 +113,7 @@ void addDeathFrames(Animation *deathAnim)
     deathAnim->addFrame({sf::IntRect(2940, 210, 100, 100),  0.1});
 }
 
-void animationUpdate(double elapsed, Runner player, sf::RenderWindow &window, Animation animations[3])
+void animationUpdate(double elapsed, Runner& player, sf::RenderWindow &window, Animation animations[3])
 {
     sf::Vector2f preprocess_position = player.sprite.getPosition() + player.velocity;
 

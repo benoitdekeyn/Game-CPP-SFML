@@ -13,7 +13,7 @@
 #define BACKGROUND_CHANGING_REGULARITY 5 // HERE NORMAL = 4 at least, TEST= 1 : number in perfect pictures at a speed between 1 and 5
 
 //---------- SPEED -----------
-#define INITIAL_SPEED 3
+#define INITIAL_SPEED 7
 #define FINAL_SPEED 20
 #define SPEED_INCREASE_INTERVAL 0 // skipped frames before increasing the speed by SPEED_INCREASE_VALUE (below)
 #define SPEED_INCREASE_VALUE 2.0f // HERE NORMAL = 1.0f, test = 3.0f
@@ -58,7 +58,7 @@ using namespace std;
 #include "speed.hpp"
 #include "music.hpp"
 #include "background.hpp"
-#include "character.hpp"
+#include "objects.hpp"
 #include "score.hpp"
 #include "gameOver.hpp"
 #include "animation.hpp"

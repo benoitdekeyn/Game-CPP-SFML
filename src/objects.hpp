@@ -206,8 +206,8 @@ public:
     sf::Vector2f position;
     sf::Sprite sprite;
     float speed;
-    // bool hasCollided = false;
-    // int opacity = sprite.getColor().a;
+    bool hasCollided = false;
+    int opacity = sprite.getColor().a;
 
     // Constructor
     Coin(sf::RenderWindow &window, vector<Obstacle> &obstacles)
@@ -250,14 +250,14 @@ public:
     }
 
     // Method to fade the coin by decreasing its opacity
-    // void fade()
-    // {
-    //     if (opacity > 0)
-    //     {
-    //         opacity -= 40;
-    //         sprite.setColor(sf::Color(255, 255, 255, opacity));
-    //     }
-    // }
+    void fade()
+    {
+        if (opacity > 0)
+        {
+            opacity -= 40;
+            sprite.setColor(sf::Color(255, 255, 255, opacity));
+        }
+    }
     
     void update()
     {
