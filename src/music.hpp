@@ -5,7 +5,7 @@
 class GameMusic
 {   
     sf::Music music;
-    std::string BG_musics[4] = {"../Assets/Musics/Copacabana_Beach.wav", "../Assets/Musics/Lost_Woods_BOTW.wav", "../Assets/Musics/Shadow_Forest.wav", "../Assets/Musics/Hinox_Battle_BOTW.wav"};
+    std::string BG_musics[4] = {"../Assets/Musics/Shadow_Forest.wav", "../Assets/Musics/Lost_Woods_BOTW.wav", "../Assets/Musics/Hinox_Battle_BOTW.wav", "../Assets/Musics/Copacabana_Beach.wav"};
     std::string menu_music = "../Assets/Musics/Endless_sand.wav";
 
 public:
