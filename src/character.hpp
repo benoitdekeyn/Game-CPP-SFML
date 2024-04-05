@@ -121,7 +121,6 @@ public:
     sf::RectangleShape hitbox;
     sf::Vector2f position;
     sf::Sprite sprite; // Use sf::Sprite instead of sf::RectangleShape
-    float speed;
     bool scored;
 
     Obstacle(sf::RenderWindow &window)
@@ -201,7 +200,7 @@ public:
     sf::RectangleShape hitbox;
     sf::Vector2f position;
     sf::Sprite sprite;
-    float speed;
+    
     // Constructor
     Coin(sf::RenderWindow& window, vector<Obstacle>& obstacles) {
         if(!coinTextures.empty()) {

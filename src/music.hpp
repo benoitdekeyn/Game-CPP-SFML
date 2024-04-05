@@ -42,7 +42,7 @@ public:
         music.stop();
         music.openFromFile(menu_music);
         music.play();
-        music.setVolume(60);
+        music.setVolume(50);
     }
 
     void reset(){

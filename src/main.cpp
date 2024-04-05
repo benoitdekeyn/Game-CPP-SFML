@@ -174,7 +174,7 @@ int main()
         {
             for (vector<Obstacle>::iterator itr = obstacles.begin(); itr != obstacles.end(); itr++)
             {
-                (*itr).move(-3, 0);
+                (*itr).move(-speed, 0);
             }
         }
 
@@ -183,7 +183,7 @@ int main()
         {
 			for (vector<Coin>::iterator itr = coins.begin(); itr != coins.end(); itr++) 
             {
-				(*itr).move(-3, 0);
+				(*itr).move(-speed, 0);
 			}
 		}
 
