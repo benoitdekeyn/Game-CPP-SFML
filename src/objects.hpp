@@ -17,10 +17,13 @@ public:
     float gravity_strenght = GRAVITY_STRENGHT;
     float gravity_smoother = GRAVITY_SMOOTHER;
 
+    // VARIABLES FOR THE HITBOX AND THE DISPLAY
     RectangleShape hitbox;
     Texture texture;
     sf::Sprite sprite;
     sf::Vector2f position;
+
+    // VARIABLES FOR THE MOVEMENT
     sf::Vector2f velocity;
     sf::Vector2f propulsion;
     sf::Vector2f gravity;
