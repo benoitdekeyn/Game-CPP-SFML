@@ -173,7 +173,7 @@ int main()
             {
                 for (vector<Obstacle>::iterator itr = obstacles.begin(); itr != obstacles.end(); itr++)
                 {
-                    (*itr).move(-3, 0);
+                    (*itr).move(-speed, 0);
                 }
             }
 
@@ -182,7 +182,7 @@ int main()
             {
                 for (vector<Coin>::iterator itr = coins.begin(); itr != coins.end(); itr++)
                 {
-                    (*itr).move(-3, 0);
+                    (*itr).move(-speed, 0);
                 }
             }
         }
@@ -246,8 +246,19 @@ int main()
             if (collisionsWithCoins(player, *itr, window) && !death)
             {
                 score.increment();
-                coins.erase(itr);
+                (*itr).hasCollided = true;
+                (*itr).hitbox.setSize(sf::Vector2f(0, 0));
                 break;
+            }
+
+            if ((*itr).hasCollided)
+            {
+                (*itr).fade();
+            }
+
+            if ((*itr).opacity <= 0)
+            {
+                coins.erase(itr);
             }
         }
 
