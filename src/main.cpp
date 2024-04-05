@@ -74,7 +74,7 @@ int main()
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
             {
                 menuOn = false;
-                
+
                 break;
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
@@ -84,14 +84,10 @@ int main()
             }
         }
 
-        
-        //UPDATE BACKGROUND and speed and music
-        background.update(window, music);
-        
-
         if (death)
         {
-            // obstacles.clear();
+            window.clear();
+            background.drawIt(window);
             if (!animationStarted)
             {
                 deathAnim.progress = 0.0;
@@ -154,39 +150,42 @@ int main()
                 }
             }
         }
-        
-        if (obstacleClock.getElapsedTime().asSeconds() > OBSTACLE_INTERVAL && !death)
+        else
         {
-            // push a new obstacle to the array
-            obstacles.push_back(Obstacle(window));
-            obstacleClock.restart();
-            obstacleCount++;
-
-            if (obstacleCount % 2 == 0)
+            // UPDATE BACKGROUND and speed and music
+            background.update(window, music);
+            if (obstacleClock.getElapsedTime().asSeconds() > OBSTACLE_INTERVAL)
             {
-                coins.push_back(Coin(window, obstacles));
-                obstacleCount = 0;
+                // push a new obstacle to the array
+                obstacles.push_back(Obstacle(window));
+                obstacleClock.restart();
+                obstacleCount++;
+
+                if (obstacleCount % 2 == 0)
+                {
+                    coins.push_back(Coin(window, obstacles));
+                    obstacleCount = 0;
+                }
+            }
+
+            // move obstacles
+            if (!obstacles.empty())
+            {
+                for (vector<Obstacle>::iterator itr = obstacles.begin(); itr != obstacles.end(); itr++)
+                {
+                    (*itr).move(-speed, 0);
+                }
+            }
+
+            // move coins
+            if (!coins.empty())
+            {
+                for (vector<Coin>::iterator itr = coins.begin(); itr != coins.end(); itr++)
+                {
+                    (*itr).move(-speed, 0);
+                }
             }
         }
-
-        // move obstacles
-        if (!obstacles.empty())
-        {
-            for (vector<Obstacle>::iterator itr = obstacles.begin(); itr != obstacles.end(); itr++)
-            {
-                (*itr).move(-3, 0);
-            }
-        }
-
-        // move coins
-		if (!coins.empty()) 
-        {
-			for (vector<Coin>::iterator itr = coins.begin(); itr != coins.end(); itr++) 
-            {
-				(*itr).move(-3, 0);
-			}
-		}
-
 
         // remove obstacles if offscreen
         if (!obstacles.empty() && obstacles.front().getPosition().x < -104)
@@ -206,21 +205,21 @@ int main()
         }
 
         // remove coins if offscreen
-        if (!coins.empty() && coins.front().getPosition().x < -104) 
+        if (!coins.empty() && coins.front().getPosition().x < -104)
         {
-			vector<Coin>::iterator startitr = coins.begin();
-			vector<Coin>::iterator enditr = coins.begin();
+            vector<Coin>::iterator startitr = coins.begin();
+            vector<Coin>::iterator enditr = coins.begin();
 
-			for (; enditr != coins.end(); enditr++) 
+            for (; enditr != coins.end(); enditr++)
             {
-				if ((*enditr).getPosition().x > -104) 
+                if ((*enditr).getPosition().x > -104)
                 {
-					break;
-				}
-			}
+                    break;
+                }
+            }
 
-			coins.erase(startitr, enditr);
-		}
+            coins.erase(startitr, enditr);
+        }
 
         // Check for collisions and increment score
         for (vector<Obstacle>::iterator itr = obstacles.begin(); itr != obstacles.end(); itr++)
@@ -242,27 +241,40 @@ int main()
         }
 
         // Check for coin collisions
-        for (vector<Coin>::iterator itr = coins.begin(); itr != coins.end(); itr++) 
+        for (vector<Coin>::iterator itr = coins.begin(); itr != coins.end(); itr++)
         {
             if (collisionsWithCoins(player, *itr, window) && !death)
             {
                 score.increment();
-                coins.erase(itr);
+                (*itr).hasCollided = true;
+                (*itr).hitbox.setSize(sf::Vector2f(0, 0));
                 break;
+            }
+
+            if ((*itr).hasCollided)
+            {
+                (*itr).fade();
+            }
+
+            if ((*itr).opacity <= 0)
+            {
+                coins.erase(itr);
             }
         }
 
         // draw obstacles
-        for (vector<Obstacle>::iterator itr = obstacles.begin(); itr != obstacles.end(); itr++) {
-			// draw with the function from the class
+        for (vector<Obstacle>::iterator itr = obstacles.begin(); itr != obstacles.end(); itr++)
+        {
+            // draw with the function from the class
             (*itr).draw(window);
-		}
+        }
 
         // draw coins
-        for (vector<Coin>::iterator itr = coins.begin(); itr != coins.end(); itr++) {
-			// draw with the function from the class
+        for (vector<Coin>::iterator itr = coins.begin(); itr != coins.end(); itr++)
+        {
+            // draw with the function from the class
             (*itr).draw(window);
-		}
+        }
 
         //-------------------- ANIMATION UPDATE  --------------------
         if (!death)

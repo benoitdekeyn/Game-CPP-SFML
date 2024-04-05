@@ -6,7 +6,7 @@
 class Background
 {
     int background_transformation_step = 0;
-    int counter = BACKGROUND_CHANGING_REGULARITY;
+    int counter = 0;
     int first = 0;
     std::string picture[4]= {"../Assets/Backgrounds/3/background.png", "../Assets/Backgrounds/2/background.png", "../Assets/Backgrounds/4/background.png", "../Assets/Backgrounds/1/background.png"};
     sf::Texture images[4];

@@ -10,7 +10,7 @@
 #define FPS 60
 
 //--------- BACKGROUND -------
-#define BACKGROUND_CHANGING_REGULARITY 4 // HERE NORMAL = 4 at least, TEST= 1 : number in perfect pictures at a speed between 1 and 5
+#define BACKGROUND_CHANGING_REGULARITY 5 // HERE NORMAL = 4 at least, TEST= 1 : number in perfect pictures at a speed between 1 and 5
 
 //---------- SPEED -----------
 #define INITIAL_SPEED 3
