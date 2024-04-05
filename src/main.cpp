@@ -43,13 +43,16 @@ int main()
     //---------- SCORE -----------
     Score score(window);
 
-    //---------- CLOCK -----------
-    sf::Clock clock;      // Start a timer
-    sf::Clock animClock;  // Timer for animations
-    sf::Clock deathClock; // Timer for the death animation
+    //---------- CLOCKS ----------
+    sf::Clock obstacleClock; // Timer for obstacle generation
+    sf::Clock animClock;     // Timer for animations
+    sf::Clock deathClock;    // Timer for the death animation
 
     //---------- MUSIC -----------
     GameMusic music;
+
+    //---------- SET OBSTACLE COUNTER ----------
+    int obstacleCount = 0;
 
     //--------------------- MAIN LOOP ---------------------
     while (window.isOpen())
@@ -152,15 +155,18 @@ int main()
             }
         }
         
-        if (clock.getElapsedTime().asSeconds() > OBSTACLE_INTERVAL && !death)
+        if (obstacleClock.getElapsedTime().asSeconds() > OBSTACLE_INTERVAL && !death)
         {
             // push a new obstacle to the array
             obstacles.push_back(Obstacle(window));
+            obstacleClock.restart();
+            obstacleCount++;
 
-            // push a new coin to the array
-			coins.push_back(Coin(window, obstacles));
-
-            clock.restart();
+            if (obstacleCount % 2 == 0)
+            {
+                coins.push_back(Coin(window, obstacles));
+                obstacleCount = 0;
+            }
         }
 
         // move obstacles
@@ -238,7 +244,7 @@ int main()
         // Check for coin collisions
         for (vector<Coin>::iterator itr = coins.begin(); itr != coins.end(); itr++) 
         {
-            if (collisionsWithCoins(player, *itr, window)) 
+            if (collisionsWithCoins(player, *itr, window) && !death)
             {
                 score.increment();
                 coins.erase(itr);
