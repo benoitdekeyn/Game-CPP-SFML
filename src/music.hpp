@@ -1,6 +1,7 @@
 #ifndef _MUSIC_
 #define _MUSIC_
 
+ int first = 0;
 
 class GameMusic
 {   
@@ -10,14 +11,19 @@ class GameMusic
 
 public:
     GameMusic()
-    {
-        music.openFromFile(menu_music);
-        music.setLoop(true);
-        music.play();
+    {   
+        if (first == 0){
+            music.openFromFile(menu_music);
+            music.setLoop(true);
+            music.play();
+        }
     }
     
     void update(){
-        music.stop();
+        if(first != 0){
+            music.stop();
+        }
+        first = 1;
         music.openFromFile(BG_musics[currentLevel]);
         music.play();
         if     (currentLevel == 0){

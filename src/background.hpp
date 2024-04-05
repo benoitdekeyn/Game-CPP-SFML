@@ -7,7 +7,7 @@ class Background
 {
     int background_transformation_step = 0;
     int counter = 0;
-    int first = 0;
+   
     std::string picture[4]= {"../Assets/Backgrounds/3/background.png", "../Assets/Backgrounds/2/background.png", "../Assets/Backgrounds/4/background.png", "../Assets/Backgrounds/1/background.png"};
     sf::Texture images[4];
     sf::Sprite background1;
@@ -45,11 +45,7 @@ class Background
 
     void update(sf::RenderWindow& window, GameMusic& music) {
 
-        if (first == 0){
-            first = 1;
-            music.update();
-            return;
-        }
+        music.update();
         moveIt(window);
         checkChange();
         updatePictureAndMusic(window, music);
