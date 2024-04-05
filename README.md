@@ -7,6 +7,7 @@ Dark Escape is a side-scrolling video game inspired by Jetpack Joyride created b
 ## How to install
 
 You just have to clone the repository and execute the executable.
+The actual realease is not as advanced as the main branch content, but is stable.
 
 ## How to play
 
